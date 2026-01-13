@@ -1,12 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Avalon Heroes</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Avalon Heroes is an in-development educational action-RPG with classroom-friendly co-op play." />
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <h1>Avalon Heroes</h1>
-  <p>An independent educational action-RPG project.</p>
+  <header class="nav">
+    <div class="brand">
+      <div class="logo">AH</div>
+      <div class="brand-text">
+        <div class="title">Avalon Heroes</div>
+        <div class="subtitle">An educational action-RPG in development</div>
+      </div>
+    </div>
+
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#media">Media</a>
+      <a href="#demo">Demo</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" id="about">
+      <h1>Hack, learn, and survive the horde.</h1>
+      <p class="lead">
+        Avalon Heroes is an <strong>EdTech action-RPG</strong> designed for fast sessions, classroom play,
+        and satisfying combat. Start with <strong>Horde Mode</strong>, then expand into new classes and bosses over time.
+      </p>
+
+      <div class="cta-row" id="demo">
+        <a class="btn primary disabled" href="#" aria-disabled="true" title="Demo not public yet">
+          Play Demo (Soon)
+        </a>
+        <a class="btn" href="#media">See Progress</a>
+      </div>
+
+      <div class="note">
+        Demo plan: <strong>Warrior + Mage</strong> • <strong>Horde Mode only</strong> • No bosses (for now)
+      </div>
+    </section>
+
+    <section class="grid" id="features">
+      <div class="card">
+        <h2>Classroom-friendly</h2>
+        <p>Designed for quick sessions, simple onboarding, and browser play on common school devices.</p>
+      </div>
+
+      <div class="card">
+        <h2>Action first</h2>
+        <p>Responsive movement, abilities, and upgrade choices that make the gameplay feel rewarding.</p>
+      </div>
+
+      <div class="card">
+        <h2>Expandable</h2>
+        <p>Start small and ship often: new heroes, modes, quizzes, and bosses can be added over time.</p>
+      </div>
+    </section>
+
+    <section class="media" id="media">
+      <h2>Media</h2>
+      <p class="muted">Add screenshots/GIFs here as you build.</p>
+
+      <div class="media-grid">
+        <div class="media-box">Screenshot / GIF 1</div>
+        <div class="media-box">Screenshot / GIF 2</div>
+        <div class="media-box">Screenshot / GIF 3</div>
+      </div>
+    </section>
+
+    <section class="card wide">
+      <h2>Status</h2>
+      <ul class="status">
+        <li><span class="dot"></span> Core combat + horde loop: in progress</li>
+        <li><span class="dot"></span> Web demo: planned (code access)</li>
+        <li><span class="dot"></span> Boss content: later</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>© <span id="year"></span> Avalon Heroes</div>
+    <div class="muted">Built with care. No personal details required.</div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
