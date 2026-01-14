@@ -22,6 +22,47 @@
   <main class="container">
 
     <!-- UPDATE ENTRY -->
+     <article class="update-entry">
+      <h2>Refining inventory and equipment systems. </h2>
+      <div class="update-meta">
+        <span>📅 Jan 15, 2026</span>
+        <span>🧪 Build: Development</span>
+        <span>#Inventory #UI</span>
+      </div>
+
+      <p>
+        Weapons and armor now can be equipped on player character.
+      </p>
+
+      <ul>
+        <li>Items in inventory can now be displayed via their respective icons.</li>
+        <li>Equipped items now show on the display character and the player character.</li>
+      </ul>
+
+      <div class="dev-gallery" aria-label="Equipment system media">
+        <button class="thumb video-thumb"
+                type="button"
+                aria-label="Play dev video"
+                data-video="videos/InventoryDevelopmentVideo1.mp4">
+
+          <video class="inline-video"
+                muted
+                loop
+                playsinline
+                preload="metadata">
+            <source src="videos/InventoryDevelopmentVideo1.mp4" type="video/mp4">
+          </video>
+
+          <span class="play-badge" aria-hidden="true">▶</span>
+        </button>
+      </div>
+
+      <h4>What’s next</h4>
+      <ul>
+        <li>Damage scaling on level-up</li>
+        <li>Equipment-driven stat recalculation</li>
+      </ul>
+    </article>
 
     <article class="update-entry">
       <h2>Refining inventory and equipment systems. </h2>
@@ -86,6 +127,18 @@
     </article>
 
   </main>
+  <div class="modal" id="videoModal" aria-hidden="true" role="dialog" aria-label="Video player">
+  <div class="modal__backdrop" data-close></div>
+
+  <div class="modal__panel" role="document">
+    <button class="modal__close" type="button" aria-label="Close video" data-close>✕</button>
+
+    <video id="modalVideo" class="modal__video" controls playsinline preload="metadata">
+      <source id="modalVideoSrc" src="" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <div class="lightbox-content" role="dialog" aria-label="Image viewer">
       <button class="lb-close" type="button" aria-label="Close">✕</button>
@@ -105,7 +158,7 @@
     const btnNext = document.getElementById("lbNext");
     const btnClose = lightbox.querySelector(".lb-close");
 
-    const thumbs = Array.from(document.querySelectorAll(".dev-gallery .thumb img"));
+    const thumbs = Array.from(document.querySelectorAll(".dev-gallery .thumb:not(.video-thumb) img"));
     const images = thumbs.map(img => ({
       src: img.currentSrc || img.getAttribute("src"),
       alt: img.getAttribute("alt") || "",
@@ -136,7 +189,8 @@
 
     // Click any thumbnail to open
     document.addEventListener("click", (e) => {
-      const btn = e.target.closest(".dev-gallery .thumb");
+      const btn = e.target.closest(".dev-gallery .thumb:not(.video-thumb)");
+
       if (!btn) return;
 
       const img = btn.querySelector("img");
@@ -162,6 +216,54 @@
       if (e.key === "ArrowLeft") prev();
     });
   })();
+
+
+  document.querySelectorAll(".inline-video").forEach(v => {
+    v.play().catch(() => {});
+  });
+  const modal = document.getElementById("videoModal");
+const modalVideo = document.getElementById("modalVideo");
+const modalVideoSrc = document.getElementById("modalVideoSrc");
+
+function openVideo(src) {
+  modal.classList.add("is-open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+
+  modalVideoSrc.src = src;
+  modalVideo.load();
+  modalVideo.play().catch(() => {});
+}
+
+function closeVideo() {
+  modal.classList.remove("is-open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+
+  modalVideo.pause();
+  modalVideo.currentTime = 0;
+  modalVideoSrc.src = "";
+  modalVideo.load();
+}
+
+document.addEventListener("click", (e) => {
+  const videoBtn = e.target.closest(".video-thumb[data-video]");
+  if (videoBtn) {
+    openVideo(videoBtn.dataset.video);
+    return;
+  }
+
+  if (modal.classList.contains("is-open") && e.target.closest("[data-close]")) {
+    closeVideo();
+    return;
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && modal.classList.contains("is-open")) {
+    closeVideo();
+  }
+});
   </script>
 </body>
 </html>
