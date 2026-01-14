@@ -312,7 +312,10 @@ nav a:hover{
   font-size: 14px;
 }
 
-.media{ margin-top: 18px; }
+.media{
+  margin-top: 28px;
+  margin-bottom: 42px; /* 👈 important */
+}
 .media h2{ margin: 0 0 8px; }
 .muted{ color: var(--muted); }
 
