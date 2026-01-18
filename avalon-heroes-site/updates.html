@@ -44,23 +44,13 @@
           <li>Weapon slash effects added for one-handed, two-handed, and dual-wield combat.</li>
         </ul>
 
-        <div class="dev-gallery" aria-label="Forest and combat media">
-          <button class="thumb video-thumb"
-                  type="button"
-                  aria-label="Play dev video"
-                  data-video="videos/ForestCombatPrototype.mp4">
+        <button class="thumb video-thumb"
+                type="button"
+                aria-label="Play dev video"
+                data-youtube="https://www.youtube.com/embed/atZ2NJ9AgcY">
+          <span class="play-icon">▶</span>
+        </button>
 
-            <video class="inline-video"
-                  muted
-                  loop
-                  playsinline
-                  preload="metadata">
-              <source src="videos/LevelMapDesign.mp4" type="video/mp4">
-            </video>
-
-            <span class="play-badge" aria-hidden="true">▶</span>
-          </button>
-        </div>
 
         <h4>What’s next</h4>
         <ul>
@@ -87,23 +77,13 @@
         <li>Equipped items now show on the display character and the player character.</li>
       </ul>
 
-      <div class="dev-gallery" aria-label="Equipment system media">
-        <button class="thumb video-thumb"
-                type="button"
-                aria-label="Play dev video"
-                data-video="videos/InventoryDevelopmentVideo1.mp4">
+      <button class="thumb video-thumb"
+              type="button"
+              aria-label="Play dev video"
+              data-youtube="https://www.youtube.com/embed/0xTYfWBZSeY">
+        <span class="play-icon">▶</span>
+      </button>
 
-          <video class="inline-video"
-                muted
-                loop
-                playsinline
-                preload="metadata">
-            <source src="videos/InventoryDevelopmentVideo1.mp4" type="video/mp4">
-          </video>
-
-          <span class="play-badge" aria-hidden="true">▶</span>
-        </button>
-      </div>
 
       <h4>What’s next</h4>
       <ul>
@@ -181,10 +161,7 @@
   <div class="modal__panel" role="document">
     <button class="modal__close" type="button" aria-label="Close video" data-close>✕</button>
 
-    <video id="modalVideo" class="modal__video" controls playsinline preload="metadata">
-      <source id="modalVideoSrc" src="" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
+    <div id="modalVideo" class="modal__video yt-wrap"></div>
   </div>
 </div>
   <div class="lightbox" id="lightbox" aria-hidden="true">
@@ -235,10 +212,9 @@
     function next(){ openAt(index + 1); }
     function prev(){ openAt(index - 1); }
 
-    // Click any thumbnail to open
+    // Click any image thumbnail to open
     document.addEventListener("click", (e) => {
       const btn = e.target.closest(".dev-gallery .thumb:not(.video-thumb)");
-
       if (!btn) return;
 
       const img = btn.querySelector("img");
@@ -265,53 +241,62 @@
     });
   })();
 
-
-  document.querySelectorAll(".inline-video").forEach(v => {
-    v.play().catch(() => {});
-  });
+  // ===========================
+  // YouTube Video Modal (NEW)
+  // ===========================
   const modal = document.getElementById("videoModal");
-const modalVideo = document.getElementById("modalVideo");
-const modalVideoSrc = document.getElementById("modalVideoSrc");
+  const ytBox = document.getElementById("modalVideo"); // We'll repurpose this container
+  // NOTE: We no longer use <video> or <source>.
 
-function openVideo(src) {
-  modal.classList.add("is-open");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
+  function openYouTube(embedUrl) {
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
 
-  modalVideoSrc.src = src;
-  modalVideo.load();
-  modalVideo.play().catch(() => {});
-}
-
-function closeVideo() {
-  modal.classList.remove("is-open");
-  modal.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-
-  modalVideo.pause();
-  modalVideo.currentTime = 0;
-  modalVideoSrc.src = "";
-  modalVideo.load();
-}
-
-document.addEventListener("click", (e) => {
-  const videoBtn = e.target.closest(".video-thumb[data-video]");
-  if (videoBtn) {
-    openVideo(videoBtn.dataset.video);
-    return;
+    // Inject iframe (autoplay on open)
+    ytBox.innerHTML = `
+      <iframe
+        src="${embedUrl}?autoplay=1"
+        title="Avalon Heroes Dev Video"
+        frameborder="0"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    `;
   }
 
-  if (modal.classList.contains("is-open") && e.target.closest("[data-close]")) {
-    closeVideo();
-    return;
-  }
-});
+  function closeYouTube() {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && modal.classList.contains("is-open")) {
-    closeVideo();
+    // Remove iframe to stop playback
+    ytBox.innerHTML = "";
   }
-});
-  </script>
-</body>
-</html>
+
+  document.addEventListener("click", (e) => {
+    // Video thumbs now use data-youtube (NOT data-video)
+    const videoBtn = e.target.closest(".video-thumb[data-youtube]");
+    if (videoBtn) {
+      openYouTube(videoBtn.dataset.youtube);
+      return;
+    }
+
+    // Close button(s)
+    if (modal.classList.contains("is-open") && e.target.closest("[data-close]")) {
+      closeYouTube();
+      return;
+    }
+
+    // Click outside modal content to close
+    if (modal.classList.contains("is-open") && e.target === modal) {
+      closeYouTube();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("is-open")) {
+      closeYouTube();
+    }
+  });
+</script>
