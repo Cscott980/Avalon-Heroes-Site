@@ -2,55 +2,47 @@
    Avalon Heroes — Site + Updates Stylesheet
    Cartoon blue fantasy vibe (continuous background)
    Clean, centred, roomy spacing
-   Lightbox + video modal
+   Lightbox + video modal (FIXED)
    ========================================= */
 
 /* -----------------------------
    Theme tokens
 ----------------------------- */
 :root{
-  /* Background (cartoon fantasy blue) */
   --sky1: #2f7dff;
   --sky2: #246ae9;
   --sky3: #184fbf;
   --sky4: #0c2f7a;
 
-  /* UI surfaces */
   --panel: rgba(255,255,255,.14);
   --panel2: rgba(255,255,255,.10);
 
-  /* Borders / lines */
   --line: rgba(255,255,255,.22);
   --line2: rgba(255,255,255,.34);
 
-  /* Text */
   --text: #f6fbff;
   --muted: rgba(246,251,255,.78);
 
-  /* Accents */
   --accent: #4ff6ff;
   --accent2:#2a7bff;
 
-  /* Shadows / radius */
   --shadow: 0 18px 50px rgba(0,0,0,.22);
   --shadow2: 0 10px 28px rgba(0,0,0,.18);
   --radius: 22px;
 
-  /* Spacing rhythm */
   --section-gap: clamp(34px, 5vw, 64px);
   --card-pad: 22px;
 }
 
 *{ box-sizing:border-box; }
-html, body{
-  margin:0;
-  padding:0;
-  height:100%;
-}
-
-/* Make sure NOTHING else shows through */
-html {
-  background: #79e4ff; /* fallback */
+html, body{ margin:0; padding:0; height:100%; }
+html{ overflow-x:hidden; background:#246ae9; }
+body{
+  min-height: 100vh;
+  background: transparent;
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+  position: relative;
 }
 
 /* Paint the actual background on html so it always fills the viewport */
@@ -59,41 +51,27 @@ html{
     radial-gradient(1100px 700px at 50% -220px, rgba(255,255,255,.35), transparent 70%),
     radial-gradient(900px 600px at 18% 12%, rgba(79,246,255,.22), transparent 72%),
     radial-gradient(900px 600px at 82% 18%, rgba(42,123,255,.22), transparent 72%),
-    linear-gradient(180deg,
-      #2b7bff 0%,
-      #2a6df0 20%,
-      #2460dc 45%,
-      #1a4fb8 70%,
-      #0f3a86 100%
-    );
-  background-attachment: fixed; /* prevents “cut” during scroll */
+    linear-gradient(180deg, var(--sky1) 0%, var(--sky2) 36%, var(--sky3) 70%, var(--sky4) 100%);
+  background-attachment: fixed;
 }
 
-/* Body should be transparent so the html background shows through */
-body{
-  min-height: 100vh;
-  background: transparent;
-  color: var(--text);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-}
-
-/* Soft “magic dust” sparkles (no image) */
+/* Soft “magic dust” sparkles */
 body::before{
   content:"";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: .55;
+  opacity: .45;
   background:
-    radial-gradient(2px 2px at 12% 18%, rgba(255,255,255,.32), transparent 60%),
-    radial-gradient(2px 2px at 28% 42%, rgba(255,255,255,.22), transparent 60%),
-    radial-gradient(2px 2px at 44% 26%, rgba(255,255,255,.18), transparent 60%),
-    radial-gradient(2px 2px at 62% 58%, rgba(255,255,255,.20), transparent 60%),
-    radial-gradient(2px 2px at 78% 34%, rgba(255,255,255,.24), transparent 60%),
-    radial-gradient(2px 2px at 90% 64%, rgba(255,255,255,.16), transparent 60%);
+    radial-gradient(2px 2px at 12% 18%, rgba(255,255,255,.28), transparent 60%),
+    radial-gradient(2px 2px at 28% 42%, rgba(255,255,255,.18), transparent 60%),
+    radial-gradient(2px 2px at 44% 26%, rgba(255,255,255,.14), transparent 60%),
+    radial-gradient(2px 2px at 62% 58%, rgba(255,255,255,.16), transparent 60%),
+    radial-gradient(2px 2px at 78% 34%, rgba(255,255,255,.18), transparent 60%),
+    radial-gradient(2px 2px at 90% 64%, rgba(255,255,255,.12), transparent 60%);
 }
 
-/* Gentle vignette to help text pop */
+/* Gentle vignette */
 body::after{
   content:"";
   position: fixed;
@@ -105,7 +83,6 @@ body::after{
   opacity: 1;
 }
 
-
 /* Media / links */
 img{ max-width:100%; height:auto; display:block; }
 a{ color:inherit; text-decoration:none; }
@@ -114,56 +91,45 @@ a:hover{ text-decoration:underline; }
 /* ===============================
    HERO BANNER (TOP OF SITE)
 ================================ */
-
-
-/* Hero wrapper */
 .site-hero{
   position: relative;
   width: 100%;
   overflow: hidden;
-  background: #246ae9;  /* ensures nothing behind shows through */
+  background: #246ae9;
   padding: 0 !important;
   margin: 0;
 }
 
-
-/* Banner image */
 .hero-banner{
   position: relative;
   height: clamp(260px, 38vw, 480px);
   width: 100%;
-
   background-image: url("../assets/Banner.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   box-shadow: inset 0 -60px 120px rgba(36,106,233,.25);
-  background-color: #246ae9; /* fallback to match fade */
-  transform: translateZ(0);  /* prevents 1px seams on some browsers */
+  background-color: #246ae9;
+  transform: translateZ(0);
+  display:block;
+  outline: 0;
+  border: 0;
+  backface-visibility: hidden;
 }
 
-/* Soft dark overlay for contrast */
 .hero-banner::before{
   content:"";
   position:absolute;
   inset:0;
-  background: linear-gradient(
-    180deg,
-    rgba(0,0,0,.08),
-    rgba(0,0,0,.22)
-  );
+  background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.22));
 }
 
-
-/* Fade banner into page background */
 .hero-banner::after{
   content:"";
   position:absolute;
-  left:0;
-  right:0;
-  bottom:-2px; /* 👈 overlap to kill seam */
-  height: 260px; /* 👈 longer fade */
-
+  left:0; right:0;
+  bottom:-6px;
+  height: 320px;
   background: linear-gradient(
     to bottom,
     rgba(36,106,233,0) 0%,
@@ -174,20 +140,7 @@ a:hover{ text-decoration:underline; }
   );
   pointer-events: none;
 }
-.hero-banner{
-  display:block;
-  outline: 0;
-  border: 0;
-  backface-visibility: hidden;
-}
 
-.hero-banner::after{
-  bottom: -6px;     /* overlap more */
-  height: 320px;    /* longer blend */
-}
-
-
-/* Logo in front of banner */
 .hero-logo{
   position: absolute;
   left: 50%;
@@ -196,13 +149,11 @@ a:hover{ text-decoration:underline; }
   width: min(520px, 88vw);
   height: auto;
   z-index: 2;
-
   filter:
     drop-shadow(0 16px 36px rgba(0,0,0,.35))
     drop-shadow(0 0 24px rgba(79,246,255,.25));
 }
 
-/* Centered nav under banner */
 .main-nav{
   display:flex;
   justify-content:center;
@@ -223,55 +174,9 @@ a:hover{ text-decoration:underline; }
   text-decoration: none;
   backdrop-filter: blur(10px);
 }
-
 .main-nav a:hover{
   transform: translateY(-2px);
   background: rgba(255,255,255,.16);
-}
-
-
-/* -----------------------------
-   Continuous background (no cuts)
-   Put the background on html, body stays transparent
------------------------------ */
-/* ===== Seam-proof background system ===== */
-html{ background: #246ae9; overflow-x: hidden; }
-
-body{
-  min-height:100vh;
-  background: transparent;
-  color: var(--text);
-  position: relative;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-}
-
-body::before{
-  content:"";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background:
-    radial-gradient(1100px 680px at 50% -240px, rgba(255,255,255,.38), transparent 72%),
-    radial-gradient(900px 620px at 18% 10%, rgba(79,246,255,.22), transparent 72%),
-    radial-gradient(900px 620px at 82% 14%, rgba(42,123,255,.22), transparent 72%),
-    linear-gradient(180deg, var(--sky1) 0%, var(--sky2) 36%, var(--sky3) 70%, var(--sky4) 100%);
-  transform: translateZ(0);
-}
-
-body::after{
-  content:"";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events:none;
-  opacity:.45;
-  background:
-    radial-gradient(2px 2px at 12% 18%, rgba(255,255,255,.28), transparent 60%),
-    radial-gradient(2px 2px at 28% 42%, rgba(255,255,255,.18), transparent 60%),
-    radial-gradient(2px 2px at 44% 26%, rgba(255,255,255,.14), transparent 60%),
-    radial-gradient(2px 2px at 62% 58%, rgba(255,255,255,.16), transparent 60%),
-    radial-gradient(2px 2px at 78% 34%, rgba(255,255,255,.18), transparent 60%),
-    radial-gradient(2px 2px at 90% 64%, rgba(255,255,255,.12), transparent 60%);
 }
 
 /* -----------------------------
@@ -282,20 +187,14 @@ body::after{
   margin: 0 auto;
   padding: 28px 18px 64px;
   position: relative;
-  z-index: 1; /* above overlays */
+  z-index: 1;
 }
 
 /* -----------------------------
    Header / Nav
 ----------------------------- */
-header{
-  padding: 18px 0 10px;
-  position: relative;
-  z-index: 1;
-}
-
-header.container,
-header.wrap{ padding: 0 18px; }
+header{ padding: 18px 0 10px; position: relative; z-index: 1; }
+header.container, header.wrap{ padding: 0 18px; }
 
 header h1{
   margin: 0 0 6px;
@@ -303,7 +202,6 @@ header h1{
   letter-spacing: -0.3px;
   text-shadow: 0 10px 24px rgba(0,0,0,.22);
 }
-
 header p{
   margin: 0 0 14px;
   color: var(--muted);
@@ -313,14 +211,12 @@ header p{
 
 nav{
   display: flex;
-  justify-content: center; /* 👈 centers Home / Devlog */
+  justify-content: center;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
   width: 100%;
 }
-
-
 nav a{
   display:inline-flex;
   align-items:center;
@@ -336,7 +232,6 @@ nav a{
   backdrop-filter: blur(10px);
   transition: transform .12s ease, background .12s ease, border-color .12s ease;
 }
-
 nav a:hover{
   text-decoration:none;
   transform: translateY(-2px);
@@ -353,7 +248,6 @@ nav a:hover{
   position: relative;
   z-index: 1;
 }
-
 .main-logo{
   max-width: 420px;
   width: 100%;
@@ -373,7 +267,6 @@ nav a:hover{
   box-shadow: var(--shadow);
   backdrop-filter: blur(14px);
 }
-
 .hero h1{
   margin:0 0 10px;
   font-size: clamp(30px, 4vw, 44px);
@@ -381,7 +274,6 @@ nav a:hover{
   letter-spacing: -0.6px;
   text-shadow: 0 12px 26px rgba(0,0,0,.22);
 }
-
 .lead{
   margin: 0 0 18px;
   color: rgba(246,251,255,.90);
@@ -396,7 +288,6 @@ nav a:hover{
   flex-wrap:wrap;
   margin: 8px 0 10px;
 }
-
 .btn{
   display:inline-flex;
   align-items:center;
@@ -412,24 +303,18 @@ nav a:hover{
   backdrop-filter: blur(10px);
   transition: transform .12s ease, background .12s ease, filter .12s ease;
 }
-
 .btn:hover{
   text-decoration:none;
   transform: translateY(-2px);
   background: rgba(255,255,255,.14);
 }
-
 .btn.primary{
   border: none;
   color: #042436;
   background: linear-gradient(180deg, #73f7ff 0%, #2aa7ff 55%, #1f76ff 100%);
-  box-shadow:
-    0 10px 0 rgba(0,0,0,.16),
-    0 18px 34px rgba(0,0,0,.20);
+  box-shadow: 0 10px 0 rgba(0,0,0,.16), 0 18px 34px rgba(0,0,0,.20);
 }
-
 .btn.primary:hover{ filter: brightness(1.05); }
-
 .btn.disabled{
   opacity:.55;
   cursor:not-allowed;
@@ -437,7 +322,6 @@ nav a:hover{
   transform:none;
 }
 
-/* Small note */
 .note{
   margin-top: 12px;
   color: rgba(246,251,255,.80);
@@ -446,14 +330,12 @@ nav a:hover{
   border-top: 1px solid rgba(255,255,255,.20);
 }
 
-/* Feature cards */
 .grid{
   display:grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
   margin: var(--section-gap) 0 0;
 }
-
 .card{
   padding: 18px;
   border-radius: var(--radius);
@@ -462,20 +344,17 @@ nav a:hover{
   box-shadow: var(--shadow2);
   backdrop-filter: blur(12px);
 }
-
 .card h2{ margin:0 0 8px; font-size: 16px; letter-spacing: -0.2px; }
 .card p{ margin:0; color: rgba(246,251,255,.82); line-height:1.5; font-size: 14px; }
-
 .muted{ color: var(--muted); }
 
 /* -----------------------------
-   Media section (more breathing room)
+   Media section
 ----------------------------- */
 .media{
   margin-top: var(--section-gap);
-  margin-bottom: var(--section-gap); /* key: separates from status/update panel */
+  margin-bottom: var(--section-gap);
 }
-
 .media h2{ margin: 0 0 10px; }
 
 .media-grid{
@@ -484,7 +363,6 @@ nav a:hover{
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
-
 .media-box{
   height: 150px;
   border-radius: var(--radius);
@@ -497,8 +375,6 @@ nav a:hover{
   backdrop-filter: blur(10px);
   box-shadow: 0 12px 26px rgba(0,0,0,.12);
 }
-
-/* Optional soft separator glow between media and next panel */
 .media::after{
   content:"";
   display:block;
@@ -512,7 +388,7 @@ nav a:hover{
    Updates Page — entry cards + meta pills
 ----------------------------- */
 .update-entry{
-  margin-top: 0;               /* avoid stacking seam */
+  margin-top: 0;
   margin-bottom: var(--section-gap);
   padding: var(--card-pad);
   border: 2px solid rgba(255,255,255,.20);
@@ -521,33 +397,28 @@ nav a:hover{
   box-shadow: var(--shadow);
   backdrop-filter: blur(14px);
 }
-
 .update-entry h2{
   margin: 0 0 10px;
   font-size: 26px;
   letter-spacing: -0.2px;
   text-shadow: 0 10px 22px rgba(0,0,0,.18);
 }
-
 .update-entry p{
   color: rgba(246,251,255,.92);
   line-height: 1.7;
   margin: 14px 0;
 }
-
 .update-entry ul{
   margin: 10px 0 0 18px;
   line-height: 1.75;
   color: rgba(246,251,255,.88);
 }
-
 .update-entry h4{
   margin: 18px 0 10px;
   font-size: 16px;
   color: rgba(246,251,255,.95);
 }
 
-/* Meta pills */
 .update-meta{
   display:flex;
   flex-wrap:wrap;
@@ -556,7 +427,6 @@ nav a:hover{
   color: rgba(246,251,255,.84);
   font-size: 13px;
 }
-
 .update-meta span{
   display:inline-flex;
   align-items:center;
@@ -571,12 +441,16 @@ nav a:hover{
 
 /* -----------------------------
    Dev gallery thumbnails (images + video preview)
+   FIXED:
+   - auto-fit grid so no empty column space
+   - thumbnail can be small, without affecting modal
 ----------------------------- */
 .dev-gallery{
   margin-top: 16px;
   display:grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 14px;
+  align-items: start;
 }
 
 .dev-gallery .thumb{
@@ -605,7 +479,7 @@ nav a:hover{
   object-fit: cover;
 }
 
-/* Video preview tile */
+/* Inline video preview (if you use <video class="inline-video">) */
 .dev-gallery .thumb video.inline-video{
   width: 100%;
   height: 240px;
@@ -620,7 +494,7 @@ nav a:hover{
   cursor: pointer;
 }
 
-/* Play overlay badge */
+/* Play overlay badge (bottom-right pill) */
 .play-badge{
   position: absolute;
   right: 10px;
@@ -633,6 +507,48 @@ nav a:hover{
   line-height: 1;
   border: 2px solid rgba(255,255,255,.20);
   backdrop-filter: blur(8px);
+}
+
+/* Optional: smaller “button style” thumbnails (if your video thumb is a <button>) */
+.video-thumb{
+  position: relative;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  max-width: 380px;      /* thumbnail size */
+  aspect-ratio: 16 / 9;  /* keeps it neat */
+  margin-inline: auto;   /* center when alone */
+}
+
+/* Thumbnail image */
+.video-thumb img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Play icon overlay (center) */
+.video-thumb .play-icon{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  color: white;
+  background: rgba(0,0,0,0.28);
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.video-thumb:hover .play-icon{ opacity: 1; }
+.video-thumb:hover img{
+  transform: scale(1.05);
+  transition: transform .3s ease;
 }
 
 /* -----------------------------
@@ -648,7 +564,6 @@ nav a:hover{
   z-index: 9999;
   padding: 20px;
 }
-
 .lightbox.open{ display:flex; }
 
 .lightbox-content{
@@ -685,7 +600,6 @@ nav a:hover{
   user-select: none;
   backdrop-filter: blur(10px);
 }
-
 .lb-btn:hover{ background: rgba(255,255,255,.16); }
 
 .lb-close{
@@ -702,7 +616,6 @@ nav a:hover{
   font-size: 22px;
   backdrop-filter: blur(10px);
 }
-
 .lb-close:hover{ background: rgba(255,255,255,.16); }
 
 .lb-caption{
@@ -718,6 +631,10 @@ nav a:hover{
 
 /* -----------------------------
    Video Modal (pop-out player)
+   FIXED:
+   - modal sizing is independent from .video-thumb sizing
+   - wrapper uses aspect-ratio: 16/9
+   - iframe fills wrapper (no tiny video)
 ----------------------------- */
 .modal{
   position: fixed;
@@ -725,7 +642,6 @@ nav a:hover{
   display: none;
   z-index: 10000;
 }
-
 .modal.is-open{ display:block; }
 
 .modal__backdrop{
@@ -737,7 +653,8 @@ nav a:hover{
 .modal__panel{
   position: relative;
   margin: 6vh auto;
-  width: min(980px, 94vw);
+  width: min(1100px, 96vw);     /* bigger than before */
+  max-width: 1100px;
   background: rgba(255,255,255,.10);
   border: 2px solid rgba(255,255,255,.18);
   border-radius: 18px;
@@ -757,34 +674,28 @@ nav a:hover{
   padding: 8px 12px;
   cursor: pointer;
   font-weight: 800;
+  z-index: 2;
 }
-
 .modal__close:hover{ background: rgba(255,255,255,.16); }
 
+/* IMPORTANT: wrapper controls size */
 .modal__video{
   width: 100%;
-  height: auto;
-  max-height: 74vh;
+  aspect-ratio: 16 / 9;
+  max-height: 78vh;
   border-radius: 14px;
-  display: block;
+  overflow: hidden;
   background: #000;
   border: 2px solid rgba(255,255,255,.14);
+  display: block;
 }
 
-#modalVideo iframe{
+/* iframe fills wrapper */
+.modal__video iframe{
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 100%;
   border: 0;
-  border-radius: 16px;
-}
-
-.thumb.video-thumb {
-  width: 320px;
-  height: 180px;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  border-radius: 12px;
-  display: grid;
-  place-items: center;
+  display: block;
 }
 
 /* -----------------------------
