@@ -375,42 +375,6 @@ nav a:hover{
 .muted{ color: var(--muted); }
 
 /* -----------------------------
-   Media section
------------------------------ */
-.media{
-  margin-top: var(--section-gap);
-  margin-bottom: var(--section-gap);
-}
-.media h2{ margin: 0 0 10px; }
-
-.media-grid{
-  margin-top: 12px;
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-}
-.media-box{
-  height: 150px;
-  border-radius: var(--radius);
-  border: 2px dashed rgba(255,255,255,.28);
-  background: rgba(255,255,255,.08);
-  display:grid;
-  place-items:center;
-  color: rgba(246,251,255,.78);
-  font-size: 13px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 12px 26px rgba(0,0,0,.12);
-}
-.media::after{
-  content:"";
-  display:block;
-  height: 22px;
-  margin-top: clamp(24px, 4vw, 40px);
-  background: radial-gradient(700px 60px at 50% 0%, rgba(255,255,255,.18), transparent 70%);
-  opacity: .65;
-}
-
-/* -----------------------------
    Updates Page — entry cards + meta pills
 ----------------------------- */
 .update-entry{
@@ -423,6 +387,46 @@ nav a:hover{
   box-shadow: var(--shadow);
   backdrop-filter: blur(14px);
 }
+/* ===============================
+   Updates Page Title (Styled)
+================================ */
+
+.updates-header h1{
+  font-family: 'TitanOne', system-ui, sans-serif;
+  font-size: clamp(34px, 4.2vw, 56px);
+  letter-spacing: 0.8px;
+  margin: 0 0 10px;
+
+  /* bright readable fill */
+  color: #f7fcff;
+
+  /* clean depth (not puffy) */
+  text-shadow:
+    0 3px 0 rgba(6, 24, 58, 0.35),
+    0 10px 24px rgba(0,0,0,0.28),
+    0 0 18px rgba(79,246,255,0.22);
+}
+
+/* nice divider under title */
+.updates-header h1::after{
+  content:"";
+  display:block;
+  width: min(340px, 70%);
+  height: 4px;
+  margin: 12px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(79,246,255,0.95), transparent);
+  opacity: 0.7;
+}
+
+/* subtitle also a bit nicer */
+.updates-header p{
+  font-size: 1.05rem;
+  color: rgba(246,251,255,.86);
+  text-shadow: 0 10px 20px rgba(0,0,0,.20);
+  text-align: center;
+}
+
 .update-entry h2{
   margin: 0 0 10px;
   font-size: 26px;
@@ -739,6 +743,400 @@ nav a:hover{
   position: relative;
   z-index: 1;
 }
+/* ===============================
+   Avalon Heroes – Newsletter Card
+================================ */
+
+.newsletter-card {
+  margin: 3rem auto 0;
+  padding: 2rem;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,0.14),
+      rgba(255,255,255,0.08)
+    );
+  border: 2px solid rgba(255,255,255,0.25);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.25),
+    inset 0 0 0 1px rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px);
+  max-width: 520px;
+}
+
+.newsletter-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
+  color: var(--text);
+}
+
+.newsletter-sub {
+  margin-bottom: 1.2rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.newsletter-row {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.newsletter-row input {
+  flex: 1;
+  padding: 0.7rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(0,0,0,0.25);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.newsletter-row input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.newsletter-row button {
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+
+  color: #0c2f7a;
+  background: linear-gradient(
+    180deg,
+    var(--accent),
+    #a9f7ff
+  );
+
+  box-shadow:
+    0 4px 14px rgba(79,246,255,0.45);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.newsletter-row button:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 6px 18px rgba(79,246,255,0.6);
+}
+
+.newsletter-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+  opacity: 0.85;
+}
+/* ===============================
+   Class Preview — MMO Tabs + Anim
+================================ */
+
+.class-preview {
+  margin: 4rem auto;
+  max-width: 980px;
+  text-align: center;
+}
+
+.class-preview h2 {
+  margin-bottom: 1.5rem;
+  font-family: "Titan One", system-ui, sans-serif;
+  font-size: 2.2rem;
+  text-shadow: 0 4px 0 rgba(0,0,0,0.22);
+}
+
+/* Tabs */
+.class-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.8rem;
+}
+
+.class-tab {
+  --class: var(--accent);
+
+  padding: 0.55rem 1.05rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.class-tab:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.35);
+}
+
+.class-tab.active {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--class) 65%, white), var(--class));
+  color: #0c2f7a;
+  border-color: transparent;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+/* Panels */
+.class-panels {
+  position: relative;
+}
+
+.class-panel {
+  --class: var(--accent);
+
+  display: none;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  border-radius: 18px;
+
+  /* main surface */
+  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.08));
+  border: 2px solid rgba(255,255,255,0.22);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+
+  /* class-colour glow + top edge */
+  outline: 1px solid rgba(255,255,255,0.10);
+  position: relative;
+  overflow: visible;
+}
+
+.class-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(1200px 500px at 20% 10%,
+    color-mix(in srgb, var(--class) 25%, transparent),
+    transparent 60%);
+  pointer-events: none;
+}
+
+.class-panel::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, var(--class), transparent);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.class-panel.active {
+  display: flex;
+}
+
+/* Character */
+.class-art {
+  position: relative;
+  width: 360px;          /* bigger than before */
+  max-width: none;
+  flex-shrink: 0;
+}
+
+.class-art img {
+  width: 420px;          /* bigger than panel */
+  max-width: none;
+  height: auto;
+  z-index: 2;
+  position: relative;
+  left: -40px;           /* push outside panel */
+  top: -20px;
+
+  filter: drop-shadow(0 18px 36px rgba(0,0,0,0.45));
+
+  opacity: 0;
+  transform: translateX(-48px);
+}
+
+/* Info box tinted to class colour */
+.class-info {
+  text-align: left;
+  flex: 1;
+  z-index: 1;
+  padding: 1.25rem 1.35rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--class) 18%, rgba(255,255,255,0.10)),
+    rgba(0,0,0,0.18)
+  );
+
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* Title in Titan One */
+.class-title {
+  font-family: "Titan One", system-ui, sans-serif;
+  font-size: 2rem;
+  margin: 0 0 0.4rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 3px 0 rgba(0,0,0,0.25);
+}
+
+/* Optional: tint the title subtly to the class */
+.class-title {
+  color: color-mix(in srgb, var(--class) 70%, white);
+}
+
+.class-desc {
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Animations (staggered) */
+@keyframes slideFadeInLeft {
+  from { opacity: 0; transform: translateX(-28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeUpIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* When panel becomes active, run animations */
+.class-panel.animating .class-art img {
+  animation: slideFadeInLeft 420ms ease-out forwards;
+}
+
+.class-panel.animating .class-info {
+  animation: fadeUpIn 420ms ease-out forwards;
+  animation-delay: 140ms; /* text follows character */
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .class-panel.active {
+    flex-direction: column;
+    text-align: center;
+  }
+  .class-info { text-align: center; }
+  .class-art { max-width: 85%; width: 340px; }
+}
+
+header, .site-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.header-fx{
+  position:absolute; inset:0;
+  pointer-events:none;
+  opacity:.9;
+}
+
+.fx-orb{
+  position:absolute;
+  width:10px; height:10px;
+  border-radius:999px;
+  background: rgba(255,255,255,.35);
+  filter: blur(.2px);
+  animation: orbFloat 10s linear infinite;
+}
+
+.fx-orb:nth-child(1){ left:10%; top:20%; animation-duration: 12s; }
+.fx-orb:nth-child(2){ left:25%; top:60%; animation-duration: 9s;  }
+.fx-orb:nth-child(3){ left:40%; top:35%; animation-duration: 14s; }
+.fx-orb:nth-child(4){ left:60%; top:25%; animation-duration: 11s; }
+.fx-orb:nth-child(5){ left:75%; top:55%; animation-duration: 13s; }
+.fx-orb:nth-child(6){ left:90%; top:30%; animation-duration: 10s; }
+
+@keyframes orbFloat{
+  0%   { transform: translateY(0) translateX(0); opacity:.15; }
+  20%  { opacity:.45; }
+  100% { transform: translateY(320px) translateX(-40px); opacity:.05; }
+}
+.devlog{
+  position: relative;
+  max-width: 980px;
+  margin: 3rem auto;
+  padding-left: 42px;
+}
+
+.devlog::before{
+  content:"";
+  position:absolute;
+  left:16px; top:0; bottom:0;
+  width:3px;
+  background: linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,.05));
+  border-radius:999px;
+}
+
+.update-entry{
+  position: relative;
+  margin: 0 0 2rem;
+}
+
+.update-entry::before{
+  content:"";
+  position:absolute;
+  left:-42px;
+  top:34px;
+  width:16px; height:16px;
+  border-radius:999px;
+  background: linear-gradient(180deg, var(--accent), #a9f7ff);
+  box-shadow: 0 0 0 5px rgba(79,246,255,.18), 0 10px 25px rgba(0,0,0,.25);
+}
+.update-entry{
+  padding: 1.6rem 1.6rem 1.3rem;
+  border-radius: 22px;
+  border: 2px solid rgba(255,255,255,.22);
+  background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.07));
+  box-shadow: 0 18px 50px rgba(0,0,0,.30);
+  backdrop-filter: blur(7px);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.update-entry:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 24px 65px rgba(0,0,0,.36);
+}
+
+.update-meta{
+  display:flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin: .8rem 0 1rem;
+}
+
+.update-meta span{
+  display:inline-flex;
+  align-items:center;
+  gap:.45rem;
+  padding: .45rem .8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.20);
+  background: rgba(0,0,0,.18);
+  color: rgba(255,255,255,.88);
+  font-weight: 700;
+  font-size: .92rem;
+}
+
+.chip.build{
+  background: linear-gradient(180deg, rgba(79,246,255,.35), rgba(0,0,0,.18));
+  border-color: rgba(79,246,255,.35);
+}
+.reveal{
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+.reveal.show{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
 
 /* -----------------------------
    Responsive
@@ -765,3 +1163,69 @@ nav a:hover{
 @media (max-width: 600px){
   .main-logo{ max-width: 300px; }
 }
+
+/* ===============================
+   Class Panel Particles (per class)
+================================ */
+
+.class-panel{
+  position: relative;
+}
+
+/* Particle layer sits ABOVE panel background */
+.panel-particles{
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* keep your content above the particles */
+.class-art,
+.class-info{
+  position: relative;
+  z-index: 2;
+}
+
+/* individual particles */
+.panel-particles .p{
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+
+  /* match the class colour */
+  background: color-mix(in srgb, var(--class) 85%, white);
+
+  /* glow */
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--class) 65%, transparent),
+    0 0 26px color-mix(in srgb, var(--class) 35%, transparent);
+
+  opacity: 0;
+  transform: translateY(60px);
+  animation: panelSpark 4.8s linear infinite;
+}
+
+@keyframes panelSpark{
+  0%   { transform: translateY(70px) scale(.6); opacity: 0; }
+  15%  { opacity: .75; }
+  70%  { opacity: .45; }
+  100% { transform: translateY(-320px) scale(1.1); opacity: 0; }
+}
+
+/* random positions / sizes / speed */
+.panel-particles .p:nth-child(1){ left: 10%; top: 92%; animation-duration: 4.2s; animation-delay: -1.0s; }
+.panel-particles .p:nth-child(2){ left: 20%; top: 98%; animation-duration: 5.5s; animation-delay: -2.8s; width:9px; height:9px; }
+.panel-particles .p:nth-child(3){ left: 32%; top: 86%; animation-duration: 4.7s; animation-delay: -1.8s; width:5px; height:5px; }
+.panel-particles .p:nth-child(4){ left: 42%; top: 99%; animation-duration: 6.1s; animation-delay: -3.9s; width:4px; height:4px; }
+.panel-particles .p:nth-child(5){ left: 52%; top: 88%; animation-duration: 5.0s; animation-delay: -2.0s; }
+.panel-particles .p:nth-child(6){ left: 60%; top: 95%; animation-duration: 4.4s; animation-delay: -3.1s; width:6px; height:6px; }
+.panel-particles .p:nth-child(7){ left: 68%; top: 90%; animation-duration: 6.4s; animation-delay: -4.0s; width:10px; height:10px; opacity:.55; }
+.panel-particles .p:nth-child(8){ left: 76%; top: 98%; animation-duration: 5.2s; animation-delay: -2.3s; }
+.panel-particles .p:nth-child(9){ left: 84%; top: 92%; animation-duration: 4.0s; animation-delay: -1.4s; width:4px; height:4px; }
+.panel-particles .p:nth-child(10){ left: 92%; top: 96%; animation-duration: 5.9s; animation-delay: -3.2s; }
+.panel-particles .p:nth-child(11){ left: 14%; top: 84%; animation-duration: 6.0s; animation-delay: -4.7s; width:4px; height:4px; }
+.panel-particles .p:nth-child(12){ left: 88%; top: 82%; animation-duration: 4.6s; animation-delay: -2.6s; width:5px; height:5px; }

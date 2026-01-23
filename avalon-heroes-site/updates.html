@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <header>
+  <header class="updates-header">
     <div class="container">
       <h1>Avalon Heroes – Updates</h1>
       <p>Public development progress and milestones.</p>
@@ -16,18 +16,22 @@
         <a href="index.html">Home</a>
       </nav>
     </div>
+    <div class="header-fx" aria-hidden="true">
+      <span class="fx-orb"></span><span class="fx-orb"></span><span class="fx-orb"></span>
+      <span class="fx-orb"></span><span class="fx-orb"></span><span class="fx-orb"></span>
+    </div>
   </header>
 
 
   <main class="container">
-
+    <section class="devlog">
     <!-- UPDATE ENTRY -->
      <article class="update-entry">
         <h2>Forest Level Prototype & Combat Effects</h2>
 
         <div class="update-meta">
           <span>📅 Jan 17, 2026</span>
-          <span>🧪 Build: Development</span>
+          <span class="chip build">🧪 Build: Development</span>
           <span>#World #Combat #AI</span>
         </div>
 
@@ -66,7 +70,7 @@
       <h2>Refining inventory and equipment systems. </h2>
       <div class="update-meta">
         <span>📅 Jan 15, 2026</span>
-        <span>🧪 Build: Development</span>
+        <span class="chip build">🧪 Build: Development</span>
         <span>#Inventory #UI</span>
       </div>
 
@@ -100,7 +104,7 @@
       <h2>Refining inventory and equipment systems. </h2>
       <div class="update-meta">
         <span>📅 Jan 14, 2026</span>
-        <span>🧪 Build: Development</span>
+        <span class="chip build">🧪 Build: Development</span>
         <span>#Inventory #UI</span>
       </div>
 
@@ -136,7 +140,7 @@
       <h2>Enemy AI State Machine Stabilized</h2>
       <div class="update-meta">
         <span>📅 Jan 13, 2026</span>
-        <span>🧪 Build: Development</span>
+        <span class="chip build">🧪 Build: Development</span>
         <span>#AI #Combat</span>
       </div>
 
@@ -157,7 +161,7 @@
         <li>Equipment-driven stat recalculation</li>
       </ul>
     </article>
-
+  </section>
   </main>
   <div class="modal" id="videoModal" aria-hidden="true" role="dialog" aria-label="Video player">
   <div class="modal__backdrop" data-close></div>
@@ -179,6 +183,16 @@
   </div>
 
   <script>
+    const items = document.querySelectorAll(".update-entry");
+  items.forEach(i => i.classList.add("reveal"));
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) e.target.classList.add("show");
+    });
+  }, { threshold: 0.12 });
+
+  items.forEach(i => io.observe(i));
   (() => {
     const lightbox = document.getElementById("lightbox");
     const lbImg = document.getElementById("lbImg");

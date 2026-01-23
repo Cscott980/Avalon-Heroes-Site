@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="css/style.css" />
   <meta name="keywords" content="educational game, edtech, action RPG, classroom game, godot game">
   <meta name="author" content="Avalon Studios">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
 
 </head>
 
@@ -50,6 +53,148 @@
         Demo plan: <strong>Warrior + Mage</strong> • <strong>Horde Mode only</strong> • No bosses (for now)
       </div>
     </section>
+    <section class="class-preview">
+
+      <h2>Choose Your Hero</h2>
+
+      <div class="class-tabs">
+        <button class="class-tab active" data-class="warrior" style="--class:#ff5a4f;">Warrior</button>
+        <button class="class-tab" data-class="mage" style="--class:#6bd4ff;">Mage</button>
+        <button class="class-tab" data-class="paladin" style="--class:#ffd56a;">Paladin</button>
+        <button class="class-tab" data-class="ranger" style="--class:#7bff8a;">Ranger</button>
+        <button class="class-tab" data-class="rogue" style="--class:#c08bff;">Rogue</button>
+        <button class="class-tab" data-class="engineer" style="--class:#ff9a4a;">Engineer</button>
+        <button class="class-tab" data-class="druid" style="--class:#4fffd7;">Druid</button>
+      </div>
+
+      <div class="class-panels">
+        <div class="class-panel active" id="warrior" style="--class:#ff5a4f;">
+          <div class="panel-particles" aria-hidden="true">
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+          </div>
+          <div class="class-art">
+            <img src="assets/Characters/Warrior.png" alt="Warrior">
+          </div>
+          <div class="class-info">
+            <h3 class="class-title">Warrior</h3>
+            <p class="class-desc">
+              A frontline fighter who thrives in the heat of battle. Build rage through melee hits and unleash
+              devastating area attacks to control the battlefield.
+            </p>
+          </div>
+        </div>
+
+        <div class="class-panel" id="mage" style="--class:#6bd4ff;">
+          <div class="panel-particles" aria-hidden="true">
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+          </div>
+          <div class="class-art">
+            <img src="assets/Characters/Mage.png" alt="Mage">
+          </div>
+          <div class="class-info">
+            <h3 class="class-title">Mage</h3>
+            <p class="class-desc">
+              Masters of elemental magic who devastate enemies from afar. Control space with powerful spells and bursts.
+            </p>
+          </div>
+        </div>
+
+        <div class="class-panel" id="paladin" style="--class:#ffd56a;">
+          <div class="panel-particles" aria-hidden="true">
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+          </div>
+          <div class="class-art">
+            <img src="assets/Characters/Paladin.png" alt="Paladin">
+          </div>
+          <div class="class-info">
+            <h3 class="class-title">Paladin</h3>
+            <p class="class-desc">
+              Holy warriors who protect allies and smite foes. A sturdy shield line with supportive divine power.
+            </p>
+          </div>
+        </div>
+        <div class="class-panel" id="ranger" style="--class:#7bff8a;">
+          <div class="panel-particles" aria-hidden="true">
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+          </div>
+          <div class="class-art">
+            <img src="assets/Characters/Ranger.png" alt="Ranger">
+          </div>
+          <div class="class-info">
+            <h3 class="class-title">Ranger</h3>
+            <p class="class-desc">
+              Precise archers who excel at picking targets from a distance. Rangers kite enemies,
+              control lanes with traps, and punish openings with rapid bow attacks.
+            </p>
+          </div>
+        </div>
+
+        <div class="class-panel" id="rogue" style="--class:#c08bff;">
+          <div class="panel-particles" aria-hidden="true">
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+          </div>
+          <div class="class-art">
+            <img src="assets/Characters/Rogue.png" alt="Rogue">
+          </div>
+          <div class="class-info">
+            <h3 class="class-title">Rogue</h3>
+            <p class="class-desc">
+              Fast, evasive duelists who strike before enemies can react. Rogues weave in and out of combat,
+              stacking damage through combos, backstabs, and quick dagger bursts.
+            </p>
+          </div>
+        </div>
+
+        <div class="class-panel" id="engineer" style="--class:#ff9a4a;">
+          <div class="panel-particles" aria-hidden="true">
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+          </div>
+          <div class="class-art">
+            <img src="assets/Characters/Engineer.png" alt="Engineer">
+          </div>
+          <div class="class-info">
+            <h3 class="class-title">Engineer</h3>
+            <p class="class-desc">
+              Gadget specialists who fight with firearms and inventions. Engineers set up turrets,
+              control space with tools, and support the team with clever utility.
+            </p>
+          </div>
+        </div>
+
+        <div class="class-panel" id="druid" style="--class:#4fffd7;">
+          <div class="panel-particles" aria-hidden="true">
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+            <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
+          </div>
+          <div class="class-art">
+            <img src="assets/Characters/Druid.png" alt="Druid">
+          </div>
+          <div class="class-info">
+            <h3 class="class-title">Druid</h3>
+            <p class="class-desc">
+              Nature casters who bend the battlefield with roots, wind, and healing. Druids thrive in control play,
+              empowering allies while disrupting enemy movement and positioning.
+            </p>
+          </div>
+        </div>
+
+        <!-- Add the other class panels the same way... -->
+
+      </div>
+    </section>
 
     <section class="grid" id="features">
       <div class="card">
@@ -67,26 +212,31 @@
         <p>Start small and ship often: new heroes, modes, quizzes, and bosses can be added over time.</p>
       </div>
     </section>
+    <section class="newsletter-card">
+      <form name="avalon-newsletter" method="POST" data-netlify="true">
+        <input type="hidden" name="form-name" value="avalon-newsletter">
 
-    <section class="media" id="media">
-      <h2>Media</h2>
-      <p class="muted">Coming Soon</p>
+        <h3>📬 Follow Avalon Heroes</h3>
+        <p class="newsletter-sub">
+          Get development updates, classroom demos, and early playtest invites.
+        </p>
 
-      <div class="media-grid">
-        <div class="media-box">Screenshot / GIF 1</div>
-        <div class="media-box">Screenshot / GIF 2</div>
-        <div class="media-box">Screenshot / GIF 3</div>
-      </div>
+        <div class="newsletter-row">
+          <input
+            type="email"
+            name="email"
+            placeholder="your@email.com"
+            required
+          />
+          <button type="submit">Notify Me</button>
+        </div>
+
+        <small class="newsletter-note">
+          No spam. 1–2 emails per month. Unsubscribe anytime.
+        </small>
+      </form>
     </section>
 
-    <section class="card wide">
-      <h2>Status</h2>
-      <ul class="status">
-        <li><span class="dot"></span> Core combat + horde loop: in progress</li>
-        <li><span class="dot"></span> Web demo: planned (code access)</li>
-        <li><span class="dot"></span> Boss content: later</li>
-      </ul>
-    </section>
   </main>
 
   <footer class="footer">
@@ -96,6 +246,39 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+
+    const tabs = document.querySelectorAll(".class-tab");
+    const panels = document.querySelectorAll(".class-panel");
+
+    function showPanel(id) {
+      tabs.forEach(t => t.classList.remove("active"));
+      panels.forEach(p => p.classList.remove("active", "animating"));
+
+      const tab = document.querySelector(`.class-tab[data-class="${id}"]`);
+      const panel = document.getElementById(id);
+      if (!tab || !panel) return;
+
+      tab.classList.add("active");
+      panel.classList.add("active");
+
+      // restart your slide/fade animations
+      panel.classList.remove("animating");
+      void panel.offsetWidth;
+      panel.classList.add("animating");
+
+      // restart particle animations (THIS is where it belongs)
+      const fx = panel.querySelector(".panel-particles");
+      if (fx) {
+        fx.style.display = "none";
+        void fx.offsetHeight;
+        fx.style.display = "";
+      }
+    }
+
+    tabs.forEach(tab => tab.addEventListener("click", () => showPanel(tab.dataset.class)));
+
+    const initial = document.querySelector(".class-tab.active")?.dataset.class;
+    if (initial) showPanel(initial);
+</script>
 </body>
 </html>
