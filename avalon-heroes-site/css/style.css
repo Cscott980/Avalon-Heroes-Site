@@ -1229,3 +1229,66 @@ header, .site-hero {
 .panel-particles .p:nth-child(10){ left: 92%; top: 96%; animation-duration: 5.9s; animation-delay: -3.2s; }
 .panel-particles .p:nth-child(11){ left: 14%; top: 84%; animation-duration: 6.0s; animation-delay: -4.7s; width:4px; height:4px; }
 .panel-particles .p:nth-child(12){ left: 88%; top: 82%; animation-duration: 4.6s; animation-delay: -2.6s; width:5px; height:5px; }
+
+
+
+/* ===============================
+   Toast Notification
+================================ */
+.toast{
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%) translateY(20px);
+  z-index: 20000;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 14px;
+  border-radius: 999px;
+
+  background: rgba(0,0,0,.55);
+  border: 2px solid rgba(255,255,255,.22);
+  color: rgba(246,251,255,.96);
+
+  box-shadow: 0 18px 50px rgba(0,0,0,.35);
+  backdrop-filter: blur(10px);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+.toast.show{
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast__icon{
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+
+  background: linear-gradient(180deg, var(--accent), #a9f7ff);
+  color: #0c2f7a;
+  font-weight: 900;
+  box-shadow: 0 8px 18px rgba(79,246,255,.35);
+}
+
+.toast__text{
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: .2px;
+}
+
+/* optional “error” styling */
+.toast.error .toast__icon{
+  background: linear-gradient(180deg, #ff6b6b, #ffd1d1);
+  color: #3a0b0b;
+  box-shadow: 0 8px 18px rgba(255,107,107,.30);
+}
+.hidden { display: none; }

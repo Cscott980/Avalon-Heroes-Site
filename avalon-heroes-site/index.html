@@ -46,7 +46,7 @@
         <a class="btn primary disabled" href="#" aria-disabled="true" title="Demo not public yet">
           Play Demo (Soon)
         </a>
-        <a class="btn" href="#media">See Progress</a>
+        <a class="btn" href="updates.html">See Progress</a>
       </div>
 
       <div class="note">
@@ -220,7 +220,9 @@
         <p class="newsletter-sub">
           Get development updates, classroom demos, and early playtest invites.
         </p>
-
+        <p class="hidden">
+          <label>Don’t fill this out: <input name="bot-field" /></label>
+        </p>
         <div class="newsletter-row">
           <input
             type="email"
@@ -279,6 +281,78 @@
 
     const initial = document.querySelector(".class-tab.active")?.dataset.class;
     if (initial) showPanel(initial);
-</script>
+
+  // ===============================
+  // Newsletter toast + Netlify submit
+  // ===============================
+  const form = document.querySelector('form[name="avalon-newsletter"]');
+  const toast = document.getElementById("toast");
+  const toastText = document.getElementById("toastText");
+  let toastTimer = null;
+
+  function showToast(message, isError=false){
+    if (!toast || !toastText) return;
+
+    toastText.textContent = message;
+    toast.classList.toggle("error", isError);
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 3200);
+  }
+
+  function encodeFormData(formEl){
+    const data = new FormData(formEl);
+    return new URLSearchParams(data).toString();
+  }
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const btn = form.querySelector('button[type="submit"]');
+      const emailInput = form.querySelector('input[name="email"]');
+
+      // tiny UX: disable button while sending
+      if (btn) {
+        btn.disabled = true;
+        btn.style.opacity = "0.8";
+      }
+
+      try {
+        const body = encodeFormData(form);
+
+        const res = await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body
+        });
+
+        if (!res.ok) throw new Error("Network response was not ok");
+
+        showToast("✅ You’re on the list! Check your inbox soon.");
+        form.reset();
+
+        // keep cursor ready for the next signup
+        if (emailInput) emailInput.focus();
+
+      } catch (err) {
+        showToast("⚠️ Couldn’t sign you up. Please try again.", true);
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.style.opacity = "";
+        }
+      }
+    });
+  }
+
+  </script>
+<!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+    <span class="toast__icon" aria-hidden="true">✨</span>
+    <span id="toastText" class="toast__text">Subscribed!</span>
+  </div>
+
 </body>
 </html>
