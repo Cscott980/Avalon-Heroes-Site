@@ -1292,3 +1292,333 @@ header, .site-hero {
   box-shadow: 0 8px 18px rgba(255,107,107,.30);
 }
 .hidden { display: none; }
+
+/* ===============================
+   AUTH (Signup / Login) — SCOPED
+   Premium, readable, no site clashes
+================================ */
+
+.auth-page{
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  color: #0b1b3a; /* override site white text */
+}
+
+@media (max-width: 980px){
+  .auth-page{ grid-template-columns: 1fr; }
+  .auth-right{ display:none; }
+}
+
+/* ---------- LEFT SIDE ---------- */
+
+.auth-left{
+  padding: clamp(18px, 3vw, 36px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.auth-card{
+  width: min(680px, 100%);
+  background: rgba(255,255,255,0.92);
+  border-radius: 18px;
+  padding: clamp(18px, 3vw, 34px);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.18);
+  color: #0b1b3a;
+}
+
+.auth-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom: 18px;
+}
+
+.auth-brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color: inherit;
+}
+.auth-brand img{
+  height:42px;
+}
+
+/* Titles */
+.auth-title{
+  text-align:center;
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 900;
+  margin: 8px 0 6px;
+}
+
+.auth-subtitle{
+  text-align:center;
+  font-size: 13px;
+  color: rgba(11,27,58,.72);
+  margin-bottom: 14px;
+}
+
+/* Steps */
+.step{ display:none; }
+.step.active{ display:block; }
+
+/* ---------- ROLE SELECTION (Blooket-style) ---------- */
+
+.auth-page .role-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 18px 0 10px;
+}
+@media (max-width:520px){
+  .auth-page .role-grid{ grid-template-columns:1fr; }
+}
+
+.auth-page .role{
+  position: relative;
+  padding: 28px 22px 22px;
+  border-radius: 20px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+
+  background:
+    radial-gradient(120% 90% at 50% 0%,
+      rgba(255,255,255,.96),
+      rgba(245,248,255,.93) 55%,
+      rgba(235,242,255,.90) 100%);
+  border: 2px solid rgba(20,55,120,.18);
+
+  box-shadow:
+    0 16px 34px rgba(0,0,0,.12),
+    inset 0 1px 0 rgba(255,255,255,.85);
+
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+
+.auth-page .role:hover{
+  transform: translateY(-4px);
+  box-shadow:
+    0 22px 44px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+.auth-page .role img{
+  width: 200px;
+  height: 200px;
+  margin: 6px auto 14px;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 10px 18px rgba(0,0,0,.18))
+    drop-shadow(0 0 18px rgba(42,123,255,.18));
+}
+
+.auth-page .role .label{
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.auth-page .role .desc{
+  margin-top: 10px;
+  font-size: 14px;
+  color: rgba(11,27,58,.72);
+}
+
+/* Selected */
+.auth-page .role.selected{
+  border-color: rgba(0,140,255,.95);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow:
+    0 26px 56px rgba(0,140,255,.18),
+    0 18px 40px rgba(0,0,0,.14);
+}
+
+.auth-page .role.selected::after{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:22px;
+  border:3px solid rgba(0,140,255,.35);
+}
+
+/* ---------- ACTION BUTTONS ---------- */
+
+.actions{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top: 12px;
+}
+
+.auth-page .btn{
+  min-width: 210px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-weight: 900;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(0,0,0,.10);
+}
+
+.auth-page .btn.primary{
+  background: rgba(0,140,255,.92);
+  color: white;
+}
+
+.auth-page .btn.secondary{
+  background: rgba(0,0,0,.08);
+  color: #0b1b3a;
+}
+
+.auth-page .btn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+/* ---------- AGE GATE ---------- */
+
+.age-box{
+  margin: 18px auto 8px;
+  max-width: 520px;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.92);
+  border: 2px solid rgba(0,0,0,.10);
+}
+
+.age-row{
+  display:flex;
+  gap:12px;
+  margin-top:6px;
+}
+.age-row label{
+  font-weight:800;
+}
+
+.age-note,
+.fineprint{
+  font-size:12px;
+  color: rgba(11,27,58,.6);
+  text-align:center;
+  margin-top:10px;
+}
+
+/* ---------- RIGHT SIDE (GEM PANEL) ---------- */
+
+.auth-right{
+  position:relative;
+  background: linear-gradient(135deg, rgba(0,180,255,.9), rgba(0,110,255,.9));
+  overflow:hidden;
+}
+
+.auth-right::before{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  background-image: url("assets/signup_pattern.png");
+  background-size: 380px 380px;
+  opacity:.16;
+  transform: rotate(-8deg);
+}
+
+.right-inner{
+  position:relative;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  color:white;
+  text-align:center;
+}
+
+.right-hero{
+  width: min(420px, 85%);
+  filter: drop-shadow(0 20px 28px rgba(0,0,0,.25));
+  border-radius:18px;
+}
+
+.right-tagline{
+  font-size: clamp(18px, 2.2vw, 28px);
+  font-weight:900;
+}
+/* ===== AUTH: NO-SCROLL TUNING ===== */
+
+/* Lock auth page to viewport */
+.auth-page{
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Center card vertically without overflow */
+.auth-left{
+  align-items: center;
+}
+
+/* Slightly shorter card */
+.auth-card{
+  padding: 24px;
+}
+
+/* Reduce vertical spacing */
+.auth-title{
+  margin: 4px 0 4px;
+}
+
+.auth-subtitle{
+  margin-bottom: 10px;
+}
+
+/* Tighter role grid */
+.auth-page .role-grid{
+  gap: 14px;
+  margin: 14px 0 6px;
+}
+
+/* Smaller premium icons (still big) */
+.auth-page .role img{
+  width: 200px;
+  height: 175px;
+  margin: 4px auto 10px;
+}
+
+/* Reduce card padding */
+.auth-page .role{
+  padding: 20px 18px 18px;
+}
+
+/* Slightly smaller labels */
+.auth-page .role .label{
+  font-size: 20px;
+}
+
+.auth-page .role .desc{
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* Buttons tighter */
+.actions{
+  margin-top: 8px;
+}
+
+.auth-page .btn{
+  padding: 11px 14px;
+}
+
+/* Footer note tighter */
+.fineprint{
+  margin-top: 10px;
+}
+
+
+/* ===============================
+   Dashboard
+================================ */
+
+.dash { max-width: 920px; margin: 40px auto; padding: 0 18px; }
+.row { display:flex; gap: 12px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+button { border:0; border-radius: 14px; padding: 10px 14px; font-weight: 900; cursor:pointer; }

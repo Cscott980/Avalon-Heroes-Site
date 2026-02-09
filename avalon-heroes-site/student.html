@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Avalon Heroes • Student</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="dash">
+    <div class="card">
+      <div class="row">
+        <h1 style="margin:0;">Student Dashboard (placeholder)</h1>
+        <button id="btnLogout" type="button">Log out</button>
+      </div>
+      <p>This is where your join codes, rewards, and your unlocked cosmetics will live.</p>
+      <p><a href="index.html">← Back to Home</a></p>
+      <pre id="userDump" style="white-space:pre-wrap; opacity:.8;"></pre>
+    </div>
+  </div>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    const dump = document.getElementById("userDump");
+    const btnLogout = document.getElementById("btnLogout");
+
+    window.netlifyIdentity.on("init", (user) => {
+      if (!user) { window.location.href = "signup.html"; return; }
+      dump.textContent = JSON.stringify({
+        email: user.email,
+        role: (user.user_metadata && user.user_metadata.role) || null,
+        id: user.id
+      }, null, 2);
+    });
+
+    btnLogout.addEventListener("click", () => window.netlifyIdentity.logout());
+    window.netlifyIdentity.on("logout", () => window.location.href = "index.html");
+    window.netlifyIdentity.init();
+  </script>
+</body>
+</html>

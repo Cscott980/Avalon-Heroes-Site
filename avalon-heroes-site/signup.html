@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Avalon Heroes • Sign up</title>
+  <meta name="description" content="Create an Avalon Heroes account." />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    
+  </style>
+</head>
+
+<body>
+  <div class="auth-page">
+    <div class="auth-left">
+      <div class="auth-card">
+        <div class="auth-top">
+          <a class="auth-brand" href="index.html" aria-label="Back to home">
+            <img src="assets/avalon_heroes_logo.png" alt="Avalon Heroes" />
+          </a>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <button class="ghost-link subtle" type="button" id="btnBack" style="display:none;">Back</button>
+            <button class="ghost-link" type="button" id="btnOpenLogin">Log in</button>
+          </div>
+        </div>
+
+        <!-- STEP 1: ROLE -->
+        <section class="step active" id="stepRole" aria-labelledby="roleTitle">
+          <h1 class="auth-title" id="roleTitle">Who are you?</h1>
+          <p class="auth-subtitle">This helps us send you to the right tools after you sign in.</p>
+
+          <div class="role-grid" role="list">
+            <div class="role" role="listitem" data-role="student" tabindex="0" aria-label="Student">
+              <img src="assets/Icons/StudentIcon.png" alt="Student icon" />
+              <p class="label">Student</p>
+              <p class="desc">Join games, earn rewards, and level up with your class.</p>
+            </div>
+
+            <div class="role" role="listitem" data-role="teacher" tabindex="0" aria-label="Teacher">
+              <img src="assets/Icons/TeacherIcon.png" alt="Teacher icon" />
+              <p class="label">Teacher</p>
+              <p class="desc">Host sessions, build quizzes, and view class reports.</p>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" type="button" id="btnRoleContinue" disabled>Continue</button>
+          </div>
+
+          <p class="fineprint">You can change this later in your account settings.</p>
+        </section>
+
+        <!-- STEP 2: AGE (student only) -->
+        <section class="step" id="stepAge" aria-labelledby="ageTitle">
+          <h1 class="auth-title" id="ageTitle">Age verification</h1>
+          <p class="auth-subtitle">Standard check before creating a student account.</p>
+
+          <div class="age-box">
+            <div class="age-row">
+              <input type="checkbox" id="ageCheck" />
+              <label for="ageCheck">I confirm I am 13 years old or older.</label>
+            </div>
+            <p class="age-note">
+              If you’re under 13, ask your teacher to create a class session for you to join.
+            </p>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" type="button" id="btnAgeContinue" disabled>Continue</button>
+          </div>
+
+          <p class="fineprint">We store a simple “age verified” flag (not your birthday).</p>
+        </section>
+
+        <!-- STEP 3: AUTH -->
+        <section class="step" id="stepAuth" aria-labelledby="authTitle">
+          <h1 class="auth-title" id="authTitle">Create your account</h1>
+          <p class="auth-subtitle">Choose how you’d like to sign up or log in.</p>
+
+          <div class="actions">
+            <button class="btn primary" type="button" id="btnEmail">Continue with Email</button>
+            <button class="btn secondary" type="button" id="btnGoogle">Continue with Google</button>
+          </div>
+
+          <p class="fineprint">
+            Google sign-in will appear in the popup once enabled in your Netlify Identity settings.
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <aside class="auth-right" aria-hidden="true">
+      <div class="right-inner">
+        <img class="right-hero" src="assets/gem_icon.png" alt="Avalon Heroes" />
+        <p class="right-tagline">Levelling up engagement, one question at a time.</p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Netlify Identity -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    const stepRole = $("stepRole");
+    const stepAge  = $("stepAge");
+    const stepAuth = $("stepAuth");
+
+    const btnBack = $("btnBack");
+    const btnOpenLogin = $("btnOpenLogin");
+
+    const roleCards = Array.from(document.querySelectorAll(".role"));
+    const btnRoleContinue = $("btnRoleContinue");
+
+    const ageCheck = $("ageCheck");
+    const btnAgeContinue = $("btnAgeContinue");
+
+    const btnEmail = $("btnEmail");
+    const btnGoogle = $("btnGoogle");
+
+    const LS_ROLE = "pendingRole";
+    const LS_AGE  = "ageVerified";
+
+    let selectedRole = null;
+
+    function showStep(step){
+      [stepRole, stepAge, stepAuth].forEach(s => s.classList.remove("active"));
+      step.classList.add("active");
+      btnBack.style.display = (step !== stepRole) ? "inline-flex" : "none";
+    }
+
+    function setSelectedRole(role){
+      selectedRole = role;
+      localStorage.setItem(LS_ROLE, role);
+      roleCards.forEach(c => c.classList.toggle("selected", c.dataset.role === role));
+      btnRoleContinue.disabled = false;
+    }
+
+    function goNextFromRole(){
+      if (!selectedRole) return;
+
+      if (selectedRole === "teacher") {
+        // Industry standard: teachers are not age-gated in this flow.
+        localStorage.setItem(LS_AGE, "true");
+        showStep(stepAuth);
+        return;
+      }
+
+      // Student: show age gate
+      showStep(stepAge);
+    }
+
+    function goNextFromAge(){
+      if (!ageCheck.checked) return;
+      localStorage.setItem(LS_AGE, "true");
+      showStep(stepAuth);
+    }
+
+    function goBack(){
+      const role = localStorage.getItem(LS_ROLE);
+
+      if (stepAuth.classList.contains("active")) {
+        if (role === "student") showStep(stepAge);
+        else showStep(stepRole);
+        return;
+      }
+      if (stepAge.classList.contains("active")) {
+        showStep(stepRole);
+        return;
+      }
+    }
+
+    function canProceedToAuth(){
+      const role = localStorage.getItem(LS_ROLE);
+      const ageVerified = localStorage.getItem(LS_AGE) === "true";
+      if (!role) return false;
+      if (role === "student" && !ageVerified) return false;
+      return true;
+    }
+
+    function openSignup(){
+      if (!canProceedToAuth()) return;
+      window.netlifyIdentity.open("signup");
+    }
+
+    function openLogin(){
+      window.netlifyIdentity.open("login");
+    }
+
+    // ---- UI events ----
+    roleCards.forEach(card => {
+      card.addEventListener("click", () => setSelectedRole(card.dataset.role));
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setSelectedRole(card.dataset.role);
+        }
+      });
+    });
+
+    btnRoleContinue.addEventListener("click", goNextFromRole);
+
+    ageCheck.addEventListener("change", () => {
+      btnAgeContinue.disabled = !ageCheck.checked;
+    });
+    btnAgeContinue.addEventListener("click", goNextFromAge);
+
+    btnBack.addEventListener("click", goBack);
+    btnOpenLogin.addEventListener("click", openLogin);
+
+    btnEmail.addEventListener("click", openSignup);
+    btnGoogle.addEventListener("click", openSignup);
+
+    // ---- Netlify Identity events ----
+    window.netlifyIdentity.on("login", async (user) => {
+      const role = localStorage.getItem(LS_ROLE);
+      const ageVerified = localStorage.getItem(LS_AGE) === "true";
+
+      try {
+        if (role) {
+          await user.update({ data: { role, age_verified: ageVerified } });
+        }
+      } catch (err) {
+        console.warn("Could not update user metadata:", err);
+      }
+
+      const finalRole =
+        role ||
+        (user && user.user_metadata && user.user_metadata.role) ||
+        "student";
+
+      window.location.href = finalRole === "teacher" ? "teacher.html" : "student.html";
+    });
+
+    window.netlifyIdentity.on("init", (user) => {
+      if (!user) return;
+      const role = (user.user_metadata && user.user_metadata.role) || localStorage.getItem(LS_ROLE);
+      if (role) {
+        window.location.href = role === "teacher" ? "teacher.html" : "student.html";
+      }
+    });
+
+    // ---- Boot ----
+    (function(){
+      const savedRole = localStorage.getItem(LS_ROLE);
+      if (savedRole) {
+        selectedRole = savedRole;
+        roleCards.forEach(c => c.classList.toggle("selected", c.dataset.role === savedRole));
+        btnRoleContinue.disabled = false;
+      }
+
+      // If they already passed role + age, show auth
+      if (savedRole === "teacher") {
+        localStorage.setItem(LS_AGE, "true");
+        showStep(stepAuth);
+      } else if (savedRole === "student") {
+        const ageVerified = localStorage.getItem(LS_AGE) === "true";
+        if (ageVerified) showStep(stepAuth);
+        else showStep(stepRole);
+      }
+    })();
+
+    window.netlifyIdentity.init();
+  </script>
+</body>
+</html>
