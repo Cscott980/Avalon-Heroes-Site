@@ -213,25 +213,28 @@
     btnGoogle.addEventListener("click", openSignup);
 
     // ---- Netlify Identity events ----
-    window.netlifyIdentity.on("login", async (user) => {
-      const role = localStorage.getItem(LS_ROLE);
-      const ageVerified = localStorage.getItem(LS_AGE) === "true";
+  window.netlifyIdentity.on("login", async (user) => {
+    const roleFromStorage = localStorage.getItem(LS_ROLE);
+    const ageVerified = localStorage.getItem(LS_AGE) === "true";
 
-      try {
-        if (role) {
-          await user.update({ data: { role, age_verified: ageVerified } });
-        }
-      } catch (err) {
-        console.warn("Could not update user metadata:", err);
+    const meta = (user && user.user_metadata) ? user.user_metadata : {};
+    const existingRole = meta.role; // source of truth if present
+
+    // Decide the role we will use
+    const finalRole = existingRole || roleFromStorage || "student";
+
+    // Only write role if it's missing on the account (prevents overwriting teacher->student)
+    try {
+      if (!existingRole && roleFromStorage) {
+        await user.update({ data: { ...meta, role: roleFromStorage, age_verified: ageVerified } });
       }
-
-      const finalRole =
-        role ||
-        (user && user.user_metadata && user.user_metadata.role) ||
-        "student";
-
-      window.location.href = finalRole === "teacher" ? "teacher.html" : "student.html";
-    });
+    } catch (err) {
+      console.warn("Could not update user metadata:", err);
+    }
+    localStorage.removeItem(LS_ROLE);
+    localStorage.removeItem(LS_AGE);
+    window.location.href = finalRole === "teacher" ? "teacher.html" : "student.html";
+  });
 
     window.netlifyIdentity.on("init", (user) => {
       if (!user) return;
