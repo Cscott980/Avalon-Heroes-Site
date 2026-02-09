@@ -3,34 +3,206 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Avalon Heroes • Student</title>
+  <title>Avalon Heroes — Student Dashboard</title>
+
+  <!-- IMPORTANT: load MAIN theme first -->
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- dashboard-only overrides second -->
+  <link rel="stylesheet" href="css/dash_style.css" />
 </head>
-<body>
-  <div class="dash">
-    <div class="card">
-      <div class="row">
-        <h1 style="margin:0;">Student Dashboard (placeholder)</h1>
-        <button id="btnLogout" type="button">Log out</button>
+
+<body class="dash-body">
+  <main class="dash">
+    <div class="dash-shell">
+
+      <header class="dash-header">
+        <div class="dash-brand">
+          <img src="assets/gem_icon.png" class="dash-gem" alt="" />
+          <div>
+            <div class="dash-title">Student Dashboard</div>
+            <div class="dash-sub" id="dashSubtitle">Loading your profile…</div>
+          </div>
+        </div>
+
+        <div class="dash-header-actions">
+          <a class="dash-link" href="index.html">Home</a>
+          <button class="dash-btn" id="btnEditUsername" type="button">Edit Username</button>
+          <button class="dash-btn primary" id="btnLogout" type="button">Sign out</button>
+        </div>
+      </header>
+
+      <main class="dash-grid">
+        <section class="dash-card">
+          <div class="card-head">
+            <h2>Profile</h2>
+            <span class="pill" id="pillRole">…</span>
+          </div>
+
+          <div class="profile-row">
+            <div class="avatar-orb" aria-hidden="true"></div>
+            <div class="profile-meta">
+              <div class="profile-name" id="profileName">…</div>
+              <div class="profile-small" id="profileEmail">…</div>
+              <div class="profile-small" id="profileId">…</div>
+            </div>
+          </div>
+
+          <p class="dash-muted" style="margin-top:12px;">
+            Your account will sync to classroom sessions once the game server is connected.
+          </p>
+        </section>
+
+        <section class="dash-card">
+          <div class="card-head">
+            <h2>Progress</h2>
+            <span class="pill subtle">Prototype</span>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-num" id="statShards">0</div>
+              <div class="stat-label">XP Shards</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num" id="statRewards">0</div>
+              <div class="stat-label">Rewards</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num" id="statSessions">0</div>
+              <div class="stat-label">Sessions</div>
+            </div>
+          </div>
+
+          <p class="dash-muted">These will populate once your classroom game data is connected.</p>
+        </section>
+
+        <section class="dash-card wide">
+          <div class="card-head">
+            <h2>Quick Actions</h2>
+            <span class="pill subtle">Coming Soon</span>
+          </div>
+
+          <div class="quick-actions">
+            <button class="qa" type="button" disabled>
+              <span class="qa-title">Join with Code</span>
+              <span class="qa-desc">Enter a teacher session code</span>
+            </button>
+
+            <button class="qa" type="button" disabled>
+              <span class="qa-title">Cosmetics</span>
+              <span class="qa-desc">Preview your unlocks</span>
+            </button>
+
+            <button class="qa" type="button" disabled>
+              <span class="qa-title">Account Settings</span>
+              <span class="qa-desc">Role, privacy, preferences</span>
+            </button>
+          </div>
+        </section>
+      </main>
+
+    </div>
+  </main>
+
+  <!-- Username modal -->
+  <div class="dash-modal" id="modalUser" aria-hidden="true">
+    <div class="dash-modal-backdrop" data-close></div>
+
+    <div class="dash-modal-panel" role="dialog" aria-label="Edit username" aria-modal="true">
+      <div class="modal-head">
+        <h3>Edit Username</h3>
+        <button class="icon-x" type="button" data-close aria-label="Close">✕</button>
       </div>
-      <p>This is where your join codes, rewards, and your unlocked cosmetics will live.</p>
-      <p><a href="index.html">← Back to Home</a></p>
-      <pre id="userDump" style="white-space:pre-wrap; opacity:.8;"></pre>
+
+      <label class="modal-label" for="modalUsername">Username</label>
+      <input id="modalUsername" class="modal-input" type="text" maxlength="20" autocomplete="nickname" />
+
+      <div class="modal-actions">
+        <button class="dash-btn" type="button" data-close>Cancel</button>
+        <button class="dash-btn primary" id="btnSaveUsername" type="button">Save</button>
+      </div>
+
+      <p class="dash-muted" style="margin-top:10px;">3+ chars. Letters/numbers/_ only.</p>
     </div>
   </div>
 
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
-    const dump = document.getElementById("userDump");
-    const btnLogout = document.getElementById("btnLogout");
+    const $ = (id) => document.getElementById(id);
+
+    const dashSubtitle = $("dashSubtitle");
+    const pillRole = $("pillRole");
+    const profileName = $("profileName");
+    const profileEmail = $("profileEmail");
+    const profileId = $("profileId");
+
+    const btnLogout = $("btnLogout");
+    const btnEditUsername = $("btnEditUsername");
+
+    const modal = $("modalUser");
+    const modalUsername = $("modalUsername");
+    const btnSaveUsername = $("btnSaveUsername");
+
+    function cleanUsername(name){
+      return (name || "")
+        .trim()
+        .replace(/\s+/g, "")
+        .replace(/[^a-zA-Z0-9_]/g, "");
+    }
+
+    function openModal(){
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      modalUsername.focus();
+      modalUsername.select();
+    }
+
+    function closeModal(){
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    document.addEventListener("click", (e) => {
+      if (!modal.classList.contains("open")) return;
+      if (e.target.closest("[data-close]")) closeModal();
+    });
 
     window.netlifyIdentity.on("init", (user) => {
       if (!user) { window.location.href = "signup.html"; return; }
-      dump.textContent = JSON.stringify({
-        email: user.email,
-        role: (user.user_metadata && user.user_metadata.role) || null,
-        id: user.id
-      }, null, 2);
+
+      const meta = user.user_metadata || {};
+      const username = meta.username || meta.full_name || "Unnamed Hero";
+      const role = meta.role || "student";
+
+      dashSubtitle.textContent = "Welcome back, " + username + ".";
+      pillRole.textContent = role.toUpperCase();
+
+      profileName.textContent = username;
+      profileEmail.textContent = user.email || "";
+      profileId.textContent = "ID: " + user.id;
+
+      modalUsername.value = meta.username || "";
+
+      btnEditUsername.addEventListener("click", openModal);
+
+      btnSaveUsername.addEventListener("click", async () => {
+        const next = cleanUsername(modalUsername.value);
+        if (!next || next.length < 3) {
+          alert("Please enter a valid username (3+ characters).");
+          return;
+        }
+
+        try {
+          await user.update({ data: { ...meta, username: next } });
+          profileName.textContent = next;
+          dashSubtitle.textContent = "Welcome back, " + next + ".";
+          closeModal();
+        } catch (err) {
+          console.warn(err);
+          alert("Could not save username. Please try again.");
+        }
+      });
     });
 
     btnLogout.addEventListener("click", () => window.netlifyIdentity.logout());

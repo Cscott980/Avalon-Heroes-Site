@@ -30,7 +30,9 @@
         <a href="updates.html">Devlog</a>
       </div>
 
-      <a href="signup.html" class="nav-cta">Log in</a>
+      <!-- This stays "Log in" when logged out, becomes "Account" when logged in -->
+      <a href="signup.html" class="nav-cta" id="navLogin">Log in</a>
+      <a href="#" class="nav-cta" id="navLogout" style="display:none;">Sign out</a>
     </nav>
 
   <main class="wrap">
@@ -55,8 +57,8 @@
         Demo plan: <strong>Warrior + Mage</strong> • <strong>Horde Mode only</strong> • No bosses (for now)
       </div>
     </section>
-    <section class="class-preview">
 
+    <section class="class-preview">
       <h2>Choose Your Hero</h2>
 
       <div class="class-tabs">
@@ -121,6 +123,7 @@
             </p>
           </div>
         </div>
+
         <div class="class-panel" id="ranger" style="--class:#7bff8a;">
           <div class="panel-particles" aria-hidden="true">
             <span class="p"></span><span class="p"></span><span class="p"></span><span class="p"></span>
@@ -192,9 +195,6 @@
             </p>
           </div>
         </div>
-
-        <!-- Add the other class panels the same way... -->
-
       </div>
     </section>
 
@@ -257,19 +257,46 @@
 
     const initial = document.querySelector(".class-tab.active")?.dataset.class;
     if (initial) showPanel(initial);
-
-  
-
   </script>
 
   <!-- Netlify Identity (Sign up / Log in) -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
-    // Opens the Netlify Identity modal (email/password, plus Google if enabled in Netlify)
-    const signupBtn = document.getElementById("btnSignup");
-    if (signupBtn && window.netlifyIdentity) {
-      signupBtn.addEventListener("click", () => window.netlifyIdentity.open());
+    const navLogin = document.getElementById("navLogin");
+    const navLogout = document.getElementById("navLogout");
+
+    function dashboardFor(user){
+      const role = (user.user_metadata && user.user_metadata.role) || "student";
+      return role === "teacher" ? "teacher.html" : "student.html";
     }
+
+    function setLoggedOut(){
+      navLogin.textContent = "Log in";
+      navLogin.href = "signup.html";
+      navLogout.style.display = "none";
+    }
+
+    function setLoggedIn(user){
+      navLogin.textContent = "Account";
+      navLogin.href = dashboardFor(user);
+      navLogout.style.display = "inline-flex";
+    }
+
+    // Prevent page jump for sign-out link
+    navLogout.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (window.netlifyIdentity) window.netlifyIdentity.logout();
+    });
+
+    window.netlifyIdentity.on("init", (user) => {
+      if (!navLogin || !navLogout) return;
+      user ? setLoggedIn(user) : setLoggedOut();
+    });
+
+    window.netlifyIdentity.on("login", (user) => setLoggedIn(user));
+    window.netlifyIdentity.on("logout", () => setLoggedOut());
+
+    window.netlifyIdentity.init();
   </script>
 </body>
 </html>
