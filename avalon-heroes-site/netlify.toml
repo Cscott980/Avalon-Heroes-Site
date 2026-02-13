@@ -1,5 +1,1 @@
-[build]
-  base = "avalon-heroes-site"
-  publish = "."
-  command = "npm install"
-  functions = "netlify/functions"
+# Netlify configuration for functions is in the root netlify.toml
