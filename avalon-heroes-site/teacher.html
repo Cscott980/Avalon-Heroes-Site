@@ -76,30 +76,33 @@
           <p class="dash-muted">Once tools are connected, you’ll see real classroom stats here.</p>
         </section>
 
+        
+        
+        
         <section class="dash-card wide">
           <div class="card-head">
-            <h2>Quick Actions</h2>
-            <span class="pill subtle">Coming Soon</span>
+            <h2>My Quizzes</h2>
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <span class="pill subtle" id="pillQuizStatus">Loading…</span>
+              <button class="dash-btn primary" id="btnNewQuiz" type="button">Create Quiz</button>
+            </div>
           </div>
 
-          <div class="quick-actions">
-            <button class="qa" type="button" disabled>
-              <span class="qa-title">Create Quiz</span>
-              <span class="qa-desc">Build a new quiz set</span>
-            </button>
-
-            <button class="qa" type="button" disabled>
-              <span class="qa-title">Start Session</span>
-              <span class="qa-desc">Host a classroom run</span>
-            </button>
-
-            <button class="qa" type="button" disabled>
-              <span class="qa-title">View Reports</span>
-              <span class="qa-desc">See question-level insights</span>
-            </button>
+          <div class="quiz-toolbar">
+            <input class="quiz-search" id="quizSearch" type="search" placeholder="Search quizzes…" />
+            <button class="dash-btn" id="btnRefreshQuizzes" type="button">Refresh</button>
           </div>
+
+          <div class="quiz-list" id="quizList" aria-live="polite"></div>
+
+          <p class="dash-muted" style="margin-top:12px;">
+            Quizzes you create here can be loaded by Avalon Heroes (via quiz ID) once the game server is connected.
+          </p>
         </section>
       </main>
+
+
+
 
     </div>
   </main>
@@ -126,7 +129,286 @@
     </div>
   </div>
 
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  
+  <!-- Quiz Editor Modal -->
+  <div class="dash-modal" id="modalQuiz" aria-hidden="true">
+    <div class="dash-modal-backdrop" data-quiz-close></div>
+
+    <div class="dash-modal-panel quiz-modal" role="dialog" aria-label="Quiz editor" aria-modal="true">
+      <div class="modal-head">
+        <h3 id="quizModalTitle">Create Quiz</h3>
+        <button class="icon-x" type="button" data-quiz-close aria-label="Close">✕</button>
+      </div>
+
+      <div class="quiz-editor">
+        <aside class="quiz-sidebar" aria-label="Question list">
+          <div class="quiz-side-head">
+            <div class="quiz-side-title">Questions</div>
+            <button class="dash-btn" id="btnAddQuestion" type="button">+ Add</button>
+          </div>
+          <div class="quiz-q-list" id="quizQuestionList"></div>
+          <div class="quiz-side-foot">
+            <button class="dash-btn" id="btnDeleteQuiz" type="button">Delete Quiz</button>
+          </div>
+        </aside>
+
+        <section class="quiz-main" aria-label="Question editor">
+          <div class="quiz-meta">
+            <label class="modal-label" for="quizTitle">Quiz title</label>
+            <input id="quizTitle" class="modal-input" type="text" maxlength="80" placeholder="e.g., Unit 3 — Food & Health" />
+
+            <label class="modal-label" for="quizDesc">Description (optional)</label>
+            <input id="quizDesc" class="modal-input" type="text" maxlength="160" placeholder="A short note for you (not shown to students)." />
+          </div>
+
+          <div class="quiz-question">
+            <div class="quiz-question-head">
+              <div class="quiz-q-badge" id="quizQBadge">Q1</div>
+              <div class="quiz-q-actions">
+                <button class="dash-btn" id="btnDuplicateQuestion" type="button">Duplicate</button>
+                <button class="dash-btn" id="btnRemoveQuestion" type="button">Remove</button>
+              </div>
+            </div>
+
+            <label class="modal-label" for="qPrompt">Question</label>
+            <textarea id="qPrompt" class="quiz-textarea" rows="3" maxlength="220" placeholder="Type the question prompt…"></textarea>
+
+            <div class="quiz-answers-head">
+              <div class="quiz-answers-title">Answers</div>
+              <div class="quiz-answers-hint">Tick all correct answers (multi‑select).</div>
+            </div>
+
+            <div class="quiz-answers" id="quizAnswers">
+              <div class="quiz-answer" data-i="0">
+                <label class="ans-check"><input type="checkbox" class="ansCorrect" /> <span>Correct</span></label>
+                <input class="ansText" type="text" maxlength="120" placeholder="Answer A" />
+              </div>
+              <div class="quiz-answer" data-i="1">
+                <label class="ans-check"><input type="checkbox" class="ansCorrect" /> <span>Correct</span></label>
+                <input class="ansText" type="text" maxlength="120" placeholder="Answer B" />
+              </div>
+              <div class="quiz-answer" data-i="2">
+                <label class="ans-check"><input type="checkbox" class="ansCorrect" /> <span>Correct</span></label>
+                <input class="ansText" type="text" maxlength="120" placeholder="Answer C" />
+              </div>
+              <div class="quiz-answer" data-i="3">
+                <label class="ans-check"><input type="checkbox" class="ansCorrect" /> <span>Correct</span></label>
+                <input class="ansText" type="text" maxlength="120" placeholder="Answer D" />
+              </div>
+            </div>
+
+            <div class="quiz-settings">
+              <div class="qs">
+                <label class="modal-label" for="qTimeLimit">Time limit (seconds)</label>
+                <input id="qTimeLimit" class="modal-input" type="number" min="5" max="300" step="5" value="20" />
+              </div>
+              <div class="qs">
+                <label class="modal-label" for="qPoints">Points</label>
+                <input id="qPoints" class="modal-input" type="number" min="0" max="2000" step="50" value="100" />
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-actions quiz-actions">
+            <button class="dash-btn" type="button" data-quiz-close>Cancel</button>
+            <button class="dash-btn primary" id="btnSaveQuiz" type="button">Save</button>
+          </div>
+
+          <p class="dash-muted" id="quizSaveHint" style="margin-top:10px;">
+            Tip: keep at least 2 answers filled. Multi‑select supports multiple correct answers.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Quiz Editor Modal -->
+  <div class="dash-modal" id="modalQuiz" aria-hidden="true">
+    <div class="dash-modal-backdrop" data-quiz-close></div>
+
+    <div class="dash-modal-panel quiz-modal" role="dialog" aria-label="Quiz editor" aria-modal="true">
+      <div class="modal-head">
+        <h3 id="quizModalTitle">Create Quiz</h3>
+        <button class="icon-x" type="button" data-quiz-close aria-label="Close">✕</button>
+      </div>
+
+      <div class="quiz-editor">
+        <aside class="quiz-sidebar" aria-label="Question list">
+          <div class="quiz-side-head">
+            <div class="quiz-side-title">Questions</div>
+            <button class="dash-btn" id="btnAddQuestion" type="button">+ Add</button>
+          </div>
+          <div class="quiz-q-list" id="quizQuestionList"></div>
+          <div class="quiz-side-foot">
+            <button class="dash-btn" id="btnDeleteQuiz" type="button">Delete Quiz</button>
+          </div>
+        </aside>
+
+        <section class="quiz-main" aria-label="Question editor">
+          <div class="quiz-meta">
+            <label class="modal-label" for="quizTitle">Quiz title</label>
+            <input id="quizTitle" class="modal-input" type="text" maxlength="80" placeholder="e.g., Unit 3 — Food & Health" />
+
+            <label class="modal-label" for="quizDesc">Description (optional)</label>
+            <input id="quizDesc" class="modal-input" type="text" maxlength="160" placeholder="A short note for you (not shown to students)." />
+          </div>
+
+          <div class="quiz-question">
+            <div class="quiz-question-head">
+              <div class="quiz-q-badge" id="quizQBadge">Q1</div>
+              <div class="quiz-q-actions">
+                <button class="dash-btn" id="btnDuplicateQuestion" type="button">Duplicate</button>
+                <button class="dash-btn" id="btnRemoveQuestion" type="button">Remove</button>
+              </div>
+            </div>
+
+            <label class="modal-label" for="qPrompt">Question</label>
+            <textarea id="qPrompt" class="quiz-textarea" rows="3" maxlength="220" placeholder="Type the question prompt…"></textarea>
+
+            <div class="quiz-answers-head">
+              <div class="quiz-answers-title">Answers</div>
+              <div class="quiz-answers-hint">Tick all correct answers (multi‑select).</div>
+            </div>
+
+            <div class="quiz-answers" id="quizAnswers">
+              <div class="quiz-answer" data-i="0">
+                <label class="ans-check"><input type="checkbox" class="ansCorrect" /> <span>Correct</span></label>
+                <input class="ansText" type="text" maxlength="120" placeholder="Answer A" />
+              </div>
+              <div class="quiz-answer" data-i="1">
+                <label class="ans-check"><input type="checkbox" class="ansCorrect" /> <span>Correct</span></label>
+                <input class="ansText" type="text" maxlength="120" placeholder="Answer B" />
+              </div>
+              <div class="quiz-answer" data-i="2">
+                <label class="ans-check"><input type="checkbox" class="ansCorrect" /> <span>Correct</span></label>
+                <input class="ansText" type="text" maxlength="120" placeholder="Answer C" />
+              </div>
+              <div class="quiz-answer" data-i="3">
+                <label class="ans-check"><input type="checkbox" class="ansCorrect" /> <span>Correct</span></label>
+                <input class="ansText" type="text" maxlength="120" placeholder="Answer D" />
+              </div>
+            </div>
+
+            <div class="quiz-settings">
+              <div class="qs">
+                <label class="modal-label" for="qTimeLimit">Time limit (seconds)</label>
+                <input id="qTimeLimit" class="modal-input" type="number" min="5" max="300" step="5" value="20" />
+              </div>
+              <div class="qs">
+                <label class="modal-label" for="qPoints">Points</label>
+                <input id="qPoints" class="modal-input" type="number" min="0" max="2000" step="50" value="100" />
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-actions quiz-actions">
+            <button class="dash-btn" type="button" data-quiz-close>Cancel</button>
+            <button class="dash-btn primary" id="btnSaveQuiz" type="button">Save</button>
+          </div>
+
+          <p class="dash-muted" id="quizSaveHint" style="margin-top:10px;">
+            Tip: keep at least 2 answers filled. Multi‑select supports multiple correct answers.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Quiz Editor Modal -->
+  <div class="dash-modal" id="modalQuiz" aria-hidden="true">
+    <div class="dash-modal-backdrop" data-quiz-close></div>
+
+    <div class="dash-modal-panel quiz-modal" role="dialog" aria-label="Quiz editor" aria-modal="true">
+      <div class="modal-head">
+        <h3 id="quizModalTitle">Create Quiz</h3>
+        <button class="icon-x" type="button" data-quiz-close aria-label="Close">✕</button>
+      </div>
+
+      <div class="quiz-editor">
+        <aside class="quiz-sidebar" aria-label="Question list">
+          <div class="quiz-side-head">
+            <div class="quiz-side-title">Questions</div>
+            <button class="dash-btn" id="btnAddQuestion" type="button">+ Add</button>
+          </div>
+          <div class="quiz-q-list" id="quizQuestionList"></div>
+          <div class="quiz-side-foot">
+            <button class="dash-btn" id="btnDeleteQuiz" type="button">Delete Quiz</button>
+          </div>
+        </aside>
+
+        <section class="quiz-main" aria-label="Question editor">
+          <div class="quiz-meta">
+            <label class="modal-label" for="quizTitle">Quiz title</label>
+            <input id="quizTitle" class="modal-input" type="text" maxlength="80" placeholder="e.g., Unit 3 — Food & Health" />
+
+            <label class="modal-label" for="quizDesc">Description (optional)</label>
+            <input id="quizDesc" class="modal-input" type="text" maxlength="160" placeholder="A short note for you (not shown to students)." />
+          </div>
+
+          <div class="quiz-question">
+            <div class="quiz-question-head">
+              <div class="quiz-q-badge" id="quizQBadge">Q1</div>
+              <div class="quiz-q-actions">
+                <button class="dash-btn" id="btnDuplicateQuestion" type="button">Duplicate</button>
+                <button class="dash-btn" id="btnRemoveQuestion" type="button">Remove</button>
+              </div>
+            </div>
+
+            <label class="modal-label" for="qPrompt">Question</label>
+            <textarea id="qPrompt" class="quiz-textarea" rows="3" maxlength="220" placeholder="Type the question prompt…"></textarea>
+
+            <div class="quiz-answers-head">
+              <div class="quiz-answers-title">Answers</div>
+              <div class="quiz-answers-hint">Tick all correct answers (multi‑select).</div>
+            </div>
+
+            <div class="quiz-answers" id="quizAnswers">
+              <div class="quiz-answer" data-i="0">
+                <label class="ans-check"><input type="checkbox" class="ansCorrect" /> <span>Correct</span></label>
+                <input class="ansText" type="text" maxlength="120" placeholder="Answer A" />
+              </div>
+              <div class="quiz-answer" data-i="1">
+                <label class="ans-check"><input type="checkbox" class="ansCorrect" /> <span>Correct</span></label>
+                <input class="ansText" type="text" maxlength="120" placeholder="Answer B" />
+              </div>
+              <div class="quiz-answer" data-i="2">
+                <label class="ans-check"><input type="checkbox" class="ansCorrect" /> <span>Correct</span></label>
+                <input class="ansText" type="text" maxlength="120" placeholder="Answer C" />
+              </div>
+              <div class="quiz-answer" data-i="3">
+                <label class="ans-check"><input type="checkbox" class="ansCorrect" /> <span>Correct</span></label>
+                <input class="ansText" type="text" maxlength="120" placeholder="Answer D" />
+              </div>
+            </div>
+
+            <div class="quiz-settings">
+              <div class="qs">
+                <label class="modal-label" for="qTimeLimit">Time limit (seconds)</label>
+                <input id="qTimeLimit" class="modal-input" type="number" min="5" max="300" step="5" value="20" />
+              </div>
+              <div class="qs">
+                <label class="modal-label" for="qPoints">Points</label>
+                <input id="qPoints" class="modal-input" type="number" min="0" max="2000" step="50" value="100" />
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-actions quiz-actions">
+            <button class="dash-btn" type="button" data-quiz-close>Cancel</button>
+            <button class="dash-btn primary" id="btnSaveQuiz" type="button">Save</button>
+          </div>
+
+          <p class="dash-muted" id="quizSaveHint" style="margin-top:10px;">
+            Tip: keep at least 2 answers filled. Multi‑select supports multiple correct answers.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
     const $ = (id) => document.getElementById(id);
 
@@ -207,6 +489,385 @@
     btnLogout.addEventListener("click", () => window.netlifyIdentity.logout());
     window.netlifyIdentity.on("logout", () => window.location.href = "index.html");
     window.netlifyIdentity.init();
-  </script>
+
+    // ===========================
+    // Quiz Maker (Multi-select v1)
+    // Storage: Netlify Functions + Netlify Blobs (server-side enforced ownership)
+    // ===========================
+
+    const API_LIST = "/.netlify/functions/quizzes";
+    const API_ONE  = (id) => `/.netlify/functions/quiz?id=${encodeURIComponent(id)}`;
+
+    const pillQuizStatus = document.getElementById("pillQuizStatus");
+    const quizListEl = document.getElementById("quizList");
+    const btnNewQuiz = document.getElementById("btnNewQuiz");
+    const btnRefreshQuizzes = document.getElementById("btnRefreshQuizzes");
+    const quizSearch = document.getElementById("quizSearch");
+
+    // Editor modal bits
+    const modalQuiz = document.getElementById("modalQuiz");
+    const quizModalTitle = document.getElementById("quizModalTitle");
+    const quizQuestionList = document.getElementById("quizQuestionList");
+    const btnAddQuestion = document.getElementById("btnAddQuestion");
+    const btnSaveQuiz = document.getElementById("btnSaveQuiz");
+    const btnDeleteQuiz = document.getElementById("btnDeleteQuiz");
+
+    const quizTitle = document.getElementById("quizTitle");
+    const quizDesc  = document.getElementById("quizDesc");
+
+    const quizQBadge = document.getElementById("quizQBadge");
+    const qPrompt = document.getElementById("qPrompt");
+    const qTimeLimit = document.getElementById("qTimeLimit");
+    const qPoints = document.getElementById("qPoints");
+
+    const btnRemoveQuestion = document.getElementById("btnRemoveQuestion");
+    const btnDuplicateQuestion = document.getElementById("btnDuplicateQuestion");
+
+    let _currentUser = null;
+    let _quizIndex = [];          // list view data
+    let _activeQuiz = null;       // full quiz object (editing)
+    let _activeQ = 0;             // current question index
+
+    function nowIso(){ return new Date().toISOString(); }
+    function uid(){ return (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2); }
+
+    function openQuizModal(){
+      modalQuiz.classList.add("open");
+      modalQuiz.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      setTimeout(() => quizTitle.focus(), 0);
+    }
+
+    function closeQuizModal(){
+      modalQuiz.classList.remove("open");
+      modalQuiz.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    document.addEventListener("click", (e) => {
+      if (!modalQuiz.classList.contains("open")) return;
+      if (e.target.closest("[data-quiz-close]")) closeQuizModal();
+    });
+
+    async function authHeader(){
+      if (!_currentUser) throw new Error("Not logged in");
+      const token = await _currentUser.jwt();
+      return { "Authorization": `Bearer ${token}` };
+    }
+
+    function blankQuestion(){
+      return {
+        id: uid(),
+        prompt: "",
+        timeLimitSec: 20,
+        points: 100,
+        answers: [
+          { text: "", isCorrect: false },
+          { text: "", isCorrect: false },
+          { text: "", isCorrect: false },
+          { text: "", isCorrect: false },
+        ]
+      };
+    }
+
+    function blankQuiz(){
+      return {
+        id: uid(),
+        version: 1,
+        title: "Untitled Quiz",
+        description: "",
+        questions: [blankQuestion()],
+        createdAt: nowIso(),
+        updatedAt: nowIso(),
+      };
+    }
+
+    function setStatus(text){
+      if (!pillQuizStatus) return;
+      pillQuizStatus.textContent = text;
+    }
+
+    function escapeHtml(s){
+      return (s || "").replace(/[&<>"']/g, (c) => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[c]));
+    }
+
+    function renderQuizList(){
+      const q = (quizSearch?.value || "").trim().toLowerCase();
+      const filtered = !_quizIndex.length ? [] : _quizIndex.filter(item => {
+        const hay = (item.title + " " + (item.description||"")).toLowerCase();
+        return !q || hay.includes(q);
+      });
+
+      if (!quizListEl) return;
+
+      if (!filtered.length){
+        quizListEl.innerHTML = `
+          <div class="quiz-empty">
+            <div class="quiz-empty-title">No quizzes yet</div>
+            <div class="quiz-empty-sub">Click <strong>Create Quiz</strong> to make your first multi‑select quiz.</div>
+          </div>
+        `;
+        return;
+      }
+
+      quizListEl.innerHTML = filtered.map(item => `
+        <button class="quiz-row" type="button" data-quiz-id="${escapeHtml(item.id)}">
+          <div class="quiz-row-main">
+            <div class="quiz-row-title">${escapeHtml(item.title || "Untitled Quiz")}</div>
+            <div class="quiz-row-sub">${escapeHtml(item.description || "—")}</div>
+          </div>
+          <div class="quiz-row-meta">
+            <div class="pill subtle">${escapeHtml(String(item.questionCount || 0))} Q</div>
+            <div class="quiz-row-date">${escapeHtml(new Date(item.updatedAt || item.createdAt || Date.now()).toLocaleString())}</div>
+          </div>
+        </button>
+      `).join("");
+    }
+
+    async function loadQuizIndex(){
+      setStatus("Loading…");
+      try{
+        const headers = await authHeader();
+        const res = await fetch(API_LIST, { headers });
+        if (!res.ok) throw new Error("Could not load quizzes");
+        const data = await res.json();
+        _quizIndex = Array.isArray(data.quizzes) ? data.quizzes : [];
+        setStatus(`${_quizIndex.length} quiz${_quizIndex.length===1?"":"zes"}`);
+        renderQuizList();
+      }catch(err){
+        console.warn(err);
+        setStatus("Error loading quizzes");
+        if (quizListEl) quizListEl.innerHTML = `<div class="quiz-empty"><div class="quiz-empty-title">Couldn’t load quizzes</div><div class="quiz-empty-sub">Please try refreshing.</div></div>`;
+      }
+    }
+
+    async function fetchQuiz(id){
+      const headers = await authHeader();
+      const res = await fetch(API_ONE(id), { headers });
+      if (!res.ok) throw new Error("Could not load quiz");
+      return await res.json();
+    }
+
+    function syncEditorFromActive(){
+      if (!_activeQuiz) return;
+
+      quizModalTitle.textContent = _activeQuiz._isNew ? "Create Quiz" : "Edit Quiz";
+      quizTitle.value = _activeQuiz.title || "";
+      quizDesc.value = _activeQuiz.description || "";
+
+      quizQuestionList.innerHTML = _activeQuiz.questions.map((qq, i) => {
+        const label = qq.prompt ? qq.prompt.slice(0, 28) : `Question ${i+1}`;
+        return `
+          <button class="quiz-q-item ${i===_activeQ ? "active":""}" type="button" data-q="${i}">
+            <span class="quiz-q-num">${i+1}</span>
+            <span class="quiz-q-label">${escapeHtml(label)}</span>
+          </button>
+        `;
+      }).join("");
+
+      const qq = _activeQuiz.questions[_activeQ];
+      quizQBadge.textContent = `Q${_activeQ+1}`;
+      qPrompt.value = qq.prompt || "";
+      qTimeLimit.value = String(qq.timeLimitSec ?? 20);
+      qPoints.value = String(qq.points ?? 100);
+
+      const answerEls = Array.from(document.querySelectorAll("#quizAnswers .quiz-answer"));
+      answerEls.forEach((wrap, idx) => {
+        const ans = (qq.answers && qq.answers[idx]) ? qq.answers[idx] : { text:"", isCorrect:false };
+        wrap.querySelector(".ansText").value = ans.text || "";
+        wrap.querySelector(".ansCorrect").checked = !!ans.isCorrect;
+      });
+
+      btnDeleteQuiz.style.display = _activeQuiz._isNew ? "none" : "inline-flex";
+    }
+
+    function syncActiveFromEditor(){
+      if (!_activeQuiz) return;
+      _activeQuiz.title = (quizTitle.value || "").trim() || "Untitled Quiz";
+      _activeQuiz.description = (quizDesc.value || "").trim();
+
+      const qq = _activeQuiz.questions[_activeQ];
+      if (!qq) return;
+
+      qq.prompt = (qPrompt.value || "").trim();
+      qq.timeLimitSec = Math.max(5, Math.min(300, parseInt(qTimeLimit.value || "20", 10) || 20));
+      qq.points = Math.max(0, Math.min(2000, parseInt(qPoints.value || "100", 10) || 100));
+
+      const answerEls = Array.from(document.querySelectorAll("#quizAnswers .quiz-answer"));
+      qq.answers = answerEls.map((wrap) => ({
+        text: (wrap.querySelector(".ansText").value || "").trim(),
+        isCorrect: !!wrap.querySelector(".ansCorrect").checked,
+      }));
+    }
+
+    function validateQuiz(quiz){
+      if (!quiz.title || quiz.title.trim().length < 1) return "Quiz title is required.";
+
+      for (let i=0; i<quiz.questions.length; i++){
+        const qq = quiz.questions[i];
+        if (!qq.prompt || qq.prompt.trim().length < 1) return `Q${i+1}: question prompt is required.`;
+
+        const filled = (qq.answers||[]).filter(a => (a.text||"").trim().length > 0);
+        if (filled.length < 2) return `Q${i+1}: please fill at least 2 answers.`;
+
+        const correct = (qq.answers||[]).filter(a => a.isCorrect && (a.text||"").trim().length > 0);
+        if (correct.length < 1) return `Q${i+1}: please tick at least 1 correct answer.`;
+      }
+      return null;
+    }
+
+    async function saveActiveQuiz(){
+      syncActiveFromEditor();
+
+      const errMsg = validateQuiz(_activeQuiz);
+      if (errMsg){ alert(errMsg); return; }
+
+      btnSaveQuiz.disabled = true;
+      btnSaveQuiz.textContent = "Saving…";
+
+      try{
+        const headers = { ...(await authHeader()), "Content-Type":"application/json" };
+        const payload = { ..._activeQuiz, updatedAt: nowIso() };
+        delete payload._isNew;
+
+        const isNew = !_quizIndex.some(q => q.id === payload.id);
+
+        const res = await fetch(isNew ? API_LIST : API_ONE(payload.id), {
+          method: isNew ? "POST" : "PUT",
+          headers,
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok){
+          const t = await res.text();
+          throw new Error(t || "Save failed");
+        }
+
+        closeQuizModal();
+        await loadQuizIndex();
+      }catch(err){
+        console.warn(err);
+        alert("Could not save quiz. Please try again.");
+      }finally{
+        btnSaveQuiz.disabled = false;
+        btnSaveQuiz.textContent = "Save";
+      }
+    }
+
+    async function deleteActiveQuiz(){
+      if (!_activeQuiz || _activeQuiz._isNew) return;
+      if (!confirm("Delete this quiz? This cannot be undone.")) return;
+
+      try{
+        const headers = await authHeader();
+        const res = await fetch(API_ONE(_activeQuiz.id), { method:"DELETE", headers });
+        if (!res.ok) throw new Error("Delete failed");
+        closeQuizModal();
+        await loadQuizIndex();
+      }catch(err){
+        console.warn(err);
+        alert("Could not delete quiz.");
+      }
+    }
+
+    async function startNewQuiz(){
+      _activeQuiz = blankQuiz();
+      _activeQuiz._isNew = true;
+      _activeQ = 0;
+      syncEditorFromActive();
+      openQuizModal();
+    }
+
+    async function editQuiz(id){
+      try{
+        const full = await fetchQuiz(id);
+        _activeQuiz = full.quiz || full;
+        _activeQuiz._isNew = false;
+        _activeQ = 0;
+        if (!_activeQuiz.questions || !_activeQuiz.questions.length) _activeQuiz.questions = [blankQuestion()];
+        syncEditorFromActive();
+        openQuizModal();
+      }catch(err){
+        console.warn(err);
+        alert("Could not open quiz.");
+      }
+    }
+
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest(".quiz-row[data-quiz-id]");
+      if (!btn) return;
+      const id = btn.dataset.quizId;
+      if (id) editQuiz(id);
+    });
+
+    quizQuestionList?.addEventListener("click", (e) => {
+      const b = e.target.closest(".quiz-q-item[data-q]");
+      if (!b) return;
+      syncActiveFromEditor();
+      _activeQ = parseInt(b.dataset.q, 10) || 0;
+      syncEditorFromActive();
+    });
+
+    btnAddQuestion?.addEventListener("click", () => {
+      syncActiveFromEditor();
+      _activeQuiz.questions.push(blankQuestion());
+      _activeQ = _activeQuiz.questions.length - 1;
+      syncEditorFromActive();
+    });
+
+    btnRemoveQuestion?.addEventListener("click", () => {
+      if (!_activeQuiz) return;
+      if (_activeQuiz.questions.length <= 1){
+        alert("A quiz needs at least 1 question.");
+        return;
+      }
+      syncActiveFromEditor();
+      _activeQuiz.questions.splice(_activeQ, 1);
+      _activeQ = Math.max(0, _activeQ - 1);
+      syncEditorFromActive();
+    });
+
+    btnDuplicateQuestion?.addEventListener("click", () => {
+      if (!_activeQuiz) return;
+      syncActiveFromEditor();
+      const src = _activeQuiz.questions[_activeQ];
+      const clone = JSON.parse(JSON.stringify(src));
+      clone.id = uid();
+      _activeQuiz.questions.splice(_activeQ + 1, 0, clone);
+      _activeQ = _activeQ + 1;
+      syncEditorFromActive();
+    });
+
+    ["input","change"].forEach(evt => {
+      quizTitle?.addEventListener(evt, () => syncActiveFromEditor());
+      quizDesc?.addEventListener(evt,  () => syncActiveFromEditor());
+      qPrompt?.addEventListener(evt,  () => syncActiveFromEditor());
+      qTimeLimit?.addEventListener(evt, () => syncActiveFromEditor());
+      qPoints?.addEventListener(evt, () => syncActiveFromEditor());
+      document.querySelectorAll("#quizAnswers .ansText, #quizAnswers .ansCorrect").forEach(el => {
+        el.addEventListener(evt, () => syncActiveFromEditor());
+      });
+    });
+
+    btnSaveQuiz?.addEventListener("click", saveActiveQuiz);
+    btnDeleteQuiz?.addEventListener("click", deleteActiveQuiz);
+
+    btnNewQuiz?.addEventListener("click", startNewQuiz);
+    btnRefreshQuizzes?.addEventListener("click", loadQuizIndex);
+    quizSearch?.addEventListener("input", renderQuizList);
+
+    window.netlifyIdentity.on("init", async (user) => {
+      _currentUser = user || null;
+      if (_currentUser) loadQuizIndex();
+    });
+    window.netlifyIdentity.on("login", (user) => {
+      _currentUser = user;
+      loadQuizIndex();
+    });
+
+
+    </script>
 </body>
 </html>
