@@ -716,13 +716,13 @@
       }
     });
 
-    // Load quizzes for logged-in user
-    loadQuizIndex();
+    // Load quizzes for logged-in user (with a small delay to ensure token is ready)
+    setTimeout(() => loadQuizIndex(), 200);
   });
 
   window.netlifyIdentity.on("login", (user) => {
     _currentUser = user;
-    loadQuizIndex();
+    setTimeout(() => loadQuizIndex(), 200);
   });
 
   window.netlifyIdentity.init();
