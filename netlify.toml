@@ -2,3 +2,21 @@
   command = "npm install"
   publish = "avalon-heroes-site"
   functions = "avalon-heroes-site/netlify/functions"
+
+[[redirects]]
+  from = "/.netlify/functions/quiz*"
+  to = "/.netlify/functions/quiz"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/.netlify/functions/quizzes*"
+  to = "/.netlify/functions/quizzes"
+  status = 200
+  force = false
+
+[context.production.functions."quiz"]
+  node_bundler = "esbuild"
+
+[context.production.functions."quizzes"]
+  node_bundler = "esbuild"

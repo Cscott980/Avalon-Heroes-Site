@@ -10,7 +10,22 @@ function json(status, data) {
 }
 
 function getUser(context) {
-  return context?.clientContext?.user || null;
+  if (context?.clientContext?.user) return context.clientContext.user;
+  return context?.user || null;
+}
+
+function getUserIdFromToken(req) {
+  const authHeader = req.headers.get("authorization") || "";
+  if (!authHeader.startsWith("Bearer ")) return null;
+  const token = authHeader.slice(7);
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    const payload = JSON.parse(atob(parts[1]));
+    return payload.sub || payload.user_id || payload.email;
+  } catch (e) {
+    return null;
+  }
 }
 
 function keyIndex(uid) { return `u_${uid}/index.json`; }
@@ -18,9 +33,10 @@ function keyQuiz(uid, id) { return `u_${uid}/quiz_${id}.json`; }
 
 export default async (req, context) => {
   const user = getUser(context);
-  if (!user) return json(401, { error: "Unauthorized" });
-
-  const uid = user.sub || user.id || user.email;
+  let uid = user?.sub || user?.id || user?.email;
+  if (!uid) {
+    uid = getUserIdFromToken(req);
+  }
   if (!uid) return json(401, { error: "Unauthorized" });
 
   const store = getStore("quizzes");
