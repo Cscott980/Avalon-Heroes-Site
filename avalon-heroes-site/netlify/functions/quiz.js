@@ -1,24 +1,20 @@
-// netlify/functions/quiz.js
-// Read / update / delete a single quiz by ID
 import { getStore } from "@netlify/blobs";
 
-function json(statusCode, body){
-  return {
-    statusCode,
-    headers: {
-      "Content-Type": "application/json",
-      "Cache-Control": "no-store",
-    },
-    body: JSON.stringify(body),
-  };
+const headersBase = {
+  "Content-Type": "application/json",
+  "Cache-Control": "no-store",
+};
+
+function json(status, data) {
+  return new Response(JSON.stringify(data), { status, headers: headersBase });
 }
 
-function getUser(context){
+function getUser(context) {
   return context?.clientContext?.user || null;
 }
 
-function keyIndex(uid){ return `u_${uid}/index.json`; }
-function keyQuiz(uid, id){ return `u_${uid}/quiz_${id}.json`; }
+function keyIndex(uid) { return `u_${uid}/index.json`; }
+function keyQuiz(uid, id) { return `u_${uid}/quiz_${id}.json`; }
 
 export default async (req, context) => {
   const user = getUser(context);
@@ -33,16 +29,19 @@ export default async (req, context) => {
 
   const store = getStore("quizzes");
 
-  if (req.method === "GET"){
+  if (req.method === "GET") {
     const quiz = await store.get(keyQuiz(uid, id), { type: "json" });
     if (!quiz) return json(404, { error: "Not found" });
     return json(200, { quiz });
   }
 
-  if (req.method === "PUT"){
+  if (req.method === "PUT") {
     let payload;
-    try{ payload = await req.json(); }
-    catch{ return json(400, { error: "Invalid JSON" }); }
+    try {
+      payload = await req.json();
+    } catch {
+      return json(400, { error: "Invalid JSON" });
+    }
 
     const existing = await store.get(keyQuiz(uid, id), { type: "json" });
     if (!existing) return json(404, { error: "Not found" });
@@ -54,7 +53,9 @@ export default async (req, context) => {
     payload.createdAt = existing.createdAt || now;
     payload.updatedAt = now;
 
-    await store.set(keyQuiz(uid, id), JSON.stringify(payload), { contentType: "application/json" });
+    await store.set(keyQuiz(uid, id), JSON.stringify(payload), {
+      contentType: "application/json",
+    });
 
     const index = (await store.get(keyIndex(uid), { type: "json" })) || [];
     const nextItem = {
@@ -67,17 +68,26 @@ export default async (req, context) => {
     };
 
     const i = index.findIndex((x) => x.id === id);
-    if (i >= 0) index[i] = nextItem; else index.unshift(nextItem);
-    await store.set(keyIndex(uid), JSON.stringify(index), { contentType: "application/json" });
+    if (i >= 0) index[i] = nextItem;
+    else index.unshift(nextItem);
+
+    await store.set(keyIndex(uid), JSON.stringify(index), {
+      contentType: "application/json",
+    });
 
     return json(200, { ok: true, quiz: payload });
   }
 
-  if (req.method === "DELETE"){
+  if (req.method === "DELETE") {
     await store.delete(keyQuiz(uid, id));
+
     const index = (await store.get(keyIndex(uid), { type: "json" })) || [];
     const next = index.filter((x) => x.id !== id);
-    await store.set(keyIndex(uid), JSON.stringify(next), { contentType: "application/json" });
+
+    await store.set(keyIndex(uid), JSON.stringify(next), {
+      contentType: "application/json",
+    });
+
     return json(200, { ok: true });
   }
 
