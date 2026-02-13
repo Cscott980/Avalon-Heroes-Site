@@ -1,4 +1,4 @@
 [build]
-  base = "avalon-heroes-site"
+  command = "npm install"
   publish = "avalon-heroes-site"
   functions = "avalon-heroes-site/netlify/functions"
