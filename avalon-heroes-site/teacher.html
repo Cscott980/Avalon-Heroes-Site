@@ -99,7 +99,7 @@
             </div>
           </div>
           <p class="dash-muted" style="margin-top:12px;">
-            Questions? <a href="/cdn-cgi/l/email-protection#500b091f05027d151d11191c10141f1d11191e7e131f1d0d" style="color:#73f7ff;">Contact us</a> &nbsp;·&nbsp;
+            Questions? <a href="/cdn-cgi/l/email-protection#580301170d0a751d15191114181c1715191116761b171505" style="color:#73f7ff;">Contact us</a> &nbsp;·&nbsp;
             <a href="privacy.html" style="color:#73f7ff;">Privacy Policy</a> &nbsp;·&nbsp;
             <a href="terms.html" style="color:#73f7ff;">Terms of Service</a>
           </p>
@@ -342,10 +342,11 @@
 
     window.netlifyIdentity.on("login", (user) => {
       _currentUser = user;
-      user.jwt().then(() => loadQuizIndex()).catch(() => loadQuizIndex());
+      window.location.reload();
     });
 
     window.netlifyIdentity.init();
+
   })();
   </script>
 </body>
