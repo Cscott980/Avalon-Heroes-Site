@@ -27,6 +27,12 @@
       --d-glow:  rgba(6, 214, 160, .30);
     }
 
+    /* ── Lock body to viewport — prevents scrollbar fighting 100vh ── */
+    body {
+      overflow: hidden;
+      height: 100vh;
+    }
+
     /* ── Full-page layout ── */
     .builder-shell {
       display: grid;
