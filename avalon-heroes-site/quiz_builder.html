@@ -6,31 +6,48 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Quiz Builder — Avalon Heroes</title>
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/dash_style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
   <style>
-    /* ── Full-page builder layout ── */
+    /* ── Answer accent colours ─────────────────────────────────
+       A = Ruby   B = Sapphire   C = Amber   D = Emerald        */
+    :root {
+      --a-color: #FF6B6B;
+      --a-bg:    rgba(255, 107, 107, .12);
+      --a-glow:  rgba(255, 107, 107, .30);
+      --b-color: #4FACF7;
+      --b-bg:    rgba(79, 172, 247, .12);
+      --b-glow:  rgba(79, 172, 247, .30);
+      --c-color: #FFD166;
+      --c-bg:    rgba(255, 209, 102, .12);
+      --c-glow:  rgba(255, 209, 102, .30);
+      --d-color: #06D6A0;
+      --d-bg:    rgba(6, 214, 160, .12);
+      --d-glow:  rgba(6, 214, 160, .30);
+    }
+
+    /* ── Full-page layout ── */
     .builder-shell {
       display: grid;
-      grid-template-rows: auto 1fr;
+      grid-template-rows: 64px 1fr;
       height: 100vh;
       overflow: hidden;
       position: relative;
       z-index: 1;
     }
 
-    /* ── Top bar ── */
+    /* ════════════════════════════════════════════════════════════
+       TOP BAR
+    ════════════════════════════════════════════════════════════ */
     .builder-topbar {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 18px;
-      border-bottom: 2px solid rgba(255,255,255,.14);
-      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.09));
-      backdrop-filter: blur(16px);
-      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0 18px;
+      border-bottom: 2px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.30);
+      backdrop-filter: blur(20px);
       flex-shrink: 0;
     }
 
@@ -38,73 +55,139 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 9px 14px;
+      padding: 8px 14px;
       border-radius: 999px;
-      border: 2px solid rgba(255,255,255,.22);
-      background: rgba(255,255,255,.10);
-      color: rgba(246,251,255,.95);
+      border: 2px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.08);
+      color: rgba(246,251,255,.90);
       font-weight: 900;
       font-size: 13px;
       cursor: pointer;
-      backdrop-filter: blur(10px);
-      transition: background .12s, transform .12s;
       text-decoration: none;
       white-space: nowrap;
+      transition: background .12s, transform .1s;
     }
-    .builder-back:hover { background: rgba(255,255,255,.16); transform: translateY(-1px); text-decoration: none; }
+    .builder-back:hover { background: rgba(255,255,255,.14); transform: translateX(-2px); text-decoration: none; }
 
     .builder-title-wrap {
       flex: 1;
       min-width: 0;
     }
     .builder-page-title {
-      font-family: 'TitanOne', system-ui, sans-serif;
-      font-size: 18px;
+      font-family: 'Titan One', system-ui, sans-serif;
+      font-size: 17px;
       color: #fff;
-      -webkit-text-stroke: 4px rgba(20,55,120,0.70);
+      -webkit-text-stroke: 3px rgba(20,55,120,0.65);
       paint-order: stroke fill;
-      text-shadow: 0 4px 0 rgba(10,35,85,0.30);
+      text-shadow: 0 3px 0 rgba(10,35,85,0.30);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      line-height: 1.2;
     }
     .builder-page-sub {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 800;
-      color: rgba(246,251,255,.70);
+      color: rgba(246,251,255,.55);
       margin-top: 1px;
     }
 
     .builder-topbar-actions {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
-      flex-wrap: wrap;
     }
 
-    /* ── Main 3-col layout ── */
+    /* ── Shared button base ── */
+    .dash-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.08);
+      color: rgba(246,251,255,.92);
+      font-weight: 900;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background .12s, transform .1s, box-shadow .12s;
+      white-space: nowrap;
+    }
+    .dash-btn:hover:not(:disabled) { background: rgba(255,255,255,.14); transform: translateY(-1px); }
+    .dash-btn:active:not(:disabled) { transform: translateY(0); }
+    .dash-btn:disabled { opacity: .45; cursor: not-allowed; }
+
+    .dash-btn.primary {
+      border-color: rgba(79,246,255,.55);
+      background: rgba(79,246,255,.18);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(79,246,255,.18);
+    }
+    .dash-btn.primary:hover:not(:disabled) {
+      background: rgba(79,246,255,.28);
+      box-shadow: 0 0 20px rgba(79,246,255,.30);
+    }
+
+    .btn-danger {
+      border-color: rgba(255,100,100,.35) !important;
+      background: rgba(255,80,80,.10) !important;
+      color: #ffaaaa !important;
+    }
+    .btn-danger:hover:not(:disabled) { background: rgba(255,80,80,.20) !important; }
+
+    /* Save status */
+    .save-status {
+      font-size: 13px;
+      font-weight: 900;
+      color: rgba(246,251,255,.55);
+      min-width: 80px;
+      text-align: right;
+    }
+    .save-status.saved { color: #06D6A0; }
+    .save-status.error { color: #FF6B6B; }
+
+    /* Unsaved dot */
+    .unsaved-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #FFD166;
+      margin-left: 5px;
+      vertical-align: middle;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .unsaved-dot.visible { opacity: 1; }
+
+    /* ════════════════════════════════════════════════════════════
+       MAIN 3-COLUMN BODY
+    ════════════════════════════════════════════════════════════ */
     .builder-body {
       display: grid;
-      grid-template-columns: 240px 1fr 280px;
+      grid-template-columns: 220px 1fr 260px;
       overflow: hidden;
+      min-height: 0;
     }
 
     @media (max-width: 1100px) {
-      .builder-body { grid-template-columns: 210px 1fr; }
+      .builder-body { grid-template-columns: 200px 1fr; }
       .builder-meta-panel { display: none; }
     }
-    @media (max-width: 720px) {
-      .builder-body { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+    @media (max-width: 700px) {
+      .builder-body { grid-template-columns: 1fr; }
       .builder-sidebar { display: none; }
-      .builder-sidebar.mobile-open { display: flex; position: fixed; inset: 0; z-index: 100; }
     }
 
-    /* ── LEFT: question list sidebar ── */
+    /* ════════════════════════════════════════════════════════════
+       LEFT SIDEBAR — Question list
+    ════════════════════════════════════════════════════════════ */
     .builder-sidebar {
       display: flex;
       flex-direction: column;
-      border-right: 2px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.10);
+      border-right: 2px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
       overflow: hidden;
     }
 
@@ -112,265 +195,418 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      padding: 14px 14px 10px;
-      border-bottom: 1px solid rgba(255,255,255,.10);
+      padding: 14px 12px 10px;
+      border-bottom: 2px solid rgba(255,255,255,.08);
       flex-shrink: 0;
     }
     .sidebar-head-title {
+      font-size: 11px;
       font-weight: 1000;
-      font-size: 13px;
-      color: rgba(246,251,255,.80);
       text-transform: uppercase;
-      letter-spacing: .6px;
+      letter-spacing: .8px;
+      color: rgba(246,251,255,.50);
     }
 
     .q-list {
       flex: 1;
       overflow-y: auto;
-      padding: 8px;
+      padding: 8px 8px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
-    /* subtle scrollbar */
     .q-list::-webkit-scrollbar { width: 4px; }
     .q-list::-webkit-scrollbar-track { background: transparent; }
-    .q-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,.18); border-radius: 4px; }
+    .q-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 4px; }
 
+    /* Question thumbnail card */
     .q-item {
       width: 100%;
       display: flex;
       align-items: flex-start;
-      gap: 10px;
+      gap: 9px;
       padding: 10px 10px;
       border-radius: 12px;
-      border: 2px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      color: rgba(246,251,255,.90);
+      border: 2px solid transparent;
+      background: rgba(255,255,255,.05);
+      color: rgba(246,251,255,.85);
       cursor: pointer;
       text-align: left;
       transition: background .1s, border-color .1s;
     }
-    .q-item:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.18); }
+    .q-item:hover { background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.12); }
     .q-item.active {
-      border-color: rgba(79,246,255,.55);
+      border-color: rgba(79,246,255,.50);
       background: rgba(79,246,255,.10);
     }
+
     .q-item-num {
       flex-shrink: 0;
-      width: 24px;
-      height: 24px;
-      border-radius: 999px;
-      background: rgba(0,0,0,.22);
-      border: 2px solid rgba(255,255,255,.14);
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: rgba(0,0,0,.28);
+      border: 2px solid rgba(255,255,255,.12);
       display: grid;
       place-items: center;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 1000;
+      color: rgba(246,251,255,.70);
     }
     .q-item.active .q-item-num {
-      background: rgba(79,246,255,.25);
+      background: rgba(79,246,255,.22);
       border-color: rgba(79,246,255,.55);
+      color: #4ff6ff;
     }
     .q-item-text {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 900;
       line-height: 1.4;
-      overflow: hidden;
       display: -webkit-box;
-      line-clamp: 2;
       -webkit-line-clamp: 2;
+      line-clamp: 2;
       -webkit-box-orient: vertical;
+      overflow: hidden;
     }
     .q-item-hint {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
-      opacity: .65;
+      color: rgba(246,251,255,.40);
       margin-top: 2px;
     }
 
     .sidebar-foot {
       padding: 8px;
-      border-top: 1px solid rgba(255,255,255,.10);
+      border-top: 2px solid rgba(255,255,255,.08);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
       flex-shrink: 0;
     }
+    .sidebar-foot .dash-btn { border-radius: 12px; justify-content: center; }
 
-    /* ── CENTRE: question editor ── */
+    /* ════════════════════════════════════════════════════════════
+       CENTRE — Question editor
+    ════════════════════════════════════════════════════════════ */
     .builder-editor {
       overflow-y: auto;
-      padding: 22px 28px;
+      padding: 20px 24px 32px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
     .builder-editor::-webkit-scrollbar { width: 4px; }
-    .builder-editor::-webkit-scrollbar-thumb { background: rgba(255,255,255,.18); border-radius: 4px; }
+    .builder-editor::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 4px; }
 
+    /* Generic editor card */
     .editor-card {
       border-radius: 18px;
-      border: 2px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.07);
-      padding: 20px 22px;
+      border: 2px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(10px);
+      padding: 18px 20px;
     }
 
     .editor-card-title {
+      font-size: 10px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: rgba(246,251,255,.45);
+      margin-bottom: 14px;
+    }
+
+    /* ── Quiz details card ── */
+    .builder-label {
+      display: block;
       font-size: 11px;
       font-weight: 1000;
       text-transform: uppercase;
-      letter-spacing: .7px;
-      color: rgba(246,251,255,.60);
-      margin-bottom: 12px;
-    }
-
-    .qnum-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-    .qnum-badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 7px 14px;
-      border-radius: 999px;
-      border: 2px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.22);
-      font-weight: 1000;
-      font-size: 14px;
-    }
-    .qnum-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-
-    .builder-label {
-      display: block;
-      font-size: 12px;
-      font-weight: 1000;
-      text-transform: uppercase;
       letter-spacing: .5px;
-      color: rgba(246,251,255,.65);
+      color: rgba(246,251,255,.55);
       margin-bottom: 6px;
     }
-
     .builder-input {
       width: 100%;
-      padding: 12px 14px;
+      padding: 11px 14px;
       border-radius: 12px;
-      border: 2px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.22);
+      border: 2px solid rgba(255,255,255,.15);
+      background: rgba(0,0,0,.25);
       color: rgba(246,251,255,.95);
       font-weight: 900;
       font-size: 15px;
       outline: none;
       transition: border-color .12s;
     }
-    .builder-input:focus { border-color: rgba(79,246,255,.55); }
+    .builder-input:focus { border-color: rgba(79,246,255,.50); }
+
+    /* ── Question card (Kahoot-style) ── */
+    .question-card {
+      border-radius: 18px;
+      border: 2px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+
+    .question-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      background: rgba(0,0,0,.20);
+      border-bottom: 2px solid rgba(255,255,255,.08);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .qnum-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(79,246,255,.16);
+      border: 2px solid rgba(79,246,255,.40);
+      font-weight: 1000;
+      font-size: 13px;
+      color: #4ff6ff;
+    }
+
+    .qnum-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .question-card-body {
+      padding: 18px 20px 20px;
+    }
 
     .builder-textarea {
       width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      border: 2px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.22);
-      color: rgba(246,251,255,.95);
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 2px solid rgba(255,255,255,.15);
+      background: rgba(0,0,0,.25);
+      color: rgba(246,251,255,.97);
       font-weight: 900;
-      font-size: 16px;
+      font-size: 17px;
       outline: none;
-      resize: vertical;
-      min-height: 90px;
+      resize: none;
+      min-height: 100px;
       line-height: 1.55;
       transition: border-color .12s;
     }
-    .builder-textarea:focus { border-color: rgba(79,246,255,.55); }
+    .builder-textarea:focus { border-color: rgba(79,246,255,.50); }
+    .builder-textarea::placeholder { color: rgba(246,251,255,.28); font-size: 15px; }
 
-    /* ── Answer grid ── */
+    /* ════════════════════════════════════════════════════════════
+       ANSWER GRID — Kahoot-style 4 coloured boxes
+    ════════════════════════════════════════════════════════════ */
+    .answers-section {
+      border-radius: 18px;
+      border: 2px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      overflow: hidden;
+    }
+
+    .answers-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      background: rgba(0,0,0,.18);
+      border-bottom: 2px solid rgba(255,255,255,.08);
+    }
+    .answers-section-title {
+      font-size: 10px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: rgba(246,251,255,.45);
+    }
+    .answers-section-hint {
+      font-size: 11px;
+      font-weight: 800;
+      color: rgba(246,251,255,.40);
+    }
+
     .answers-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 4px;
+      gap: 10px;
+      padding: 14px;
     }
     @media (max-width: 860px) { .answers-grid { grid-template-columns: 1fr; } }
 
+    /* Individual answer card */
     .answer-card {
       border-radius: 14px;
-      border: 2px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.16);
-      padding: 12px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      transition: border-color .12s;
-    }
-    .answer-card.is-correct {
-      border-color: rgba(79,246,255,.45);
-      background: rgba(79,246,255,.07);
+      border: 2px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      overflow: hidden;
+      transition: border-color .15s, background .15s, box-shadow .15s;
     }
 
+    /* Coloured top strip per answer */
+    .answer-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-bottom: 2px solid rgba(255,255,255,.06);
+    }
+    .answer-shape {
+      font-size: 14px;
+      line-height: 1;
+    }
     .answer-letter {
       font-size: 11px;
       font-weight: 1000;
       text-transform: uppercase;
       letter-spacing: .5px;
-      color: rgba(246,251,255,.50);
+      flex: 1;
     }
-    .answer-card.is-correct .answer-letter { color: rgba(79,246,255,.85); }
+    .answer-correct-badge {
+      font-size: 11px;
+      font-weight: 900;
+      opacity: 0;
+      transition: opacity .2s;
+      color: #fff;
+    }
+
+    .answer-card-body {
+      padding: 10px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
 
     .answer-input {
       width: 100%;
-      padding: 10px 12px;
+      padding: 9px 12px;
       border-radius: 10px;
-      border: 2px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
+      border: 2px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
       color: rgba(246,251,255,.95);
       font-weight: 900;
       font-size: 14px;
       outline: none;
       transition: border-color .12s;
     }
-    .answer-input:focus { border-color: rgba(79,246,255,.45); }
+    .answer-input:focus { border-color: rgba(255,255,255,.30); }
 
     .answer-check-row {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 900;
-      color: rgba(246,251,255,.80);
+      color: rgba(246,251,255,.65);
       cursor: pointer;
       user-select: none;
+      padding: 4px 2px;
     }
-    .answer-check-row input[type="checkbox"] { transform: scale(1.2); accent-color: #4ff6ff; }
+    .answer-check-row input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
 
-    /* ── Settings row ── */
+    /* ── Per-answer colour themes ── */
+    /* A — Ruby */
+    .answer-card[data-i="0"] .answer-card-header { background: var(--a-bg); border-bottom-color: var(--a-glow); }
+    .answer-card[data-i="0"] .answer-letter,
+    .answer-card[data-i="0"] .answer-shape { color: var(--a-color); }
+    .answer-card[data-i="0"] .answer-input:focus { border-color: var(--a-color); }
+    .answer-card[data-i="0"] .answer-check-row input { accent-color: var(--a-color); }
+
+    /* B — Sapphire */
+    .answer-card[data-i="1"] .answer-card-header { background: var(--b-bg); border-bottom-color: var(--b-glow); }
+    .answer-card[data-i="1"] .answer-letter,
+    .answer-card[data-i="1"] .answer-shape { color: var(--b-color); }
+    .answer-card[data-i="1"] .answer-input:focus { border-color: var(--b-color); }
+    .answer-card[data-i="1"] .answer-check-row input { accent-color: var(--b-color); }
+
+    /* C — Amber */
+    .answer-card[data-i="2"] .answer-card-header { background: var(--c-bg); border-bottom-color: var(--c-glow); }
+    .answer-card[data-i="2"] .answer-letter,
+    .answer-card[data-i="2"] .answer-shape { color: var(--c-color); }
+    .answer-card[data-i="2"] .answer-input:focus { border-color: var(--c-color); }
+    .answer-card[data-i="2"] .answer-check-row input { accent-color: var(--c-color); }
+
+    /* D — Emerald */
+    .answer-card[data-i="3"] .answer-card-header { background: var(--d-bg); border-bottom-color: var(--d-glow); }
+    .answer-card[data-i="3"] .answer-letter,
+    .answer-card[data-i="3"] .answer-shape { color: var(--d-color); }
+    .answer-card[data-i="3"] .answer-input:focus { border-color: var(--d-color); }
+    .answer-card[data-i="3"] .answer-check-row input { accent-color: var(--d-color); }
+
+    /* ── Correct state — vivid highlight ── */
+    .answer-card[data-i="0"].is-correct {
+      border-color: var(--a-color);
+      background: rgba(255,107,107,.08);
+      box-shadow: 0 0 16px var(--a-glow);
+    }
+    .answer-card[data-i="1"].is-correct {
+      border-color: var(--b-color);
+      background: rgba(79,172,247,.08);
+      box-shadow: 0 0 16px var(--b-glow);
+    }
+    .answer-card[data-i="2"].is-correct {
+      border-color: var(--c-color);
+      background: rgba(255,209,102,.08);
+      box-shadow: 0 0 16px var(--c-glow);
+    }
+    .answer-card[data-i="3"].is-correct {
+      border-color: var(--d-color);
+      background: rgba(6,214,160,.08);
+      box-shadow: 0 0 16px var(--d-glow);
+    }
+    .answer-card.is-correct .answer-correct-badge { opacity: 1; }
+
+    /* ════════════════════════════════════════════════════════════
+       QUESTION SETTINGS card
+    ════════════════════════════════════════════════════════════ */
     .settings-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 14px;
     }
     @media (max-width: 640px) { .settings-row { grid-template-columns: 1fr; } }
 
-    /* ── RIGHT: quiz meta panel ── */
-    .builder-meta-panel {
-      border-left: 2px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.08);
-      overflow-y: auto;
-      padding: 18px 16px;
+    .settings-field-label {
       display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .meta-section-title {
-      font-size: 11px;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
       font-weight: 1000;
       text-transform: uppercase;
-      letter-spacing: .6px;
-      color: rgba(246,251,255,.55);
+      letter-spacing: .5px;
+      color: rgba(246,251,255,.50);
+      margin-bottom: 8px;
+    }
+    .settings-field-icon { font-size: 16px; }
+
+    /* ════════════════════════════════════════════════════════════
+       RIGHT — Meta / summary panel
+    ════════════════════════════════════════════════════════════ */
+    .builder-meta-panel {
+      border-left: 2px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.14);
+      overflow-y: auto;
+      padding: 18px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .builder-meta-panel::-webkit-scrollbar { width: 4px; }
+    .builder-meta-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 4px; }
+
+    .meta-section-title {
+      font-size: 10px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: rgba(246,251,255,.40);
       margin-bottom: 10px;
     }
 
@@ -379,12 +615,12 @@
       justify-content: space-between;
       align-items: center;
       padding: 10px 12px;
-      border-radius: 10px;
-      border: 2px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.14);
+      border-radius: 12px;
+      border: 2px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.18);
       font-size: 13px;
       font-weight: 900;
-      color: rgba(246,251,255,.85);
+      color: rgba(246,251,255,.70);
       margin-bottom: 6px;
     }
     .meta-stat-val {
@@ -393,35 +629,25 @@
     }
 
     .meta-tip {
-      padding: 12px;
+      padding: 11px 12px;
       border-radius: 12px;
-      border: 2px solid rgba(79,246,255,.20);
-      background: rgba(79,246,255,.06);
-      font-size: 13px;
+      border: 2px solid rgba(79,246,255,.14);
+      background: rgba(79,246,255,.05);
+      font-size: 12px;
       font-weight: 800;
-      color: rgba(246,251,255,.80);
-      line-height: 1.55;
-    }
-    .meta-tip strong { color: rgba(79,246,255,.95); }
-
-    /* ── Save status toast (inline, not floating) ── */
-    .save-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      font-weight: 900;
       color: rgba(246,251,255,.70);
-      transition: color .2s;
+      line-height: 1.55;
+      margin-bottom: 6px;
     }
-    .save-status.saved { color: #4ff6ff; }
-    .save-status.error { color: #ff7070; }
+    .meta-tip strong { color: rgba(79,246,255,.90); }
 
-    /* ── Loading overlay ── */
+    /* ════════════════════════════════════════════════════════════
+       LOADING OVERLAY
+    ════════════════════════════════════════════════════════════ */
     .builder-loading {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.55);
+      background: rgba(0,0,0,.60);
       display: grid;
       place-items: center;
       z-index: 200;
@@ -430,14 +656,16 @@
     .builder-spinner {
       width: 48px;
       height: 48px;
-      border: 4px solid rgba(255,255,255,.15);
+      border: 4px solid rgba(255,255,255,.12);
       border-top-color: #4ff6ff;
       border-radius: 50%;
       animation: spin .7s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Delete confirm modal ── */
+    /* ════════════════════════════════════════════════════════════
+       DELETE CONFIRM MODAL
+    ════════════════════════════════════════════════════════════ */
     .confirm-modal {
       position: fixed;
       inset: 0;
@@ -451,36 +679,22 @@
     .confirm-backdrop {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,.65);
+      background: rgba(0,0,0,.70);
     }
     .confirm-panel {
       position: relative;
       width: min(420px, 100%);
-      padding: 24px;
+      padding: 26px 24px;
       border-radius: 20px;
-      border: 2px solid rgba(255,255,255,.20);
-      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.10));
-      backdrop-filter: blur(16px);
-      box-shadow: 0 24px 70px rgba(0,0,0,.45);
+      border: 2px solid rgba(255,100,100,.25);
+      background: linear-gradient(160deg, rgba(40,15,15,.95), rgba(20,10,10,.98));
+      backdrop-filter: blur(20px);
+      box-shadow: 0 24px 70px rgba(0,0,0,.55), 0 0 40px rgba(255,80,80,.08);
       color: rgba(246,251,255,.95);
     }
-    .confirm-title { font-weight: 1000; font-size: 18px; margin-bottom: 8px; }
-    .confirm-body { font-size: 14px; font-weight: 800; opacity: .85; margin-bottom: 18px; line-height: 1.55; }
+    .confirm-title { font-weight: 1000; font-size: 19px; margin-bottom: 8px; color: #FF6B6B; }
+    .confirm-body { font-size: 14px; font-weight: 800; opacity: .80; margin-bottom: 20px; line-height: 1.6; }
     .confirm-actions { display: flex; gap: 10px; justify-content: flex-end; }
-
-    /* ── Unsaved changes indicator ── */
-    .unsaved-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #ffd56a;
-      margin-left: 6px;
-      vertical-align: middle;
-      opacity: 0;
-      transition: opacity .2s;
-    }
-    .unsaved-dot.visible { opacity: 1; }
   </style>
 </head>
 
@@ -495,14 +709,11 @@
   <div class="confirm-modal" id="confirmDelete" role="dialog" aria-modal="true" aria-label="Confirm delete">
     <div class="confirm-backdrop"></div>
     <div class="confirm-panel">
-      <div class="confirm-title">Delete this quiz?</div>
+      <div class="confirm-title">🗑 Delete this quiz?</div>
       <div class="confirm-body">This cannot be undone. All questions and answers will be permanently removed.</div>
       <div class="confirm-actions">
         <button class="dash-btn" id="btnCancelDelete" type="button">Cancel</button>
-        <button class="dash-btn" id="btnConfirmDelete" type="button"
-          style="border-color:rgba(255,100,100,.40); background:rgba(255,80,80,.15); color:#ffaaaa;">
-          Delete Quiz
-        </button>
+        <button class="dash-btn btn-danger" id="btnConfirmDelete" type="button">Delete Quiz</button>
       </div>
     </div>
   </div>
@@ -522,22 +733,19 @@
 
       <div class="builder-topbar-actions">
         <span class="save-status" id="saveStatus"></span>
-        <button class="dash-btn" id="btnDeleteQuiz" type="button"
-          style="border-color:rgba(255,100,100,.30); color:rgba(255,160,160,.90);" title="Delete this quiz">
-          🗑 Delete
-        </button>
-        <button class="dash-btn primary" id="btnSaveQuiz" type="button">Save Quiz</button>
+        <button class="dash-btn btn-danger" id="btnDeleteQuiz" type="button" title="Delete this quiz">🗑 Delete</button>
+        <button class="dash-btn primary" id="btnSaveQuiz" type="button">💾 Save Quiz</button>
       </div>
     </header>
 
     <!-- ══════════ MAIN BODY ══════════ -->
     <div class="builder-body">
 
-      <!-- LEFT: question list -->
+      <!-- ── LEFT: question list sidebar ── -->
       <aside class="builder-sidebar" aria-label="Question list">
         <div class="sidebar-head">
           <span class="sidebar-head-title">Questions</span>
-          <button class="dash-btn" id="btnAddQuestion" type="button" style="padding:6px 10px; font-size:12px;">+ Add</button>
+          <button class="dash-btn" id="btnAddQuestion" type="button" style="padding:5px 11px; font-size:12px; border-radius:10px;">+ Add</button>
         </div>
 
         <div class="q-list" id="qList" role="list"></div>
@@ -548,97 +756,136 @@
         </div>
       </aside>
 
-      <!-- CENTRE: editor -->
+      <!-- ── CENTRE: question editor ── -->
       <div class="builder-editor" id="builderEditor">
 
-        <!-- Quiz meta -->
+        <!-- Quiz details -->
         <div class="editor-card">
-          <div class="editor-card-title">Quiz Details</div>
+          <div class="editor-card-title">📋 Quiz Details</div>
           <label class="builder-label" for="quizTitle">Title</label>
           <input id="quizTitle" class="builder-input" type="text" maxlength="80"
                  placeholder="e.g. Unit 3 — Food &amp; Health" />
-
-          <label class="builder-label" style="margin-top:14px;" for="quizDesc">Description <span style="font-weight:800;opacity:.6;">(optional, not shown to students)</span></label>
+          <label class="builder-label" style="margin-top:14px;" for="quizDesc">
+            Description <span style="font-weight:800;opacity:.5;">(optional — not shown to students)</span>
+          </label>
           <input id="quizDesc" class="builder-input" type="text" maxlength="160"
                  placeholder="A short note for yourself…" />
         </div>
 
-        <!-- Question editor -->
-        <div class="editor-card">
-          <div class="qnum-row">
+        <!-- Question editor (Kahoot-style card) -->
+        <div class="question-card">
+          <div class="question-card-header">
             <span class="qnum-badge" id="qBadge">Q1</span>
             <div class="qnum-actions">
               <button class="dash-btn" id="btnDuplicateQuestionMain" type="button">⧉ Duplicate</button>
               <button class="dash-btn" id="btnRemoveQuestionMain" type="button">− Remove</button>
             </div>
           </div>
-
-          <label class="builder-label" for="qPrompt">Question prompt</label>
-          <textarea id="qPrompt" class="builder-textarea" maxlength="300"
-                    placeholder="Type your question here…"></textarea>
+          <div class="question-card-body">
+            <label class="builder-label" for="qPrompt">Question prompt</label>
+            <textarea id="qPrompt" class="builder-textarea" maxlength="300"
+                      placeholder="Type your question here…"></textarea>
+          </div>
         </div>
 
-        <!-- Answers -->
-        <div class="editor-card">
-          <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px;">
-            <div class="editor-card-title" style="margin:0;">Answers</div>
-            <span style="font-size:12px; font-weight:800; color:rgba(246,251,255,.55);">Tick all correct answers</span>
+        <!-- Answers (Kahoot-style coloured boxes) -->
+        <div class="answers-section">
+          <div class="answers-section-header">
+            <span class="answers-section-title">✏️ Answers</span>
+            <span class="answers-section-hint">Tick all correct answers</span>
           </div>
 
           <div class="answers-grid" id="answersGrid">
+
+            <!-- A — Ruby / Triangle -->
             <div class="answer-card" data-i="0">
-              <div class="answer-letter">A</div>
-              <input class="answer-input ansText" type="text" maxlength="120" placeholder="Answer A" />
-              <label class="answer-check-row">
-                <input type="checkbox" class="ansCorrect" />
-                <span>Mark as correct</span>
-              </label>
+              <div class="answer-card-header">
+                <span class="answer-shape">▲</span>
+                <span class="answer-letter">A</span>
+                <span class="answer-correct-badge">✓ Correct</span>
+              </div>
+              <div class="answer-card-body">
+                <input class="answer-input ansText" type="text" maxlength="120" placeholder="Answer A" />
+                <label class="answer-check-row">
+                  <input type="checkbox" class="ansCorrect" />
+                  <span>Mark as correct</span>
+                </label>
+              </div>
             </div>
+
+            <!-- B — Sapphire / Diamond -->
             <div class="answer-card" data-i="1">
-              <div class="answer-letter">B</div>
-              <input class="answer-input ansText" type="text" maxlength="120" placeholder="Answer B" />
-              <label class="answer-check-row">
-                <input type="checkbox" class="ansCorrect" />
-                <span>Mark as correct</span>
-              </label>
+              <div class="answer-card-header">
+                <span class="answer-shape">◆</span>
+                <span class="answer-letter">B</span>
+                <span class="answer-correct-badge">✓ Correct</span>
+              </div>
+              <div class="answer-card-body">
+                <input class="answer-input ansText" type="text" maxlength="120" placeholder="Answer B" />
+                <label class="answer-check-row">
+                  <input type="checkbox" class="ansCorrect" />
+                  <span>Mark as correct</span>
+                </label>
+              </div>
             </div>
+
+            <!-- C — Amber / Circle -->
             <div class="answer-card" data-i="2">
-              <div class="answer-letter">C</div>
-              <input class="answer-input ansText" type="text" maxlength="120" placeholder="Answer C" />
-              <label class="answer-check-row">
-                <input type="checkbox" class="ansCorrect" />
-                <span>Mark as correct</span>
-              </label>
+              <div class="answer-card-header">
+                <span class="answer-shape">●</span>
+                <span class="answer-letter">C</span>
+                <span class="answer-correct-badge">✓ Correct</span>
+              </div>
+              <div class="answer-card-body">
+                <input class="answer-input ansText" type="text" maxlength="120" placeholder="Answer C" />
+                <label class="answer-check-row">
+                  <input type="checkbox" class="ansCorrect" />
+                  <span>Mark as correct</span>
+                </label>
+              </div>
             </div>
+
+            <!-- D — Emerald / Square -->
             <div class="answer-card" data-i="3">
-              <div class="answer-letter">D</div>
-              <input class="answer-input ansText" type="text" maxlength="120" placeholder="Answer D" />
-              <label class="answer-check-row">
-                <input type="checkbox" class="ansCorrect" />
-                <span>Mark as correct</span>
-              </label>
+              <div class="answer-card-header">
+                <span class="answer-shape">■</span>
+                <span class="answer-letter">D</span>
+                <span class="answer-correct-badge">✓ Correct</span>
+              </div>
+              <div class="answer-card-body">
+                <input class="answer-input ansText" type="text" maxlength="120" placeholder="Answer D" />
+                <label class="answer-check-row">
+                  <input type="checkbox" class="ansCorrect" />
+                  <span>Mark as correct</span>
+                </label>
+              </div>
             </div>
+
           </div>
         </div>
 
         <!-- Per-question settings -->
         <div class="editor-card">
-          <div class="editor-card-title">Question Settings</div>
+          <div class="editor-card-title">⚙️ Question Settings</div>
           <div class="settings-row">
             <div>
-              <label class="builder-label" for="qTimeLimit">Time limit (seconds)</label>
+              <div class="settings-field-label">
+                <span class="settings-field-icon">⏱</span> Time limit (seconds)
+              </div>
               <input id="qTimeLimit" class="builder-input" type="number" min="5" max="300" step="5" value="20" />
             </div>
             <div>
-              <label class="builder-label" for="qPoints">Points</label>
+              <div class="settings-field-label">
+                <span class="settings-field-icon">⭐</span> Points
+              </div>
               <input id="qPoints" class="builder-input" type="number" min="0" max="2000" step="50" value="100" />
             </div>
           </div>
         </div>
 
-      </div>
+      </div><!-- /.builder-editor -->
 
-      <!-- RIGHT: quiz summary panel -->
+      <!-- ── RIGHT: quiz summary panel ── -->
       <aside class="builder-meta-panel" aria-label="Quiz summary">
         <div>
           <div class="meta-section-title">Quiz Summary</div>
@@ -656,13 +903,13 @@
         <div>
           <div class="meta-section-title">Tips</div>
           <div class="meta-tip">
-            <strong>Multi-select</strong> — tick more than one correct answer for harder questions.
+            <strong>Multi-select</strong> — tick more than one answer to make a harder question.
           </div>
-          <div class="meta-tip" style="margin-top:8px;">
+          <div class="meta-tip">
             <strong>Time limit</strong> — 15–30 seconds works well for most classroom questions.
           </div>
-          <div class="meta-tip" style="margin-top:8px;">
-            <strong>Save often</strong> — use the Save button at the top or press <strong>Ctrl+S</strong>.
+          <div class="meta-tip">
+            <strong>Save often</strong> — press <strong>Ctrl+S</strong> or use the Save button above.
           </div>
         </div>
       </aside>
@@ -1009,7 +1256,7 @@
         alert("Could not save quiz. Please try again.");
       } finally {
         btnSaveQuiz.disabled = false;
-        btnSaveQuiz.textContent = "Save Quiz";
+        btnSaveQuiz.textContent = "💾 Save Quiz";
       }
     }
 

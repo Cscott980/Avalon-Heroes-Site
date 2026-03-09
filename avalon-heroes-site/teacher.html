@@ -231,7 +231,7 @@
       }
 
       quizListEl.innerHTML = filtered.map(item => `
-        <a class="quiz-row" href="quiz-builder.html?id=${encodeURIComponent(item.id)}">
+        <a class="quiz-row" href="quiz_builder.html?id=${encodeURIComponent(item.id)}">
           <div class="quiz-row-main">
             <div class="quiz-row-title">${escapeHtml(item.title || "Untitled Quiz")}</div>
             <div class="quiz-row-sub">${escapeHtml(item.description || "—")}</div>

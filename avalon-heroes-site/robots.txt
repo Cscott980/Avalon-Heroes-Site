@@ -3,7 +3,7 @@ User-agent: *
 # Block private/authenticated pages from indexing
 Disallow: /teacher.html
 Disallow: /student.html
-Disallow: /quiz-builder.html
+Disallow: /quiz_builder.html
 Disallow: /signup.html
 
 # Allow all public pages
