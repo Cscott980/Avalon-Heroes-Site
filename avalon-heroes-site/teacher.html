@@ -111,7 +111,7 @@
             <h2>My Quizzes</h2>
             <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
               <span class="pill subtle" id="pillQuizStatus">Loading…</span>
-              <a class="dash-btn primary" href="quiz-builder.html">+ Create Quiz</a>
+              <a class="dash-btn primary" href="quiz_builder.html">+ Create Quiz</a>
             </div>
           </div>
           <div class="quiz-toolbar">
@@ -342,7 +342,10 @@
 
     window.netlifyIdentity.on("login", (user) => {
       _currentUser = user;
-      window.location.reload();
+      // Strip any token hash from the URL without triggering a full reload
+      if (window.location.hash) {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
     });
 
     window.netlifyIdentity.init();
