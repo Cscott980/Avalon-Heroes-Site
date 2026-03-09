@@ -32,7 +32,7 @@
         </div>
       </header>
 
-      <main class="dash-grid">
+      <div class="dash-grid">
         <section class="dash-card">
           <div class="card-head">
             <h2>Profile</h2>
@@ -84,23 +84,28 @@
           </div>
 
           <div class="quick-actions">
-            <button class="qa" type="button" disabled>
+            <div class="qa" style="display:flex; flex-direction:column; gap:8px; cursor:default; opacity:1;">
               <span class="qa-title">Join with Code</span>
               <span class="qa-desc">Enter a teacher session code</span>
-            </button>
+              <div style="display:flex; gap:8px; margin-top:4px;">
+                <input type="text" maxlength="8" placeholder="e.g. AV-1234" disabled title="Coming soon"
+                  style="flex:1; padding:8px 10px; border-radius:10px; border:2px solid rgba(255,255,255,.18); background:rgba(0,0,0,.20); color:rgba(246,251,255,.6); font-weight:900; font-size:13px; cursor:not-allowed;" />
+                <button disabled title="Coming soon"
+                  style="padding:8px 12px; border-radius:10px; border:2px solid rgba(255,255,255,.18); background:rgba(0,0,0,.18); color:rgba(246,251,255,.6); font-weight:900; cursor:not-allowed;">Join</button>
+              </div>
+            </div>
 
-            <button class="qa" type="button" disabled>
+            <button class="qa" type="button" disabled title="Coming soon">
               <span class="qa-title">Cosmetics</span>
               <span class="qa-desc">Preview your unlocks</span>
             </button>
 
-            <button class="qa" type="button" disabled>
+            <button class="qa" type="button" disabled title="Coming soon">
               <span class="qa-title">Account Settings</span>
               <span class="qa-desc">Role, privacy, preferences</span>
             </button>
           </div>
-        </section>
-      </main>
+        </div>
 
     </div>
   </main>
@@ -184,6 +189,14 @@
 
       modalUsername.value = meta.username || "";
 
+      // Show email verification banner if not confirmed
+      if (!user.confirmed_at) {
+        const banner = document.createElement("div");
+        banner.style.cssText = "margin-bottom:14px;padding:14px 18px;border-radius:16px;border:2px solid rgba(255,200,0,.35);background:rgba(255,200,0,.10);color:rgba(246,251,255,.95);font-size:14px;font-weight:900;display:flex;gap:12px;align-items:center;";
+        banner.innerHTML = `<span style="font-size:20px;">📧</span><span>Please check your email and verify your account to unlock all features.</span>`;
+        document.querySelector(".dash-shell").insertBefore(banner, document.querySelector(".dash-grid"));
+      }
+
       btnEditUsername.addEventListener("click", openModal);
 
       btnSaveUsername.addEventListener("click", async () => {
@@ -205,8 +218,16 @@
       });
     });
 
-    btnLogout.addEventListener("click", () => window.netlifyIdentity.logout());
-    window.netlifyIdentity.on("logout", () => window.location.href = "index.html");
+    btnLogout.addEventListener("click", () => {
+      if (!confirm("Sign out of Avalon Heroes?")) return;
+      window.netlifyIdentity.logout();
+    });
+    window.netlifyIdentity.on("logout", () => {
+      // Clean up any stale signup flow keys
+      localStorage.removeItem("pendingRole");
+      localStorage.removeItem("ageVerified");
+      window.location.href = "index.html";
+    });
     window.netlifyIdentity.init();
   </script>
 </body>

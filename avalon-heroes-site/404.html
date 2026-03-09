@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="assets/gem_icon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Page Not Found — Avalon Heroes</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+  <style>
+    .notfound-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 18px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .notfound-code {
+      font-family: 'TitanOne', system-ui, sans-serif;
+      font-size: clamp(80px, 18vw, 160px);
+      line-height: 1;
+      color: #fff;
+      -webkit-text-stroke: 10px rgba(20,55,120,0.75);
+      paint-order: stroke fill;
+      text-shadow:
+        0 8px 0 rgba(10,35,85,0.40),
+        0 16px 40px rgba(0,0,0,0.28),
+        0 0 60px rgba(79,246,255,0.18);
+      margin: 0 0 8px;
+      animation: floatCode 3.5s ease-in-out infinite;
+    }
+
+    @keyframes floatCode {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-12px); }
+    }
+
+    .notfound-gem {
+      width: clamp(60px, 12vw, 100px);
+      height: auto;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 12px 28px rgba(79,246,255,.35));
+      animation: floatGem 2.8s ease-in-out infinite;
+    }
+    @keyframes floatGem {
+      0%, 100% { transform: translateY(0) rotate(-4deg); }
+      50%       { transform: translateY(-10px) rotate(4deg); }
+    }
+
+    .notfound-title {
+      font-family: 'TitanOne', system-ui, sans-serif;
+      font-size: clamp(22px, 4vw, 36px);
+      color: #fff;
+      -webkit-text-stroke: 4px rgba(20,55,120,0.70);
+      paint-order: stroke fill;
+      text-shadow: 0 4px 0 rgba(10,35,85,0.30);
+      margin: 0 0 12px;
+    }
+
+    .notfound-desc {
+      font-size: 16px;
+      font-weight: 800;
+      color: rgba(246,251,255,.80);
+      max-width: 420px;
+      line-height: 1.65;
+      margin: 0 0 28px;
+    }
+
+    .notfound-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .notfound-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+    .notfound-link {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: rgba(246,251,255,.75);
+      font-size: 13px;
+      font-weight: 900;
+      transition: background .12s, transform .12s;
+    }
+    .notfound-link:hover {
+      background: rgba(255,255,255,.14);
+      color: #fff;
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    /* Floating sparkle particles */
+    .sparks {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .spark {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(79,246,255,.55);
+      animation: sparkFloat linear infinite;
+    }
+    @keyframes sparkFloat {
+      0%   { transform: translateY(110vh) scale(0.5); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating sparkles -->
+  <div class="sparks" aria-hidden="true" id="sparks"></div>
+
+  <div class="notfound-shell">
+    <img class="notfound-gem" src="assets/gem_icon.png" alt="" aria-hidden="true" />
+
+    <div class="notfound-code">404</div>
+
+    <h1 class="notfound-title">This page doesn't exist</h1>
+
+    <p class="notfound-desc">
+      Looks like you've wandered off the map. The page you're looking for
+      has been moved, deleted, or never existed in the first place.
+    </p>
+
+    <div class="notfound-actions">
+      <a class="btn primary" href="index.html">Back to Home</a>
+      <a class="btn" href="updates.html">See Devlog</a>
+    </div>
+
+    <div class="notfound-links">
+      <a class="notfound-link" href="privacy.html">Privacy</a>
+      <a class="notfound-link" href="terms.html">Terms</a>
+      <a class="notfound-link" href="credits.html">Credits</a>
+      <a class="notfound-link" href="contact.html">Contact</a>
+    </div>
+  </div>
+
+  <script>
+    // Generate floating spark particles
+    const container = document.getElementById("sparks");
+    for (let i = 0; i < 18; i++) {
+      const s = document.createElement("div");
+      s.className = "spark";
+      s.style.left = Math.random() * 100 + "vw";
+      s.style.animationDuration = (6 + Math.random() * 10) + "s";
+      s.style.animationDelay = (Math.random() * 8) + "s";
+      s.style.width = s.style.height = (3 + Math.random() * 5) + "px";
+      s.style.opacity = (0.3 + Math.random() * 0.5).toString();
+      container.appendChild(s);
+    }
+  </script>
+</body>
+</html>

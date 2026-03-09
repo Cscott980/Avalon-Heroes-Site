@@ -1,0 +1,18 @@
+User-agent: *
+
+# Block private/authenticated pages from indexing
+Disallow: /teacher.html
+Disallow: /student.html
+Disallow: /quiz-builder.html
+Disallow: /signup.html
+
+# Allow all public pages
+Allow: /index.html
+Allow: /updates.html
+Allow: /privacy.html
+Allow: /terms.html
+Allow: /credits.html
+Allow: /contact.html
+
+# Sitemap location
+Sitemap: https://avalonheroes.netlify.app/sitemap.xml

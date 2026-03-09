@@ -355,3 +355,36 @@
   font-size: 14px !important;
   z-index: 9999 !important;
 }
+
+/* ===== QUIZ SKELETON LOADER ===== */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+.quiz-skeleton {
+  padding: 14px;
+  border-radius: 18px;
+  border: 2px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.14);
+  display: grid;
+  gap: 8px;
+}
+.qs-bar {
+  height: 14px;
+  border-radius: 8px;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,.08) 25%,
+    rgba(255,255,255,.18) 50%,
+    rgba(255,255,255,.08) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+.qs-bar.short { width: 55%; height: 11px; }
+
+/* quiz-row is now an <a> tag linking to the builder */
+a.quiz-row {
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+}
+a.quiz-row:hover { text-decoration: none; }

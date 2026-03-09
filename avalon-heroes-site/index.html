@@ -2,13 +2,31 @@
 <html lang="en">
 <head>
   <link rel="icon" type="image/png" href="assets/gem_icon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Avalon Heroes</title>
   <meta name="description" content="Avalon Heroes is an in-development educational action-RPG with classroom-friendly co-op play." />
-  <link rel="stylesheet" href="css/style.css" />
   <meta name="keywords" content="educational game, edtech, action RPG, classroom game, godot game">
   <meta name="author" content="Avalon Studios">
+  <meta name="theme-color" content="#2f7dff">
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://avalonheroes.netlify.app/" />
+  <meta property="og:title"       content="Avalon Heroes — Educational Action RPG" />
+  <meta property="og:description" content="An EdTech action-RPG designed for fast sessions and classroom play. No ads. No data selling." />
+  <meta property="og:image"       content="https://avalonheroes.netlify.app/assets/avalon_heroes_logo.png" />
+  <meta property="og:image:alt"   content="Avalon Heroes logo" />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Avalon Heroes — Educational Action RPG" />
+  <meta name="twitter:description" content="An EdTech action-RPG designed for fast sessions and classroom play. No ads. No data selling." />
+  <meta name="twitter:image"       content="https://avalonheroes.netlify.app/assets/avalon_heroes_logo.png" />
+
+  <link rel="stylesheet" href="css/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
@@ -46,9 +64,9 @@
       </p>
 
       <div class="cta-row" id="demo">
-        <a class="btn primary disabled" href="#" aria-disabled="true" title="Demo not public yet">
+        <button class="btn primary disabled" disabled aria-disabled="true" title="Demo not public yet" tabindex="-1">
           Play Demo (Soon)
-        </a>
+        </button>
         <a class="btn" href="updates.html">See Progress</a>
       </div>
 
@@ -214,14 +232,69 @@
       </div>
     </section>
 
+    <!-- FOR SCHOOLS TRUST SECTION -->
+    <section class="for-schools" id="for-schools">
+      <div class="schools-inner">
+        <div class="schools-text">
+          <h2 class="schools-title">Built for the classroom</h2>
+          <p class="schools-lead">
+            We know school IT teams have high standards. Here's what you should know
+            before bringing Avalon Heroes to your students.
+          </p>
+          <ul class="schools-list">
+            <li>
+              <span class="sl-icon">🔒</span>
+              <div><strong>No ads, ever.</strong> Students are never shown advertising or marketing content.</div>
+            </li>
+            <li>
+              <span class="sl-icon">🚫</span>
+              <div><strong>No data selling.</strong> Student data is never sold or shared with third parties for commercial purposes.</div>
+            </li>
+            <li>
+              <span class="sl-icon">👶</span>
+              <div><strong>COPPA compliant.</strong> Students under 13 join teacher-managed sessions only — no direct account creation.</div>
+            </li>
+            <li>
+              <span class="sl-icon">🎓</span>
+              <div><strong>FERPA aware.</strong> We handle student education records responsibly. DPAs available on request.</div>
+            </li>
+            <li>
+              <span class="sl-icon">🌐</span>
+              <div><strong>Browser-based.</strong> No app installs. Works on Chromebooks, tablets, and school PCs.</div>
+            </li>
+            <li>
+              <span class="sl-icon">📧</span>
+              <div><strong>Human support.</strong> Questions? Email us directly — no chatbot, no ticket queue.</div>
+            </li>
+          </ul>
+          <div class="schools-actions">
+            <a class="btn primary" href="/cdn-cgi/l/email-protection#673c3e2832354a222a262e2b2723282a262e294924282a3a">Contact for Schools</a>
+            <a class="btn" href="privacy.html">Privacy Policy</a>
+            <a class="btn" href="terms.html">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer">
     <div>© <span id="year"></span> Avalon Heroes</div>
-    <div class="muted">Built with care. No personal details required.</div>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <span class="footer-sep">·</span>
+      <a href="terms.html">Terms of Service</a>
+      <span class="footer-sep">·</span>
+      <a href="credits.html">Credits</a>
+      <span class="footer-sep">·</span>
+      <a href="contact.html">Contact</a>
+      <span class="footer-sep">·</span>
+      <a href="updates.html">Devlog</a>
+    </div>
+    <div class="muted">No ads. No data selling. No personal details required to browse.</div>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
     const tabs = document.querySelectorAll(".class-tab");
@@ -254,6 +327,22 @@
 
     tabs.forEach(tab => tab.addEventListener("click", () => showPanel(tab.dataset.class)));
 
+    // Keyboard arrow navigation for class tabs (accessibility)
+    tabs.forEach((tab, i) => {
+      tab.setAttribute("role", "tab");
+      tab.setAttribute("aria-selected", tab.classList.contains("active") ? "true" : "false");
+      tab.addEventListener("keydown", (e) => {
+        let next = -1;
+        if (e.key === "ArrowRight") next = (i + 1) % tabs.length;
+        if (e.key === "ArrowLeft")  next = (i - 1 + tabs.length) % tabs.length;
+        if (next >= 0) {
+          e.preventDefault();
+          tabs[next].focus();
+          showPanel(tabs[next].dataset.class);
+        }
+      });
+    });
+
     const initial = document.querySelector(".class-tab.active")?.dataset.class;
     if (initial) showPanel(initial);
   </script>
@@ -284,6 +373,7 @@
     // Prevent page jump for sign-out link
     navLogout.addEventListener("click", (e) => {
       e.preventDefault();
+      if (!confirm("Sign out of Avalon Heroes?")) return;
       if (window.netlifyIdentity) window.netlifyIdentity.logout();
     });
 
@@ -292,10 +382,14 @@
       user ? setLoggedIn(user) : setLoggedOut();
     });
 
-    window.netlifyIdentity.on("login", (user) => setLoggedIn(user));
-    window.netlifyIdentity.on("logout", () => setLoggedOut());
+    window.netlifyIdentity.on("login", (user) => {
+      setLoggedIn(user);
+      window.netlifyIdentity.close();
+    });
 
-    window.netlifyIdentity.init();
+    window.netlifyIdentity.on("logout", () => {
+      setLoggedOut();
+    });
   </script>
 </body>
 </html>
