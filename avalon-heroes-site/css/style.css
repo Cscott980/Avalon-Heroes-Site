@@ -154,13 +154,20 @@ a:hover{ text-decoration:underline; }
   position: absolute;
   left: 50%;
   top: 55%;
-  transform: translate(-50%, -50%);
   width: min(520px, 88vw);
   height: auto;
   z-index: 2;
   filter:
     drop-shadow(0 16px 36px rgba(0,0,0,.35))
     drop-shadow(0 0 24px rgba(79,246,255,.25));
+  animation: heroLogoFloat 4s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+@keyframes heroLogoFloat {
+  0%   { transform: translate(-50%, -50%); }
+  50%  { transform: translate(-50%, calc(-50% - 14px)); }
+  100% { transform: translate(-50%, -50%); }
 }
 
 .main-nav{

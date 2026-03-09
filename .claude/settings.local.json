@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \":*)",
+      "Bash(powershell -Command \"\\(Get-Item quiz_builder.html\\).Length\")"
+    ]
+  }
+}
