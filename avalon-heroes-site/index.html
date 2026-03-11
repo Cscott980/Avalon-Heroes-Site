@@ -27,6 +27,7 @@
   <meta name="twitter:image"       content="https://avalonheroes.netlify.app/assets/avalon_heroes_logo.png" />
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="js/i18n.js" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
@@ -44,48 +45,46 @@
 
     <nav class="main-nav">
       <div class="nav-left">
-        <a href="index.html">Home</a>
-        <a href="updates.html">Devlog</a>
+        <a href="index.html" data-i18n="nav.home">Home</a>
+        <a href="updates.html" data-i18n="nav.devlog">Devlog</a>
         <!-- This stays "Log in" when logged out, becomes "Account" when logged in -->
-        <a href="signup.html" class="nav-cta" id="navLogin">Log in</a>
-        <a href="#" class="nav-cta" id="navLogout" style="display:none;">Sign out</a>
+        <a href="signup.html" class="nav-cta" id="navLogin" data-i18n="nav.login">Log in</a>
+        <a href="#" class="nav-cta" id="navLogout" style="display:none;" data-i18n="nav.logout">Sign out</a>
       </div>
     </nav>
 
   <main class="wrap">
     <section class="hero" id="about">
-      <h1 class="hero-title">
+      <h1 class="hero-title" data-i18n-html="home.hero.title">
         Hack, learn, and protect the world of
         <span>Avalon</span>
       </h1>
-      <p class="lead">
+      <p class="lead" data-i18n-html="home.hero.lead">
         Avalon Heroes is an <strong>EdTech action-RPG</strong> designed for fast sessions, classroom play,
         and satisfying combat. Start with <strong>Horde Mode</strong>, then expand into new classes and bosses over time.
       </p>
 
       <div class="cta-row" id="demo">
-        <button class="btn primary disabled" disabled aria-disabled="true" title="Demo not public yet" tabindex="-1">
-          Play Demo (Soon)
-        </button>
-        <a class="btn" href="updates.html">See Progress</a>
+        <a class="btn primary" href="play/portal.html" data-i18n="home.btn.playDemo">Play Demo</a>
+        <a class="btn" href="updates.html" data-i18n="home.btn.seeProgress">See Progress</a>
       </div>
 
-      <div class="note">
-        Demo plan: <strong>Warrior + Mage</strong> • <strong>Horde Mode only</strong> • No bosses (for now)
+      <div class="note" data-i18n-html="home.hero.note">
+        Demo: <strong>Warrior</strong> • <strong>Horde Mode</strong> • Access code required • MVP build
       </div>
     </section>
 
     <section class="class-preview">
-      <h2>Choose Your Hero</h2>
+      <h2 data-i18n="home.classes.heading">Choose Your Hero</h2>
 
       <div class="class-tabs">
-        <button class="class-tab active" data-class="warrior" style="--class:#ff5a4f;">Warrior</button>
-        <button class="class-tab" data-class="mage" style="--class:#6bd4ff;">Mage</button>
-        <button class="class-tab" data-class="paladin" style="--class:#ffd56a;">Paladin</button>
-        <button class="class-tab" data-class="ranger" style="--class:#7bff8a;">Ranger</button>
-        <button class="class-tab" data-class="rogue" style="--class:#c08bff;">Rogue</button>
-        <button class="class-tab" data-class="engineer" style="--class:#ff9a4a;">Engineer</button>
-        <button class="class-tab" data-class="druid" style="--class:#4fffd7;">Druid</button>
+        <button class="class-tab active" data-class="warrior" style="--class:#ff5a4f;" data-i18n="class.warrior.name">Warrior</button>
+        <button class="class-tab" data-class="mage" style="--class:#6bd4ff;" data-i18n="class.mage.name">Mage</button>
+        <button class="class-tab" data-class="paladin" style="--class:#ffd56a;" data-i18n="class.paladin.name">Paladin</button>
+        <button class="class-tab" data-class="ranger" style="--class:#7bff8a;" data-i18n="class.ranger.name">Ranger</button>
+        <button class="class-tab" data-class="rogue" style="--class:#c08bff;" data-i18n="class.rogue.name">Rogue</button>
+        <button class="class-tab" data-class="engineer" style="--class:#ff9a4a;" data-i18n="class.engineer.name">Engineer</button>
+        <button class="class-tab" data-class="druid" style="--class:#4fffd7;" data-i18n="class.druid.name">Druid</button>
       </div>
 
       <div class="class-panels">
@@ -99,8 +98,8 @@
             <img src="assets/Characters/Warrior.png" alt="Warrior">
           </div>
           <div class="class-info">
-            <h3 class="class-title">Warrior</h3>
-            <p class="class-desc">
+            <h3 class="class-title" data-i18n="class.warrior.name">Warrior</h3>
+            <p class="class-desc" data-i18n="class.warrior.desc">
               A frontline fighter who thrives in the heat of battle. Build rage through melee hits and unleash
               devastating area attacks to control the battlefield.
             </p>
@@ -117,8 +116,8 @@
             <img src="assets/Characters/Mage.png" alt="Mage">
           </div>
           <div class="class-info">
-            <h3 class="class-title">Mage</h3>
-            <p class="class-desc">
+            <h3 class="class-title" data-i18n="class.mage.name">Mage</h3>
+            <p class="class-desc" data-i18n="class.mage.desc">
               Masters of elemental magic who devastate enemies from afar. Control space with powerful spells and bursts.
             </p>
           </div>
@@ -134,8 +133,8 @@
             <img src="assets/Characters/Paladin.png" alt="Paladin">
           </div>
           <div class="class-info">
-            <h3 class="class-title">Paladin</h3>
-            <p class="class-desc">
+            <h3 class="class-title" data-i18n="class.paladin.name">Paladin</h3>
+            <p class="class-desc" data-i18n="class.paladin.desc">
               Holy warriors who protect allies and smite foes. A sturdy shield line with supportive divine power.
             </p>
           </div>
@@ -151,8 +150,8 @@
             <img src="assets/Characters/Ranger.png" alt="Ranger">
           </div>
           <div class="class-info">
-            <h3 class="class-title">Ranger</h3>
-            <p class="class-desc">
+            <h3 class="class-title" data-i18n="class.ranger.name">Ranger</h3>
+            <p class="class-desc" data-i18n="class.ranger.desc">
               Precise archers who excel at picking targets from a distance. Rangers kite enemies,
               control lanes with traps, and punish openings with rapid bow attacks.
             </p>
@@ -169,8 +168,8 @@
             <img src="assets/Characters/Rogue.png" alt="Rogue">
           </div>
           <div class="class-info">
-            <h3 class="class-title">Rogue</h3>
-            <p class="class-desc">
+            <h3 class="class-title" data-i18n="class.rogue.name">Rogue</h3>
+            <p class="class-desc" data-i18n="class.rogue.desc">
               Fast, evasive duelists who strike before enemies can react. Rogues weave in and out of combat,
               stacking damage through combos, backstabs, and quick dagger bursts.
             </p>
@@ -187,8 +186,8 @@
             <img src="assets/Characters/Engineer.png" alt="Engineer">
           </div>
           <div class="class-info">
-            <h3 class="class-title">Engineer</h3>
-            <p class="class-desc">
+            <h3 class="class-title" data-i18n="class.engineer.name">Engineer</h3>
+            <p class="class-desc" data-i18n="class.engineer.desc">
               Gadget specialists who fight with firearms and inventions. Engineers set up turrets,
               control space with tools, and support the team with clever utility.
             </p>
@@ -205,8 +204,8 @@
             <img src="assets/Characters/Druid.png" alt="Druid">
           </div>
           <div class="class-info">
-            <h3 class="class-title">Druid</h3>
-            <p class="class-desc">
+            <h3 class="class-title" data-i18n="class.druid.name">Druid</h3>
+            <p class="class-desc" data-i18n="class.druid.desc">
               Nature casters who bend the battlefield with roots, wind, and healing. Druids thrive in control play,
               empowering allies while disrupting enemy movement and positioning.
             </p>
@@ -217,18 +216,18 @@
 
     <section class="grid" id="features">
       <div class="card">
-        <h2>Classroom-friendly</h2>
-        <p>Designed for quick sessions, simple onboarding, and browser play on common school devices.</p>
+        <h2 data-i18n="home.features.classroom.title">Classroom-friendly</h2>
+        <p data-i18n="home.features.classroom.desc">Designed for quick sessions, simple onboarding, and browser play on common school devices.</p>
       </div>
 
       <div class="card">
-        <h2>Action first</h2>
-        <p>Responsive movement, abilities, and upgrade choices that make the gameplay feel rewarding.</p>
+        <h2 data-i18n="home.features.action.title">Action first</h2>
+        <p data-i18n="home.features.action.desc">Responsive movement, abilities, and upgrade choices that make the gameplay feel rewarding.</p>
       </div>
 
       <div class="card">
-        <h2>Expandable</h2>
-        <p>Start small and ship often: new heroes, modes, quizzes, and bosses can be added over time.</p>
+        <h2 data-i18n="home.features.expand.title">Expandable</h2>
+        <p data-i18n="home.features.expand.desc">Start small and ship often: new heroes, modes, quizzes, and bosses can be added over time.</p>
       </div>
     </section>
 
@@ -236,41 +235,41 @@
     <section class="for-schools" id="for-schools">
       <div class="schools-inner">
         <div class="schools-text">
-          <h2 class="schools-title">Built for the classroom</h2>
-          <p class="schools-lead">
+          <h2 class="schools-title" data-i18n="home.schools.heading">Built for the classroom</h2>
+          <p class="schools-lead" data-i18n="home.schools.lead">
             We know school IT teams have high standards. Here's what you should know
             before bringing Avalon Heroes to your students.
           </p>
           <ul class="schools-list">
             <li>
               <span class="sl-icon">🔒</span>
-              <div><strong>No ads, ever.</strong> Students are never shown advertising or marketing content.</div>
+              <div data-i18n-html="home.schools.item1"><strong>No ads, ever.</strong> Students are never shown advertising or marketing content.</div>
             </li>
             <li>
               <span class="sl-icon">🚫</span>
-              <div><strong>No data selling.</strong> Student data is never sold or shared with third parties for commercial purposes.</div>
+              <div data-i18n-html="home.schools.item2"><strong>No data selling.</strong> Student data is never sold or shared with third parties for commercial purposes.</div>
             </li>
             <li>
               <span class="sl-icon">👶</span>
-              <div><strong>COPPA compliant.</strong> Students under 13 join teacher-managed sessions only — no direct account creation.</div>
+              <div data-i18n-html="home.schools.item3"><strong>COPPA compliant.</strong> Students under 13 join teacher-managed sessions only — no direct account creation.</div>
             </li>
             <li>
               <span class="sl-icon">🎓</span>
-              <div><strong>FERPA aware.</strong> We handle student education records responsibly. DPAs available on request.</div>
+              <div data-i18n-html="home.schools.item4"><strong>FERPA aware.</strong> We handle student education records responsibly. DPAs available on request.</div>
             </li>
             <li>
               <span class="sl-icon">🌐</span>
-              <div><strong>Browser-based.</strong> No app installs. Works on Chromebooks, tablets, and school PCs.</div>
+              <div data-i18n-html="home.schools.item5"><strong>Browser-based.</strong> No app installs. Works on Chromebooks, tablets, and school PCs.</div>
             </li>
             <li>
               <span class="sl-icon">📧</span>
-              <div><strong>Human support.</strong> Questions? Email us directly — no chatbot, no ticket queue.</div>
+              <div data-i18n-html="home.schools.item6"><strong>Human support.</strong> Questions? Email us directly — no chatbot, no ticket queue.</div>
             </li>
           </ul>
           <div class="schools-actions">
-            <a class="btn primary" href="mailto:avalonheroesgame@gmail.com?subject=School%20Partnership%20Enquiry">Contact for Schools</a>
-            <a class="btn" href="privacy.html">Privacy Policy</a>
-            <a class="btn" href="terms.html">Terms of Service</a>
+            <a class="btn primary" href="mailto:avalonheroesgame@gmail.com?subject=School%20Partnership%20Enquiry" data-i18n="home.schools.cta.contact">Contact for Schools</a>
+            <a class="btn" href="privacy.html" data-i18n="home.schools.cta.privacy">Privacy Policy</a>
+            <a class="btn" href="terms.html" data-i18n="home.schools.cta.terms">Terms of Service</a>
           </div>
         </div>
       </div>
@@ -281,17 +280,17 @@
   <footer class="footer">
     <div>© <span id="year"></span> Avalon Heroes</div>
     <div class="footer-links">
-      <a href="privacy.html">Privacy Policy</a>
+      <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
       <span class="footer-sep">·</span>
-      <a href="terms.html">Terms of Service</a>
+      <a href="terms.html" data-i18n="footer.terms">Terms of Service</a>
       <span class="footer-sep">·</span>
-      <a href="credits.html">Credits</a>
+      <a href="credits.html" data-i18n="footer.credits">Credits</a>
       <span class="footer-sep">·</span>
-      <a href="contact.html">Contact</a>
+      <a href="contact.html" data-i18n="footer.contact">Contact</a>
       <span class="footer-sep">·</span>
-      <a href="updates.html">Devlog</a>
+      <a href="updates.html" data-i18n="footer.devlog">Devlog</a>
     </div>
-    <div class="muted">No ads. No data selling. No personal details required to browse.</div>
+    <div class="muted" data-i18n="footer.tagline">No ads. No data selling. No personal details required to browse.</div>
   </footer>
 
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>

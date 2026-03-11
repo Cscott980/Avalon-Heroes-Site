@@ -8,6 +8,7 @@
   <title>Credits — Avalon Heroes</title>
   <meta name="description" content="Credits and attributions for Avalon Heroes — third-party assets, tools, and libraries used in development." />
   <link rel="stylesheet" href="css/style.css" />
+  <script src="js/i18n.js" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
@@ -173,18 +174,18 @@
 <body>
   <div class="legal-shell">
     <nav class="back-nav">
-      <a class="back-link" href="index.html">← Home</a>
-      <a class="back-link" href="updates.html">Devlog</a>
+      <a class="back-link" href="index.html" data-i18n="footer.back">← Home</a>
+      <a class="back-link" href="updates.html" data-i18n="footer.devlog">Devlog</a>
     </nav>
 
     <div class="legal-header">
-      <h1>Credits</h1>
-      <p>Third-party assets, tools, and libraries used in Avalon Heroes</p>
+      <h1 data-i18n="credits.title">Credits</h1>
+      <p data-i18n="credits.subtitle">Third-party assets, tools, and libraries used in Avalon Heroes</p>
     </div>
 
     <div class="legal-card">
 
-      <h2>🎨 Game Assets</h2>
+      <h2 data-i18n="credits.game_assets">🎨 Game Assets</h2>
 
       <div class="credit-grid">
         <div class="credit-card featured">
@@ -201,10 +202,10 @@
         </div>
       </div>
 
-      <h2>✨ Original Work</h2>
+      <h2 data-i18n="credits.original">✨ Original Work</h2>
 
       <div class="original-section">
-        <p style="font-size:14px; font-weight:800; color:rgba(246,251,255,.75); margin:0 0 4px;">
+        <p style="font-size:14px; font-weight:800; color:rgba(246,251,255,.75); margin:0 0 4px;" data-i18n="credits.original.note">
           The following content was created entirely by Avalon Studios for this project:
         </p>
         <ul class="original-list">
@@ -218,7 +219,7 @@
         </ul>
       </div>
 
-      <h2>🛠️ Tools & Engine</h2>
+      <h2 data-i18n-html="credits.tools">🛠️ Tools &amp; Engine</h2>
 
       <div class="credit-grid">
         <div class="credit-card">
@@ -254,13 +255,13 @@
         </div>
       </div>
 
-      <h2>📝 A Note on Attribution</h2>
-      <p>
+      <h2 data-i18n="credits.attribution.title">📝 A Note on Attribution</h2>
+      <p data-i18n-html="credits.attribution.text">
         If you believe any content in Avalon Heroes is missing correct attribution, or if you are a
         rights holder with a concern, please contact us at
         <a href="mailto:avalonheroesgame@gmail.com">avalonheroesgame@gmail.com</a> and we will address it promptly.
       </p>
-      <p>
+      <p data-i18n-html="credits.updated">
         This credits page will be updated as new assets and tools are added to the project.
         Last updated: <strong>January 2026</strong>.
       </p>

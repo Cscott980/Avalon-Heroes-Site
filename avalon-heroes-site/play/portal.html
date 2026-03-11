@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Play Demo — Avalon Heroes</title>
+  <link rel="icon" type="image/png" href="../assets/gem_icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+  <script src="../js/i18n.js"></script>
+  <style>
+    :root {
+      --sky1: #2f7dff;
+      --sky2: #246ae9;
+      --sky3: #184fbf;
+      --sky4: #0c2f7a;
+      --accent: #4ff6ff;
+      --accent2: #2a7bff;
+      --text: #f6fbff;
+      --muted: rgba(246,251,255,.78);
+      --panel: rgba(255,255,255,.13);
+      --line: rgba(255,255,255,.22);
+      --radius: 18px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+    }
+
+    html {
+      background:
+        radial-gradient(1100px 700px at 50% -220px, rgba(255,255,255,.35), transparent 70%),
+        radial-gradient(900px 600px at 18% 12%, rgba(79,246,255,.22), transparent 72%),
+        linear-gradient(180deg, var(--sky1) 0%, var(--sky2) 36%, var(--sky3) 70%, var(--sky4) 100%);
+      background-attachment: fixed;
+    }
+
+    /* ── CODE GATE ── */
+    #gate {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 100;
+      background:
+        radial-gradient(1100px 700px at 50% -220px, rgba(255,255,255,.35), transparent 70%),
+        radial-gradient(900px 600px at 18% 12%, rgba(79,246,255,.22), transparent 72%),
+        linear-gradient(180deg, var(--sky1) 0%, var(--sky2) 36%, var(--sky3) 70%, var(--sky4) 100%);
+    }
+
+    .gate-card {
+      background: rgba(10, 25, 70, 0.72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 40px 36px;
+      max-width: 460px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 64px rgba(0,0,0,.45);
+    }
+
+    .gate-logo {
+      font-family: 'Titan One', sans-serif;
+      font-size: 2rem;
+      color: var(--accent);
+      letter-spacing: .5px;
+      margin-bottom: 4px;
+    }
+
+    .gate-subtitle {
+      font-size: .88rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    /* MVP disclaimer inside gate */
+    .mvp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 180, 40, .15);
+      border: 1px solid rgba(255, 180, 40, .4);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: .78rem;
+      color: #ffd56a;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: .3px;
+    }
+
+    .mvp-badge svg { flex-shrink: 0; }
+
+    .gate-label {
+      font-size: .8rem;
+      color: var(--muted);
+      text-align: left;
+      margin-bottom: 7px;
+      letter-spacing: .3px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .gate-input-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    #codeInput {
+      flex: 1;
+      background: rgba(255,255,255,.1);
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 1rem;
+      padding: 11px 14px;
+      letter-spacing: 2px;
+      font-family: 'Courier New', monospace;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    #codeInput:focus { border-color: var(--accent); }
+
+    #codeInput.error { border-color: #ff6b6b; animation: shake .3s; }
+
+    @keyframes shake {
+      0%,100%{ transform:translateX(0) }
+      25%{ transform:translateX(-6px) }
+      75%{ transform:translateX(6px) }
+    }
+
+    .btn-enter {
+      background: var(--accent);
+      color: #0a1940;
+      border: none;
+      border-radius: 10px;
+      font-size: .95rem;
+      font-weight: 700;
+      padding: 11px 20px;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      white-space: nowrap;
+    }
+
+    .btn-enter:hover { background: #6dfcff; }
+    .btn-enter:active { transform: scale(.97); }
+
+    #codeError {
+      font-size: .82rem;
+      color: #ff9090;
+      min-height: 1.2em;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .gate-divider {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 20px 0;
+    }
+
+    .mvp-disclaimer {
+      font-size: .78rem;
+      color: var(--muted);
+      line-height: 1.55;
+      text-align: left;
+    }
+
+    .mvp-disclaimer strong { color: #ffd56a; }
+
+    .gate-back {
+      margin-top: 22px;
+      display: block;
+      font-size: .82rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .gate-back:hover { color: var(--accent); }
+
+    /* ── GAME CONTAINER ── */
+    #gameContainer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      flex-direction: column;
+      background: #000;
+    }
+
+    #gameContainer.active { display: flex; }
+
+    /* Top bar */
+    #gameBar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10, 25, 70, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      padding: 7px 16px;
+      gap: 10px;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .bar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bar-title {
+      font-family: 'Titan One', sans-serif;
+      font-size: 1rem;
+      color: var(--accent);
+      letter-spacing: .3px;
+    }
+
+    .mvp-pill {
+      background: rgba(255,180,40,.15);
+      border: 1px solid rgba(255,180,40,.4);
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: .7rem;
+      color: #ffd56a;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+
+    .bar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bar-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: .8rem;
+      padding: 6px 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .2s;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .bar-btn:hover { background: rgba(255,255,255,.18); }
+
+    .bar-btn.accent {
+      background: var(--accent);
+      color: #0a1940;
+      border-color: transparent;
+      font-weight: 700;
+    }
+
+    .bar-btn.accent:hover { background: #6dfcff; }
+
+    /* Game iframe */
+    #gameFrame {
+      flex: 1;
+      width: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── HOW TO PLAY TOAST ── */
+    #howToPlayToast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: rgba(10, 25, 70, 0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(79, 246, 255, .35);
+      border-radius: 16px;
+      padding: 20px 24px;
+      max-width: 520px;
+      width: calc(100vw - 48px);
+      z-index: 200;
+      box-shadow: 0 12px 40px rgba(0,0,0,.5);
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1), opacity .3s;
+      opacity: 0;
+    }
+
+    #howToPlayToast.visible {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .toast-title {
+      font-family: 'Titan One', sans-serif;
+      font-size: 1rem;
+      color: var(--accent);
+      letter-spacing: .3px;
+    }
+
+    .toast-header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Language toggle */
+    .lang-toggle {
+      display: flex;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 700;
+      padding: 4px 9px;
+      cursor: pointer;
+      transition: background .18s, color .18s;
+      font-family: inherit;
+      letter-spacing: .3px;
+    }
+
+    .lang-btn.active {
+      background: var(--accent);
+      color: #0a1940;
+    }
+
+    .lang-btn:not(.active):hover { background: rgba(255,255,255,.12); color: var(--text); }
+
+    .toast-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      transition: color .2s, background .2s;
+    }
+
+    .toast-close:hover { color: var(--text); background: rgba(255,255,255,.1); }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 16px;
+    }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .83rem;
+    }
+
+    .key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.28);
+      border-bottom: 2px solid rgba(255,255,255,.18);
+      border-radius: 5px;
+      min-width: 30px;
+      height: 26px;
+      padding: 0 6px;
+      font-size: .75rem;
+      font-weight: 700;
+      font-family: 'Courier New', monospace;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .control-desc {
+      color: var(--muted);
+      font-size: .81rem;
+    }
+
+    .toast-note {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      font-size: .76rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .toast-note strong { color: #ffd56a; }
+
+    /* ── STATS PANEL ── */
+    #statsToast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      transform: translateY(120px);
+      background: rgba(10, 25, 70, 0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(79, 246, 255, .35);
+      border-radius: 16px;
+      padding: 20px 24px;
+      width: 300px;
+      max-width: calc(100vw - 48px);
+      z-index: 200;
+      box-shadow: 0 12px 40px rgba(0,0,0,.5);
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1), opacity .3s;
+      opacity: 0;
+    }
+
+    #statsToast.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .stats-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .stat-row.wip {
+      opacity: .55;
+    }
+
+    .stat-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      font-size: .68rem;
+      font-weight: 900;
+      font-family: 'Courier New', monospace;
+      letter-spacing: .5px;
+      flex-shrink: 0;
+    }
+
+    .stat-icon.str { background: rgba(255, 90, 79, .2);  color: #ff7a6e; border: 1px solid rgba(255,90,79,.3); }
+    .stat-icon.vit { background: rgba(79, 246, 200, .2); color: #4ff6c8; border: 1px solid rgba(79,246,200,.3); }
+    .stat-icon.dex { background: rgba(123, 255, 138, .15); color: #7bff8a; border: 1px solid rgba(123,255,138,.2); }
+    .stat-icon.wis { background: rgba(255, 213, 106, .15); color: #ffd56a; border: 1px solid rgba(255,213,106,.2); }
+    .stat-icon.int { background: rgba(192, 139, 255, .15); color: #c08bff; border: 1px solid rgba(192,139,255,.2); }
+
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .stat-name {
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .stat-desc {
+      font-size: .74rem;
+      color: var(--muted);
+    }
+
+    .wip-badge {
+      font-size: .65rem;
+      font-weight: 700;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 999px;
+      padding: 2px 8px;
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 500px) {
+      .gate-card { padding: 28px 20px; }
+      .controls-grid { grid-template-columns: 1fr; }
+      .bar-title { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── CODE GATE SCREEN ── -->
+  <div id="gate">
+    <div class="gate-card">
+      <div class="gate-logo">Avalon Heroes</div>
+      <div class="gate-subtitle" data-i18n="portal.gate.subtitle">Demo Access Portal</div>
+
+      <div class="mvp-badge">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.5 1L8 4.5H12L9 7L10.2 11L6.5 8.8L2.8 11L4 7L1 4.5H5L6.5 1Z" fill="#ffd56a"/>
+        </svg>
+        <span data-i18n="portal.mvp.badge">Early Access MVP Demo</span>
+      </div>
+
+      <div class="gate-label" data-i18n="portal.code.label">Enter Access Code</div>
+      <div class="gate-input-row">
+        <input
+          id="codeInput"
+          type="text"
+          placeholder="ENTER CODE"
+          data-i18n-placeholder="portal.code.placeholder"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="characters"
+          spellcheck="false"
+          maxlength="30"
+          aria-label="Access code"
+        />
+        <button class="btn-enter" onclick="checkCode()" data-i18n="portal.code.btn">Enter</button>
+      </div>
+      <div id="codeError" aria-live="polite"></div>
+
+      <hr class="gate-divider">
+
+      <div class="mvp-disclaimer" data-i18n-html="portal.mvp.disclaimer">
+        <strong>MVP Disclaimer:</strong> This is an early-access prototype of Avalon Heroes.
+        Expect bugs, placeholder art, missing features, and rough edges. No account is required to play.
+        Your feedback helps shape the game — use the feedback button inside the demo to share your thoughts.
+        Content and gameplay are subject to change.
+      </div>
+
+      <a href="../index.html" class="gate-back" data-i18n="portal.back">← Back to avalonheroes.com</a>
+    </div>
+  </div>
+
+  <!-- ── GAME SCREEN ── -->
+  <div id="gameContainer">
+
+    <!-- Top bar -->
+    <div id="gameBar">
+      <div class="bar-left">
+        <span class="bar-title">Avalon Heroes</span>
+        <span class="mvp-pill" data-i18n="portal.bar.mvp">MVP Demo</span>
+      </div>
+      <div class="bar-right">
+        <button class="bar-btn" onclick="toggleStats()" id="statsBtn" title="Stats guide">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="8" width="3" height="5" rx="1" fill="currentColor" opacity=".5"/>
+            <rect x="5.5" y="5" width="3" height="8" rx="1" fill="currentColor" opacity=".7"/>
+            <rect x="10" y="2" width="3" height="11" rx="1" fill="currentColor"/>
+          </svg>
+          Stats
+        </button>
+        <button class="bar-btn" onclick="toggleHowToPlay()" title="How to play">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M7 9.5V7M7 5v-.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          How to Play
+        </button>
+        <a class="bar-btn" href="https://forms.gle/Vir8L4jD4NNHAFQh8" target="_blank" rel="noopener noreferrer" title="Leave feedback">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 2h10v8H8l-3 2V10H2V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+          </svg>
+          Feedback
+        </a>
+        <button class="bar-btn accent" onclick="toggleFullscreen()" id="fsBtn" title="Fullscreen">
+          <svg id="fsIcon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1h4M1 1v4M13 1h-4M13 1v4M1 13h4M1 13v-4M13 13h-4M13 13v-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Fullscreen
+        </button>
+      </div>
+    </div>
+
+    <!-- Game iframe -->
+    <iframe
+      id="gameFrame"
+      src="about:blank"
+      allow="fullscreen; autoplay"
+      scrolling="no"
+      title="Avalon Heroes Demo"
+    ></iframe>
+
+  </div>
+
+  <!-- ── STATS PANEL ── -->
+  <div id="statsToast" role="dialog" aria-modal="true" aria-label="Stats Guide">
+    <div class="toast-header">
+      <span class="toast-title" data-i18n="portal.stats.title">Stats Guide</span>
+      <div class="toast-header-right">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button class="lang-btn" data-lang="en" onclick="I18n.setLang('en')">EN</button>
+          <button class="lang-btn" data-lang="es" onclick="I18n.setLang('es')">ES</button>
+          <button class="lang-btn" data-lang="ja" onclick="I18n.setLang('ja')">日本語</button>
+        </div>
+        <button class="toast-close" onclick="hideStats()" aria-label="Close">✕</button>
+      </div>
+    </div>
+    <div class="stats-list">
+      <div class="stat-row">
+        <span class="stat-icon str">STR</span>
+        <div class="stat-info">
+          <span class="stat-name" data-i18n="portal.stat.str">Strength</span>
+          <span class="stat-desc" data-i18n="portal.stat.str.desc">Increases weapon damage</span>
+        </div>
+      </div>
+      <div class="stat-row">
+        <span class="stat-icon vit">VIT</span>
+        <div class="stat-info">
+          <span class="stat-name" data-i18n="portal.stat.vit">Vitality</span>
+          <span class="stat-desc" data-i18n="portal.stat.vit.desc">Increases player health</span>
+        </div>
+      </div>
+      <div class="stat-row wip">
+        <span class="stat-icon dex">DEX</span>
+        <div class="stat-info">
+          <span class="stat-name" data-i18n="portal.stat.dex">Dexterity</span>
+          <span class="stat-desc" data-i18n="portal.stat.wip">Not yet implemented</span>
+        </div>
+        <span class="wip-badge" data-i18n="portal.stat.coming_soon">Coming Soon</span>
+      </div>
+      <div class="stat-row wip">
+        <span class="stat-icon wis">WIS</span>
+        <div class="stat-info">
+          <span class="stat-name" data-i18n="portal.stat.wis">Wisdom</span>
+          <span class="stat-desc" data-i18n="portal.stat.wip">Not yet implemented</span>
+        </div>
+        <span class="wip-badge" data-i18n="portal.stat.coming_soon">Coming Soon</span>
+      </div>
+      <div class="stat-row wip">
+        <span class="stat-icon int">INT</span>
+        <div class="stat-info">
+          <span class="stat-name" data-i18n="portal.stat.int">Intellect</span>
+          <span class="stat-desc" data-i18n="portal.stat.wip">Not yet implemented</span>
+        </div>
+        <span class="wip-badge" data-i18n="portal.stat.coming_soon">Coming Soon</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HOW TO PLAY TOAST ── -->
+  <div id="howToPlayToast" role="dialog" aria-modal="true" aria-label="How to Play">
+    <div class="toast-header">
+      <span class="toast-title" data-i18n="portal.htp.title">How to Play</span>
+      <div class="toast-header-right">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button class="lang-btn" data-lang="en" onclick="I18n.setLang('en')">EN</button>
+          <button class="lang-btn" data-lang="es" onclick="I18n.setLang('es')">ES</button>
+          <button class="lang-btn" data-lang="ja" onclick="I18n.setLang('ja')">日本語</button>
+        </div>
+        <button class="toast-close" onclick="hideHowToPlay()" aria-label="Close">✕</button>
+      </div>
+    </div>
+    <div class="controls-grid">
+      <div class="control-row">
+        <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span>
+        <span class="control-desc" data-i18n="portal.htp.move">Move</span>
+      </div>
+      <div class="control-row">
+        <span class="key">LMB</span>
+        <span class="control-desc" data-i18n="portal.htp.attack">Attack</span>
+      </div>
+      <div class="control-row">
+        <span class="key">I</span>
+        <span class="control-desc" data-i18n="portal.htp.inventory">Open Inventory</span>
+      </div>
+      <div class="control-row">
+        <span class="key">Z</span>
+        <span class="control-desc" data-i18n="portal.htp.sheath">Sheath / Unsheath Weapon</span>
+      </div>
+    </div>
+    <div class="toast-note">
+      <strong data-i18n="portal.htp.note.strong">Starter gear included</strong><span data-i18n="portal.htp.note"> — you'll find a few items and weapons in your inventory to try out. No account needed. This is an early demo, so things may be rough around the edges!</span>
+    </div>
+  </div>
+
+  <script>
+    const VALID_CODE = 'AVALONNAGANO123';
+
+    const gate          = document.getElementById('gate');
+    const gameContainer = document.getElementById('gameContainer');
+    const gameFrame     = document.getElementById('gameFrame');
+    const codeInput     = document.getElementById('codeInput');
+    const codeError     = document.getElementById('codeError');
+    const toast         = document.getElementById('howToPlayToast');
+    const statsPanel    = document.getElementById('statsToast');
+    const fsBtn         = document.getElementById('fsBtn');
+
+    // Allow Enter key in code input
+    codeInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') checkCode();
+    });
+
+    function checkCode() {
+      const val = codeInput.value.trim().toUpperCase();
+      if (val === VALID_CODE) {
+        launchGame();
+      } else {
+        codeError.textContent = I18n.t('portal.code.error');
+        codeInput.classList.add('error');
+        codeInput.addEventListener('animationend', () => codeInput.classList.remove('error'), { once: true });
+        codeInput.focus();
+      }
+    }
+
+    function launchGame() {
+      gate.style.display = 'none';
+      gameContainer.classList.add('active');
+      // Load the game
+      gameFrame.src = 'index.html';
+      // Show how-to-play toast after a short delay
+      setTimeout(showHowToPlay, 800);
+    }
+
+    // ── How to Play toast ──
+    let toastTimeout = null;
+
+    function showHowToPlay() {
+      hideStats();
+      toast.classList.add('visible');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(hideHowToPlay, 12000);
+    }
+
+    function hideHowToPlay() {
+      toast.classList.remove('visible');
+      clearTimeout(toastTimeout);
+    }
+
+    function toggleHowToPlay() {
+      if (toast.classList.contains('visible')) {
+        hideHowToPlay();
+      } else {
+        showHowToPlay();
+      }
+    }
+
+    // ── Stats panel ──
+    function showStats() {
+      hideHowToPlay();
+      statsPanel.classList.add('visible');
+    }
+
+    function hideStats() {
+      statsPanel.classList.remove('visible');
+    }
+
+    function toggleStats() {
+      if (statsPanel.classList.contains('visible')) {
+        hideStats();
+      } else {
+        showStats();
+      }
+    }
+
+    // ── Fullscreen ──
+    const expandIcon = `<path d="M1 1h4M1 1v4M13 1h-4M13 1v4M1 13h4M1 13v-4M13 13h-4M13 13v-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`;
+    const collapseIcon = `<path d="M5 1v4H1M9 1v4h4M5 13v-4H1M9 13v-4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`;
+
+    function toggleFullscreen() {
+      const target = gameContainer;
+      if (!document.fullscreenElement) {
+        target.requestFullscreen().catch(err => console.warn('Fullscreen error:', err));
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+      const icon = document.getElementById('fsIcon');
+      if (document.fullscreenElement) {
+        icon.innerHTML = collapseIcon;
+        fsBtn.title = I18n.t('portal.bar.exit_fs');
+        fsBtn.lastChild.textContent = ' ' + I18n.t('portal.bar.exit_fs');
+      } else {
+        icon.innerHTML = expandIcon;
+        fsBtn.title = I18n.t('portal.bar.fullscreen');
+        fsBtn.lastChild.textContent = ' ' + I18n.t('portal.bar.fullscreen');
+      }
+    });
+
+    // Close panels on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        hideHowToPlay();
+        hideStats();
+      }
+    });
+  </script>
+</body>
+</html>

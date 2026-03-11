@@ -6,6 +6,7 @@
   <title>Avalon Heroes • Sign up</title>
   <meta name="description" content="Create an Avalon Heroes account." />
   <link rel="stylesheet" href="css/style.css" />
+  <script src="js/i18n.js" defer></script>
   <style>
     
   </style>
@@ -20,73 +21,73 @@
             <img src="assets/avalon_heroes_logo.png" alt="Avalon Heroes" />
           </a>
           <div style="display:flex; gap:10px; align-items:center;">
-            <button class="ghost-link subtle" type="button" id="btnBack" style="display:none;">Back</button>
-            <button class="ghost-link" type="button" id="btnOpenLogin">Log in</button>
+            <button class="ghost-link subtle" type="button" id="btnBack" style="display:none;" data-i18n="signup.back">Back</button>
+            <button class="ghost-link" type="button" id="btnOpenLogin" data-i18n="signup.login">Log in</button>
           </div>
         </div>
 
         <!-- STEP 1: ROLE -->
         <section class="step active" id="stepRole" aria-labelledby="roleTitle">
-          <h1 class="auth-title" id="roleTitle">Who are you?</h1>
-          <p class="auth-subtitle">This helps us send you to the right tools after you sign in.</p>
+          <h1 class="auth-title" id="roleTitle" data-i18n="signup.who">Who are you?</h1>
+          <p class="auth-subtitle" data-i18n="signup.who.sub">This helps us send you to the right tools after you sign in.</p>
 
           <div class="role-grid" role="list">
             <div class="role" role="listitem" data-role="student" tabindex="0" aria-label="Student">
               <img src="assets/Icons/StudentIcon.png" alt="Student icon" />
-              <p class="label">Student</p>
-              <p class="desc">Join games, earn rewards, and level up with your class.</p>
+              <p class="label" data-i18n="signup.student.label">Student</p>
+              <p class="desc" data-i18n="signup.student.desc">Join games, earn rewards, and level up with your class.</p>
             </div>
 
             <div class="role" role="listitem" data-role="teacher" tabindex="0" aria-label="Teacher">
               <img src="assets/Icons/TeacherIcon.png" alt="Teacher icon" />
-              <p class="label">Teacher</p>
-              <p class="desc">Host sessions, build quizzes, and view class reports.</p>
+              <p class="label" data-i18n="signup.teacher.label">Teacher</p>
+              <p class="desc" data-i18n="signup.teacher.desc">Host sessions, build quizzes, and view class reports.</p>
             </div>
           </div>
 
           <div class="actions">
-            <button class="btn primary" type="button" id="btnRoleContinue" disabled>Continue</button>
+            <button class="btn primary" type="button" id="btnRoleContinue" disabled data-i18n="signup.continue">Continue</button>
           </div>
 
-          <p class="fineprint">You can change this later in your account settings.</p>
+          <p class="fineprint" data-i18n="signup.change.later">You can change this later in your account settings.</p>
         </section>
 
         <!-- STEP 2: AGE (student only) -->
         <section class="step" id="stepAge" aria-labelledby="ageTitle">
-          <h1 class="auth-title" id="ageTitle">Age verification</h1>
-          <p class="auth-subtitle">Standard check before creating a student account.</p>
+          <h1 class=”auth-title” id=”ageTitle” data-i18n=”signup.age.title”>Age verification</h1>
+          <p class=”auth-subtitle” data-i18n=”signup.age.sub”>Standard check before creating a student account.</p>
 
-          <div class="age-box">
-            <div class="age-row">
-              <input type="checkbox" id="ageCheck" />
-              <label for="ageCheck">I confirm I am 13 years old or older.</label>
+          <div class=”age-box”>
+            <div class=”age-row”>
+              <input type=”checkbox” id=”ageCheck” />
+              <label for=”ageCheck” data-i18n=”signup.age.check”>I confirm I am 13 years old or older.</label>
             </div>
-            <p class="age-note">
+            <p class=”age-note” data-i18n=”signup.age.note”>
               If you’re under 13, ask your teacher to create a class session for you to join.
             </p>
           </div>
 
-          <div class="actions">
-            <button class="btn primary" type="button" id="btnAgeContinue" disabled>Continue</button>
+          <div class=”actions”>
+            <button class=”btn primary” type=”button” id=”btnAgeContinue” disabled data-i18n=”signup.continue”>Continue</button>
           </div>
 
-          <p class="fineprint">We store a simple “age verified” flag (not your birthday).</p>
+          <p class=”fineprint” data-i18n=”signup.age.flag”>We store a simple “age verified” flag (not your birthday).</p>
         </section>
 
         <!-- STEP 3: AUTH -->
         <section class="step" id="stepAuth" aria-labelledby="authTitle">
-          <h1 class="auth-title" id="authTitle">Create your account</h1>
-          <p class="auth-subtitle">Choose how you’d like to sign up or log in.</p>
+          <h1 class="auth-title" id="authTitle" data-i18n="signup.auth.title">Create your account</h1>
+          <p class="auth-subtitle" data-i18n="signup.auth.sub">Choose how you’d like to sign up or log in.</p>
 
           <div class="actions">
-            <button class="btn primary" type="button" id="btnEmail">Continue with Email</button>
-            <button class="btn secondary" type="button" id="btnGoogle">Continue with Google</button>
+            <button class="btn primary" type="button" id="btnEmail" data-i18n="signup.email">Continue with Email</button>
+            <button class="btn secondary" type="button" id="btnGoogle" data-i18n="signup.google">Continue with Google</button>
           </div>
 
           <p class="fineprint">
             Google sign-in will appear in the popup once enabled in your Netlify Identity settings.
           </p>
-          <p class="fineprint" style="margin-top:14px;">
+          <p class="fineprint" style="margin-top:14px;" data-i18n-html="signup.terms">
             By creating an account you agree to our
             <a href="terms.html" style="color:rgba(0,100,220,.80); text-decoration:underline;">Terms of Service</a>
             and
@@ -99,7 +100,7 @@
     <aside class="auth-right" aria-hidden="true">
       <div class="right-inner">
         <img class="right-hero" src="assets/gem_icon.png" alt="Avalon Heroes" />
-        <p class="right-tagline">Leveling up engagement, one question at a time.</p>
+        <p class="right-tagline" data-i18n="signup.tagline">Leveling up engagement, one question at a time.</p>
       </div>
     </aside>
   </div>
