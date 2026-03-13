@@ -1,12 +1,11 @@
-# netlify.toml — lives at the repo root (base directory: /)
-# Netlify reads this from the base directory, not the publish directory.
+# netlify.toml — inside avalon-heroes-site/ (used when base directory is avalon-heroes-site)
 
 # ── Build & Functions ─────────────────────────────────────────────────────────
 [build]
-  publish = "avalon-heroes-site"
+  publish = "."
 
 [functions]
-  directory = "avalon-heroes-site/netlify/functions"
+  directory = "netlify/functions"
   node_bundler = "esbuild"
 
 # ── Security headers ──────────────────────────────────────────────────────────
