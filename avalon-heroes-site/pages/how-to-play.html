@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css" />
+  <script src="../js/i18n.js" defer></script>
   <style>
     /* ── Page-specific overrides & components ── */
     .htp-hero {
@@ -570,23 +571,20 @@
 
     <!-- Breadcrumb -->
     <div class="page-nav">
-      <a href="../index.html">Home</a>
+      <a href="../index.html" data-i18n="nav.home">Home</a>
       <span class="sep">›</span>
-      <span class="current">How to Play</span>
+      <span class="current" data-i18n="nav.howtoplay">How to Play</span>
     </div>
 
     <!-- Hero -->
     <section class="htp-hero">
       <div class="htp-badge">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#ffd56a" stroke-width="1.4"/><path d="M7 9.5V7M7 5v-.5" stroke="#ffd56a" stroke-width="1.4" stroke-linecap="round"/></svg>
-        Warrior Class · Horde Mode Demo
+        <span data-i18n="htp.badge">Warrior Class · Horde Mode Demo</span>
       </div>
-      <h1>How to Play</h1>
-      <p>
-        Everything you need to jump into the world of Avalon — controls, inventory,
-        stats, and class breakdowns. You'll be adventuring in minutes.
-      </p>
-      <a class="btn primary" href="../play/portal.html">Play the Demo</a>
+      <h1 data-i18n="nav.howtoplay">How to Play</h1>
+      <p data-i18n="htp.hero.desc">Everything you need to jump into the world of Avalon — controls, inventory, stats, and class breakdowns. You'll be adventuring in minutes.</p>
+      <a class="btn primary" href="../play/portal.html" data-i18n="home.btn.playDemo">Play the Demo</a>
     </section>
 
     <hr class="section-divider">
@@ -597,7 +595,7 @@
         <span class="icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="10" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M10 8v4M8 10h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </span>
-        Controls
+        <span data-i18n="htp.s.controls">Controls</span>
       </div>
       <div class="controls-grid">
 
@@ -606,8 +604,8 @@
             <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span>
           </div>
           <div class="control-info">
-            <span class="control-name">Move</span>
-            <span class="control-tip">Navigate the arena in all four directions.</span>
+            <span class="control-name" data-i18n="htp.ctrl.move.name">Move</span>
+            <span class="control-tip" data-i18n="htp.ctrl.move.tip">Navigate the arena in all four directions.</span>
           </div>
         </div>
 
@@ -616,8 +614,8 @@
             <span class="key">LMB</span>
           </div>
           <div class="control-info">
-            <span class="control-name">Attack</span>
-            <span class="control-tip">Swing your weapon or fire your ability at enemies.</span>
+            <span class="control-name" data-i18n="htp.ctrl.attack.name">Attack</span>
+            <span class="control-tip" data-i18n="htp.ctrl.attack.tip">Swing your weapon or fire your ability at enemies.</span>
           </div>
         </div>
 
@@ -626,8 +624,8 @@
             <span class="key">I</span>
           </div>
           <div class="control-info">
-            <span class="control-name">Open Inventory</span>
-            <span class="control-tip">Access your items, armor, and weapons. Drag and drop to equip.</span>
+            <span class="control-name" data-i18n="htp.ctrl.inventory.name">Open Inventory</span>
+            <span class="control-tip" data-i18n="htp.ctrl.inventory.tip">Access your items, armor, and weapons. Drag and drop to equip.</span>
           </div>
         </div>
 
@@ -636,30 +634,11 @@
             <span class="key">Z</span>
           </div>
           <div class="control-info">
-            <span class="control-name">Sheath / Unsheath Weapon</span>
-            <span class="control-tip">Put your weapon away or draw it for combat.</span>
+            <span class="control-name" data-i18n="htp.ctrl.sheath.name">Sheath / Unsheath Weapon</span>
+            <span class="control-tip" data-i18n="htp.ctrl.sheath.tip">Put your weapon away or draw it for combat.</span>
           </div>
         </div>
 
-        <div class="control-card">
-          <div class="key-group">
-            <span class="key">Esc</span>
-          </div>
-          <div class="control-info">
-            <span class="control-name">Pause / Menu</span>
-            <span class="control-tip">Open the pause menu or close any open panel.</span>
-          </div>
-        </div>
-
-        <div class="control-card">
-          <div class="key-group">
-            <span class="key">RMB</span>
-          </div>
-          <div class="control-info">
-            <span class="control-name">Secondary Action</span>
-            <span class="control-tip">Use your equipped secondary skill or block.</span>
-          </div>
-        </div>
 
       </div>
     </section>
@@ -670,11 +649,11 @@
         <span class="icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="7" width="14" height="10" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 7V5.5A3 3 0 0 1 13 5.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </span>
-        Inventory &amp; Equipment
+        <span data-i18n="htp.s.inventory">Inventory &amp; Equipment</span>
       </div>
 
       <div class="glass-card">
-        <p style="color:var(--muted); font-size:.88rem; line-height:1.6; margin-bottom:20px;">
+        <p style="color:var(--muted); font-size:.88rem; line-height:1.6; margin-bottom:20px;" data-i18n-html="htp.inventory.intro">
           Press <span class="key" style="display:inline-flex; font-size:.72rem; height:22px; min-width:22px;">I</span>
           at any time during play to open your inventory. From here you can see every item you're carrying
           and manage what your hero is wearing.
@@ -684,7 +663,7 @@
 
           <!-- Inventory bag -->
           <div class="inv-panel">
-            <div class="inv-panel-title">Bag — Items</div>
+            <div class="inv-panel-title" data-i18n="htp.inventory.bag.title">Bag — Items</div>
             <div class="inv-grid">
               <div class="inv-slot filled" title="Iron Sword">⚔️</div>
               <div class="inv-slot filled" title="Leather Vest">🧥</div>
@@ -697,54 +676,54 @@
               <div class="inv-slot" title="Empty slot">·</div>
               <div class="inv-slot" title="Empty slot">·</div>
             </div>
-            <p style="font-size:.72rem; color:var(--muted); margin-top:10px; line-height:1.5;">
+            <p style="font-size:.72rem; color:var(--muted); margin-top:10px; line-height:1.5;" data-i18n="htp.inventory.bag.note">
               Starter gear is included in the demo — check your bag when you first load in!
             </p>
           </div>
 
           <!-- Equipment slots -->
           <div class="inv-panel">
-            <div class="inv-panel-title">Equipment Slots</div>
+            <div class="inv-panel-title" data-i18n="htp.inventory.equip.title">Equipment Slots</div>
             <div class="equip-grid">
               <div class="equip-slot occupied">
                 <span class="equip-icon">⛑️</span>
                 <div class="equip-label">
-                  <span class="equip-slot-name">Head</span>
+                  <span class="equip-slot-name" data-i18n="htp.slot.head">Head</span>
                   <span class="equip-item-name">Iron Helmet</span>
                 </div>
               </div>
               <div class="equip-slot occupied">
                 <span class="equip-icon">🧥</span>
                 <div class="equip-label">
-                  <span class="equip-slot-name">Chest</span>
+                  <span class="equip-slot-name" data-i18n="htp.slot.chest">Chest</span>
                   <span class="equip-item-name">Leather Vest</span>
                 </div>
               </div>
               <div class="equip-slot">
                 <span class="equip-icon" style="opacity:.35;">🦺</span>
                 <div class="equip-label">
-                  <span class="equip-slot-name">Legs</span>
-                  <span class="equip-item-name" style="color:rgba(255,255,255,.3);">Empty</span>
+                  <span class="equip-slot-name" data-i18n="htp.slot.legs">Legs</span>
+                  <span class="equip-item-name" style="color:rgba(255,255,255,.3);" data-i18n="htp.slot.empty">Empty</span>
                 </div>
               </div>
               <div class="equip-slot occupied">
                 <span class="equip-icon">👢</span>
                 <div class="equip-label">
-                  <span class="equip-slot-name">Feet</span>
+                  <span class="equip-slot-name" data-i18n="htp.slot.feet">Feet</span>
                   <span class="equip-item-name">Iron Boots</span>
                 </div>
               </div>
               <div class="equip-slot occupied">
                 <span class="equip-icon">⚔️</span>
                 <div class="equip-label">
-                  <span class="equip-slot-name">Weapon</span>
+                  <span class="equip-slot-name" data-i18n="htp.slot.weapon">Weapon</span>
                   <span class="equip-item-name">Iron Sword</span>
                 </div>
               </div>
               <div class="equip-slot occupied">
                 <span class="equip-icon">🛡️</span>
                 <div class="equip-label">
-                  <span class="equip-slot-name">Off-hand</span>
+                  <span class="equip-slot-name" data-i18n="htp.slot.offhand">Off-hand</span>
                   <span class="equip-item-name">Wooden Shield</span>
                 </div>
               </div>
@@ -757,11 +736,11 @@
         <div class="inv-tip-box">
           <span class="tip-icon">🖱️</span>
           <div>
-            <strong style="color:var(--text);">Drag &amp; Drop to Equip</strong><br>
-            Click and hold any weapon or armor in your bag, then drag it to the matching
+            <strong style="color:var(--text);" data-i18n="htp.inventory.dnd.title">Drag &amp; Drop to Equip</strong><br>
+            <span data-i18n="htp.inventory.dnd.desc">Click and hold any weapon or armor in your bag, then drag it to the matching
             equipment slot — or drag it directly onto your character to auto-equip.
-            You can also drag items <em>between</em> bag slots to reorganize, and drag
-            equipped gear back to your bag to unequip it.
+            You can also drag items between bag slots to reorganize, and drag
+            equipped gear back to your bag to unequip it.</span>
           </div>
         </div>
 
@@ -774,9 +753,9 @@
         <span class="icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="12" width="3" height="5" rx="1" fill="currentColor" opacity=".5"/><rect x="8.5" y="8" width="3" height="9" rx="1" fill="currentColor" opacity=".7"/><rect x="14" y="4" width="3" height="13" rx="1" fill="currentColor"/></svg>
         </span>
-        Stats
+        <span data-i18n="htp.s.stats">Stats</span>
       </div>
-      <p style="color:var(--muted); font-size:.88rem; line-height:1.6; margin-bottom:18px;">
+      <p style="color:var(--muted); font-size:.88rem; line-height:1.6; margin-bottom:18px;" data-i18n="htp.stats.intro">
         Your hero has five core stats. Each piece of armor and every weapon you equip can raise these values —
         stronger gear means a stronger hero. Check the Stats Guide button inside the game to see your current numbers.
       </p>
@@ -784,35 +763,35 @@
 
         <div class="stat-card">
           <span class="stat-icon str">STR</span>
-          <div class="stat-name">Strength</div>
-          <div class="stat-desc">Increases the damage dealt by your weapons. More STR = harder hits.</div>
+          <div class="stat-name" data-i18n="portal.stat.str">Strength</div>
+          <div class="stat-desc" data-i18n="htp.stat.str.desc">Increases the damage dealt by your weapons. More STR = harder hits.</div>
         </div>
 
         <div class="stat-card">
           <span class="stat-icon vit">VIT</span>
-          <div class="stat-name">Vitality</div>
-          <div class="stat-desc">Increases your maximum health (HP). More VIT = harder to kill.</div>
+          <div class="stat-name" data-i18n="portal.stat.vit">Vitality</div>
+          <div class="stat-desc" data-i18n="htp.stat.vit.desc">Increases your maximum health (HP). More VIT = harder to kill.</div>
         </div>
 
         <div class="stat-card wip">
           <span class="stat-icon dex">DEX</span>
-          <div class="stat-name">Dexterity</div>
-          <div class="stat-desc">Will improve dodge chance and attack speed.</div>
-          <span class="wip-pill">Coming Soon</span>
+          <div class="stat-name" data-i18n="portal.stat.dex">Dexterity</div>
+          <div class="stat-desc" data-i18n="htp.stat.dex.desc">Will improve dodge chance and attack speed.</div>
+          <span class="wip-pill" data-i18n="portal.stat.coming_soon">Coming Soon</span>
         </div>
 
         <div class="stat-card wip">
           <span class="stat-icon wis">WIS</span>
-          <div class="stat-name">Wisdom</div>
-          <div class="stat-desc">Will improve mana regeneration and support abilities.</div>
-          <span class="wip-pill">Coming Soon</span>
+          <div class="stat-name" data-i18n="portal.stat.wis">Wisdom</div>
+          <div class="stat-desc" data-i18n="htp.stat.wis.desc">Will improve mana regeneration and support abilities.</div>
+          <span class="wip-pill" data-i18n="portal.stat.coming_soon">Coming Soon</span>
         </div>
 
         <div class="stat-card wip">
           <span class="stat-icon int">INT</span>
-          <div class="stat-name">Intellect</div>
-          <div class="stat-desc">Will power spell damage and ability potency.</div>
-          <span class="wip-pill">Coming Soon</span>
+          <div class="stat-name" data-i18n="portal.stat.int">Intellect</div>
+          <div class="stat-desc" data-i18n="htp.stat.int.desc">Will power spell damage and ability potency.</div>
+          <span class="wip-pill" data-i18n="portal.stat.coming_soon">Coming Soon</span>
         </div>
 
       </div>
@@ -824,9 +803,9 @@
         <span class="icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M4 17c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </span>
-        Choose Your Class
+        <span data-i18n="htp.s.classes">Choose Your Class</span>
       </div>
-      <p style="color:var(--muted); font-size:.88rem; line-height:1.6; margin-bottom:18px;">
+      <p style="color:var(--muted); font-size:.88rem; line-height:1.6; margin-bottom:18px;" data-i18n-html="htp.classes.intro">
         Avalon Heroes features seven unique hero classes, each with their own playstyle. The demo currently
         lets you play as the <strong style="color:#ff7a72;">Warrior</strong> — the rest are arriving soon.
       </p>
@@ -834,51 +813,51 @@
 
         <div class="class-card warrior">
           <img src="../assets/Characters/Warrior.png" alt="Warrior" />
-          <div class="class-name class-color warrior">Warrior</div>
-          <div class="class-desc">Frontline brawler who builds Rage to unleash devastating area attacks. Durable and satisfying to play.</div>
-          <span class="class-demo-pill">Playable Now</span>
+          <div class="class-name class-color warrior" data-i18n="class.warrior.name">Warrior</div>
+          <div class="class-desc" data-i18n="htp.warrior.desc">Frontline brawler who builds Rage to unleash devastating area attacks. Durable and satisfying to play.</div>
+          <span class="class-demo-pill" data-i18n="htp.class.playable">Playable Now</span>
         </div>
 
         <div class="class-card mage">
           <img src="../assets/Characters/Mage.png" alt="Mage" />
-          <div class="class-name class-color mage">Mage</div>
-          <div class="class-desc">Channels elemental magic to control space and burst enemies with powerful spells.</div>
-          <span class="class-soon-pill">Coming Soon</span>
+          <div class="class-name class-color mage" data-i18n="class.mage.name">Mage</div>
+          <div class="class-desc" data-i18n="htp.mage.desc">Channels elemental magic to control space and burst enemies with powerful spells.</div>
+          <span class="class-soon-pill" data-i18n="htp.class.soon">Coming Soon</span>
         </div>
 
         <div class="class-card paladin">
           <img src="../assets/Characters/Paladin.png" alt="Paladin" />
-          <div class="class-name class-color paladin">Paladin</div>
-          <div class="class-desc">Holy warrior who shields allies and sustains through fights with divine power.</div>
-          <span class="class-soon-pill">Coming Soon</span>
+          <div class="class-name class-color paladin" data-i18n="class.paladin.name">Paladin</div>
+          <div class="class-desc" data-i18n="htp.paladin.desc">Holy warrior who shields allies and sustains through fights with divine power.</div>
+          <span class="class-soon-pill" data-i18n="htp.class.soon">Coming Soon</span>
         </div>
 
         <div class="class-card ranger">
           <img src="../assets/Characters/Ranger.png" alt="Ranger" />
-          <div class="class-name class-color ranger">Ranger</div>
-          <div class="class-desc">Skilled archer who kites enemies with traps and long-range precision strikes.</div>
-          <span class="class-soon-pill">Coming Soon</span>
+          <div class="class-name class-color ranger" data-i18n="class.ranger.name">Ranger</div>
+          <div class="class-desc" data-i18n="htp.ranger.desc">Skilled archer who kites enemies with traps and long-range precision strikes.</div>
+          <span class="class-soon-pill" data-i18n="htp.class.soon">Coming Soon</span>
         </div>
 
         <div class="class-card rogue">
           <img src="../assets/Characters/Rogue.png" alt="Rogue" />
-          <div class="class-name class-color rogue">Rogue</div>
-          <div class="class-desc">Fast duelist who chains combos and punishes distracted enemies with brutal backstabs.</div>
-          <span class="class-soon-pill">Coming Soon</span>
+          <div class="class-name class-color rogue" data-i18n="class.rogue.name">Rogue</div>
+          <div class="class-desc" data-i18n="htp.rogue.desc">Fast duelist who chains combos and punishes distracted enemies with brutal backstabs.</div>
+          <span class="class-soon-pill" data-i18n="htp.class.soon">Coming Soon</span>
         </div>
 
         <div class="class-card engineer">
           <img src="../assets/Characters/Engineer.png" alt="Engineer" />
-          <div class="class-name class-color engineer">Engineer</div>
-          <div class="class-desc">Deploys turrets and gadgets to control the battlefield from a safe distance.</div>
-          <span class="class-soon-pill">Coming Soon</span>
+          <div class="class-name class-color engineer" data-i18n="class.engineer.name">Engineer</div>
+          <div class="class-desc" data-i18n="htp.engineer.desc">Deploys turrets and gadgets to control the battlefield from a safe distance.</div>
+          <span class="class-soon-pill" data-i18n="htp.class.soon">Coming Soon</span>
         </div>
 
         <div class="class-card druid">
           <img src="../assets/Characters/Druid.png" alt="Druid" />
-          <div class="class-name class-color druid">Druid</div>
-          <div class="class-desc">Harnesses nature's power to heal allies, control enemies, and shift the flow of battle.</div>
-          <span class="class-soon-pill">Coming Soon</span>
+          <div class="class-name class-color druid" data-i18n="class.druid.name">Druid</div>
+          <div class="class-desc" data-i18n="htp.druid.desc">Harnesses nature's power to heal allies, control enemies, and shift the flow of battle.</div>
+          <span class="class-soon-pill" data-i18n="htp.class.soon">Coming Soon</span>
         </div>
 
       </div>
@@ -890,13 +869,13 @@
         <span class="icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3l1.5 4h4l-3.25 2.5 1.25 4L10 11l-3.5 2.5 1.25-4L4.5 7h4L10 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
         </span>
-        Beginner Tips
+        <span data-i18n="htp.s.tips">Beginner Tips</span>
       </div>
       <div class="tips-list">
 
         <div class="tip-row">
           <span class="tip-number">1</span>
-          <div class="tip-text">
+          <div class="tip-text" data-i18n-html="htp.tip.1">
             <strong>Check your inventory first.</strong> You start with free starter gear — equip it before engaging enemies.
             Press <span class="key" style="display:inline-flex; font-size:.68rem; height:20px; min-width:20px;">I</span>
             and drag your weapon and armor pieces into their equipment slots.
@@ -905,7 +884,7 @@
 
         <div class="tip-row">
           <span class="tip-number">2</span>
-          <div class="tip-text">
+          <div class="tip-text" data-i18n-html="htp.tip.2">
             <strong>Unsheath your weapon before fighting.</strong> Press
             <span class="key" style="display:inline-flex; font-size:.68rem; height:20px; min-width:20px;">Z</span>
             to draw your weapon. You won't be able to attack while it's sheathed!
@@ -914,7 +893,7 @@
 
         <div class="tip-row">
           <span class="tip-number">3</span>
-          <div class="tip-text">
+          <div class="tip-text" data-i18n-html="htp.tip.3">
             <strong>Keep moving.</strong> Standing still in Horde Mode is a fast way to get surrounded.
             Use <span class="key" style="display:inline-flex; font-size:.68rem; height:20px; min-width:20px;">W</span>
             <span class="key" style="display:inline-flex; font-size:.68rem; height:20px; min-width:20px;">A</span>
@@ -926,7 +905,7 @@
 
         <div class="tip-row">
           <span class="tip-number">4</span>
-          <div class="tip-text">
+          <div class="tip-text" data-i18n-html="htp.tip.4">
             <strong>Prioritize armor upgrades.</strong> Vitality (VIT) from armor keeps you alive longer.
             Drag heavier armor pieces into your equipment slots whenever you find them.
           </div>
@@ -934,7 +913,7 @@
 
         <div class="tip-row">
           <span class="tip-number">5</span>
-          <div class="tip-text">
+          <div class="tip-text" data-i18n-html="htp.tip.5">
             <strong>It's a demo — bugs happen.</strong> If something feels off, use the
             <strong>Feedback</strong> button in the game bar to let the team know. Every report helps shape the final game!
           </div>
@@ -945,11 +924,11 @@
 
     <!-- ── CTA ── -->
     <div class="htp-cta">
-      <h2>Ready to fight?</h2>
-      <p>Jump into Horde Mode with the Warrior class and see how long you can last!</p>
+      <h2 data-i18n="htp.cta.title">Ready to fight?</h2>
+      <p data-i18n="htp.cta.desc">Jump into Horde Mode with the Warrior class and see how long you can last!</p>
       <div class="cta-row">
-        <a class="btn primary" href="../play/portal.html">Play the Demo</a>
-        <a class="btn" href="../index.html">Back to Home</a>
+        <a class="btn primary" href="../play/portal.html" data-i18n="home.btn.playDemo">Play the Demo</a>
+        <a class="btn" href="../index.html" data-i18n="htp.cta.home">Back to Home</a>
       </div>
     </div>
 
@@ -958,9 +937,9 @@
   <footer class="site-footer">
     <p>
       &copy; 2025 Avalon Studios ·
-      <a href="privacy.html">Privacy</a> ·
-      <a href="terms.html">Terms</a> ·
-      <a href="contact.html">Contact</a>
+      <a href="privacy.html" data-i18n="footer.privacy">Privacy</a> ·
+      <a href="terms.html" data-i18n="footer.terms">Terms</a> ·
+      <a href="contact.html" data-i18n="footer.contact">Contact</a>
     </p>
   </footer>
 
