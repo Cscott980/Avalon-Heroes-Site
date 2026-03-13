@@ -1,5 +1,13 @@
-# netlify.toml — place this inside avalon-heroes-site/
-# (Netlify serves from this folder, so this is the active config)
+# netlify.toml — lives at the repo root (base directory: /)
+# Netlify reads this from the base directory, not the publish directory.
+
+# ── Build & Functions ─────────────────────────────────────────────────────────
+[build]
+  publish = "avalon-heroes-site"
+
+[functions]
+  directory = "avalon-heroes-site/netlify/functions"
+  node_bundler = "esbuild"
 
 # ── Security headers ──────────────────────────────────────────────────────────
 [[headers]]
